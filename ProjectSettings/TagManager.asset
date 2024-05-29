@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Itempickup
+  - Enemy
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Ground
+  - Water
+  - UI
+  - Attackable
+  - Wall
+  - IgnoreAllWithoutGround
+  - CameraBound
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background_2
+    uniqueID: 1837304449
+    locked: 0
+  - name: Background_1
+    uniqueID: 406541389
+    locked: 0
+  - name: Midground
+    uniqueID: 1514234777
+    locked: 0
+  - name: Forground_1
+    uniqueID: 2524293923
+    locked: 0
+  - name: Foreground_2
+    uniqueID: 4189839763
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0

@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 31ed2a7d0d697474aba0cd02cc7bca44
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Data: {fileID: 11400000, guid: b48ea00a2ea1a23449ce316d28bccfaf, type: 2}
+  - dashEffect: {instanceID: 0}
+  - _groundCheckPoint: {instanceID: 0}
+  - _frontWallCheckPoint: {instanceID: 0}
+  - slashEffect: {instanceID: 0}
+  - sideAttackTransform: {instanceID: 0}
+  - upAttackTransform: {instanceID: 0}
+  - downAttackTransform: {instanceID: 0}
+  - bloodSpurt: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
