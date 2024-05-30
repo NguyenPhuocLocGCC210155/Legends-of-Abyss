@@ -51,6 +51,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (!PlayerController.Instance.isAlive)
+        {
+            ChangeState(EnemyStates.Idle);
+        }
         if (isRecoiling)
         {
             if (recoilTimer < recoilLenght)
@@ -98,7 +102,10 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !PlayerController.Instance.isInvincible && hp > 0)
         {
             Attack();
-            PlayerController.Instance.HitStopTime(0,5,0.5f);
+            if (PlayerController.Instance.isAlive)
+            {
+                PlayerController.Instance.HitStopTime(0,5,0.5f);
+            }
         }
     }
 

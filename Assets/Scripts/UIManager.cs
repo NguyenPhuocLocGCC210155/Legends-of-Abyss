@@ -7,13 +7,13 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set;}
     public SceneFader sceneFader; 
     private void Awake() {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            // DontDestroyOnLoad(gameObject);
-        }else{
             Destroy(gameObject);
+        }else{
+            Instance = this;
         }
+        DontDestroyOnLoad(gameObject);
         sceneFader = GetComponentInChildren<SceneFader>();  
     }
 }

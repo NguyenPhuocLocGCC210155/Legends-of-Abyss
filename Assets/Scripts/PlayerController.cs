@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 	public bool _isJumping { get; private set; }
 	public bool IsDashing { get; private set; }
 	public bool IsSliding { get; private set; }
+	[HideInInspector]public bool isAlive;
 	private bool canControl;
 	[HideInInspector] public bool isCutScene = false;
 
@@ -147,11 +148,31 @@ public class PlayerController : MonoBehaviour
 		IsFacingRight = true;
 		canControl = true;
 		Health = maxHp;
+		isAlive = true;
 		ColliderCheck();
 	}
 
 	private void Update()
 	{
+		if (isAlive)
+		{
+			ColliderCheck();
+			CheckGravity();
+			if (canControl)
+			{
+				CheckInputAndParemeter();
+				Healing();
+				JumpCheck();
+				DashCheck();
+				Attack();
+				WallSlide();
+			}
+			if (Input.GetKeyDown(KeyCode.Q))
+			{
+				StartCoroutine(HandleControlAndInvincibility());
+			}
+		}
+
 		if (isCutScene)
 		{
 			ColliderCheck();
@@ -159,25 +180,7 @@ public class PlayerController : MonoBehaviour
 		}
 		RestoreTimeSale();
 		UpdateCameraYDampForPlayerFall();
-		CheckInputAndParemeter();
-		if (canControl)
-		{
-			ColliderCheck();
-			FlashWhileInvicible();
-			CheckGravity();
-			Healing();
-			JumpCheck();
-			DashCheck();
-			Attack();
-			WallSlide();
-			if (Input.GetKeyDown(KeyCode.Q))
-			{
-				// StartCoroutine(LostControl(0.5f));
-				// StartCoroutine(InvincibilityTimer(0.5f));
-				// StartCoroutine(Shoot());
-				StartCoroutine(HandleControlAndInvincibility());
-			}
-		}
+		FlashWhileInvicible();
 	}
 
 	private IEnumerator HandleControlAndInvincibility()
@@ -323,7 +326,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void hitBox(Transform attackTransform, Vector2 attackArea, ref bool _isRecoilDir,Vector2 _recoilDir, float _recoilStregth)
+	void hitBox(Transform attackTransform, Vector2 attackArea, ref bool _isRecoilDir, Vector2 _recoilDir, float _recoilStregth)
 	{
 		Collider2D[] objectToHit = Physics2D.OverlapBoxAll(attackTransform.position, attackArea, 0, attackableLayerMask);
 		if (objectToHit.Length > 0)
@@ -443,8 +446,17 @@ public class PlayerController : MonoBehaviour
 
 	public void TakeDamage(float _dmg)
 	{
-		Health -= Mathf.RoundToInt(_dmg);
-		StartCoroutine(StopTakingDamaged());
+		if (isAlive)
+		{
+			Health -= Mathf.RoundToInt(_dmg);
+			if (Health <= 0)
+			{
+				Health = 0;
+				StartCoroutine(Death());
+			}
+			else
+				StartCoroutine(StopTakingDamaged());
+		}
 	}
 
 	void FlashWhileInvicible()
@@ -1023,6 +1035,19 @@ public class PlayerController : MonoBehaviour
 		CheckDirectionToFace(_moveInput.x > 0);
 		yield return new WaitForSeconds(delay);
 		isCutScene = false;
+	}
+
+	IEnumerator Death()
+	{
+		isAlive = false;
+		Time.timeScale = 1f;
+		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
+		Destroy(_bloodSpurtParticle, 1.5f);
+		animator.SetTrigger("Death");
+		yield return new WaitForSeconds(1f);
+		
+		GameManager.Instance.RespawnPlayer();
+		
 	}
 }
 
