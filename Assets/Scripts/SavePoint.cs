@@ -30,6 +30,7 @@ public class SavePoint : MonoBehaviour
             GameManager.Instance.saveScene = SceneManager.GetActiveScene().name;
             GameManager.Instance.savePoint = gameObject.transform.position;
             cooldownTime = 0;
+            animator.SetTrigger("Active");
         }
     }
 }

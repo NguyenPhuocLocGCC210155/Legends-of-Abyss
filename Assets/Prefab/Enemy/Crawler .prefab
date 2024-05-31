@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7095174605471994631}
   - component: {fileID: 6356670502452265132}
   - component: {fileID: 5624775133707426307}
+  - component: {fileID: 8048661124923952452}
   m_Layer: 6
   m_Name: 'Crawler '
   m_TagString: Enemy
@@ -167,8 +168,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 100
-  recoilLenght: 0.5
-  recoilFactor: 100
+  recoilLenght: 0.1
+  recoilFactor: 2
   speed: 4
   _damage: 1
   bloodEffect: {fileID: 8252438501928109449, guid: 8e073678111a4d3448fc546560f6cc96, type: 3}
@@ -205,3 +206,17 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &8048661124923952452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978116429418344101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b340c40c6edc50d4aa074810ae26489b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 3015535896715258710, guid: 1730f667c77d0ef42a4f09bccffc650c, type: 3}
+  initialPoolSize: 10

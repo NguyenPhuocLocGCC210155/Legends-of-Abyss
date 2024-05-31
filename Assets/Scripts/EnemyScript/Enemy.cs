@@ -10,12 +10,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float speed;
     [SerializeField] protected float _damage;
     [SerializeField] protected GameObject bloodEffect;
+    [SerializeField] protected float countManaSFX = 5;
     protected bool isRecoiling = false;
     protected float recoilTimer;
     protected Rigidbody2D rb;   
     protected SpriteRenderer rd;
     protected Animator ani;
     protected Collider2D cd;
+    protected ManaObjectPooling pool;
 
     protected enum EnemyStates{
         Idle,
@@ -46,6 +48,7 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rd = GetComponent<SpriteRenderer>();
         ani = GetComponent<Animator>();
+        pool = GetComponent<ManaObjectPooling>();
     }
 
     // Update is called once per frame
@@ -74,22 +77,14 @@ public class Enemy : MonoBehaviour
 
     public virtual void EnemyHit(float _dameDone, Vector2 _hitDirection, float _hitForce){
         hp -= _dameDone;    
-        // if (!isRecoiling)
-        // {
-        //     if (rb.velocity.x != 0)
-        //     {
-        //         rb.velocity = new Vector2(0,0);
-        //         rb.AddForce(_hitForce * recoilFactor * _hitDirection * speed);
-        //     }else{
-        //         rb.velocity = new Vector2(0,0);
-        //         rb.AddForce(_hitForce * recoilFactor * _hitDirection);
-        //     }
-        // }
-
         if (!isRecoiling)
         {
-            GameObject _blood = Instantiate(bloodEffect, transform.position,Quaternion.identity);
-            Destroy(_blood, 2);
+            // GameObject _blood = Instantiate(bloodEffect, transform.position,Quaternion.identity);
+            // Destroy(_blood, 2);
+            for (int i = 0; i < countManaSFX; i++)
+            {
+                GameObject obj = pool.GetPooledObject();
+            }
             rb.velocity = _hitForce * recoilFactor * _hitDirection;
         }
     }
