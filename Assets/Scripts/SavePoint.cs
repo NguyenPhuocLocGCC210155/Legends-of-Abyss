@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SavePoint : MonoBehaviour
 {
+    [SerializeField] GameObject effect;
     private float cooldownTime;
     MapUI mapUI;
     Animator animator;
@@ -32,9 +33,16 @@ public class SavePoint : MonoBehaviour
         if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.UpArrow) && cooldownTime >= 5f){
             GameManager.Instance.saveScene = SceneManager.GetActiveScene().name;
             GameManager.Instance.savePoint = gameObject.transform.position;
+            StartCoroutine(ActiveEffect());
             cooldownTime = 0;
             GameManager.Instance.SaveProgress();
             animator.SetTrigger("Active");
         }
+    }
+
+    IEnumerator ActiveEffect(){
+        yield return new WaitForSeconds(1f);
+        GameObject obj = Instantiate(effect, transform.position, Quaternion.identity);
+        Destroy(obj, 2f);
     }
 }

@@ -7,12 +7,14 @@ public class ManaObjectPooling : MonoBehaviour
     public GameObject objectPrefab;
     public int initialPoolSize = 10;
     private List<GameObject> pool;
+    GameObject poolParent;
     void Start()
     {
+        poolParent = new GameObject("ManaPool");
         pool = new List<GameObject>();
         for (int i = 0; i < initialPoolSize; i++)
         {
-            GameObject obj = Instantiate(objectPrefab);
+            GameObject obj = Instantiate(objectPrefab, poolParent.transform);
             obj.SetActive(false);
             pool.Add(obj);
         }
@@ -30,8 +32,7 @@ public class ManaObjectPooling : MonoBehaviour
             }
         }
 
-        GameObject newObj = Instantiate(objectPrefab);
-        newObj.transform.position = transform.position;
+        GameObject newObj = Instantiate(objectPrefab, poolParent.transform);
         newObj.SetActive(true);
         pool.Add(newObj);
         return newObj;

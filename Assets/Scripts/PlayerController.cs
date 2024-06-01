@@ -1044,6 +1044,8 @@ public class PlayerController : MonoBehaviour
 	{
 		isAlive = false;
 		Time.timeScale = 1f;
+		RB.velocity = Vector2.zero;
+		StartCoroutine(LostControl(2f));
 		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
 		Destroy(_bloodSpurtParticle, 1.5f);
 		animator.SetTrigger("Death");
