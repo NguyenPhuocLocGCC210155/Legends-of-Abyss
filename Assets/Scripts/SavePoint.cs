@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class SavePoint : MonoBehaviour
 {
     private float cooldownTime;
+    MapUI mapUI;
     Animator animator;
+    
 
     private void Awake() {
         animator = GetComponent<Animator>();
+        mapUI = FindObjectOfType<MapUI>();
         cooldownTime = 5f;
     }
     private void Start() {
@@ -30,6 +33,7 @@ public class SavePoint : MonoBehaviour
             GameManager.Instance.saveScene = SceneManager.GetActiveScene().name;
             GameManager.Instance.savePoint = gameObject.transform.position;
             cooldownTime = 0;
+            GameManager.Instance.SaveProgress();
             animator.SetTrigger("Active");
         }
     }

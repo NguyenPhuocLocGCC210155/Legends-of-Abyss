@@ -9,7 +9,10 @@ public class GameManager : MonoBehaviour
     public string saveScene;
     public Vector2 respawnPoint;
     public Vector2 savePoint;
-
+    public List<string> unlockedMap = new List<string>();
+    public List<string> savedMap = new List<string>();
+    public string currentMap;
+    SaveMapSystem saveMapSystem;
     public string transitionFromScene;
     private void Awake() {
         if (Instance != null && Instance != this)
@@ -19,6 +22,15 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start() {
+        saveMapSystem = GetComponent<SaveMapSystem>();
+        currentMap = SceneManager.GetActiveScene().name;
+        if (!savedMap.Contains(currentMap))
+        {
+            unlockedMap.Add(currentMap);
+        }
     }
 
     public void RespawnPlayer(){
@@ -34,5 +46,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         PlayerController.Instance.isAlive = true;
         PlayerController.Instance.animator.SetTrigger("Alive");
+    }
+
+    public void SaveProgress(){
+        saveMapSystem.SaveProgress();
     }
 }

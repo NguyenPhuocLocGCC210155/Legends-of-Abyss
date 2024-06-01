@@ -85,6 +85,7 @@ public class Enemy : MonoBehaviour
             {
                 GameObject obj = pool.GetPooledObject();
             }
+            rb.velocity = Vector2.zero;
             rb.velocity = _hitForce * recoilFactor * _hitDirection;
         }
     }

@@ -25,6 +25,11 @@ public class SceneTransition : MonoBehaviour
             GameManager.Instance.transitionFromScene = SceneManager.GetActiveScene().name;
             PlayerController.Instance.isCutScene = true;
             SceneManager.LoadScene(transitionTo);
+            GameManager.Instance.currentMap = transitionTo;
+            if (!GameManager.Instance.savedMap.Contains(transitionTo))
+            {
+                GameManager.Instance.unlockedMap.Add(transitionTo);
+            }
             StartCoroutine(UIManager.Instance.sceneFader.FadeAndLoadScene(SceneFader.FadeDirection.In, transitionTo));   
         }
     }

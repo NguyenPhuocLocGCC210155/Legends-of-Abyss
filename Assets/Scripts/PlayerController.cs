@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
 	public int maxHp;
 	public bool isInvincible;
 	bool isHealing;
+	bool isOpenMap;
 	float healTimer;
 
 
@@ -161,6 +162,7 @@ public class PlayerController : MonoBehaviour
 			if (canControl)
 			{
 				CheckInputAndParemeter();
+				ToggleMap();
 				Healing();
 				JumpCheck();
 				DashCheck();
@@ -965,6 +967,7 @@ public class PlayerController : MonoBehaviour
 		{
 			OnDashInput();
 		}
+		isOpenMap = Input.GetKey(KeyCode.M);
 		#endregion
 	}
 
@@ -1047,7 +1050,15 @@ public class PlayerController : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		
 		GameManager.Instance.RespawnPlayer();
-		
+	}
+
+	void ToggleMap(){
+		if (isOpenMap)
+		{
+			UIManager.Instance.OpenMap(true);
+		}else{
+			UIManager.Instance.OpenMap(false);
+		}
 	}
 }
 
