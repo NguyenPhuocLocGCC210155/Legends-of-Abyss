@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
 		{
 			ColliderCheck();
 			CheckGravity();
-			if (canControl)
+			if (canControl || isCutScene)
 			{
 				CheckInputAndParemeter();
 				ToggleMap();

@@ -23,6 +23,7 @@ public class SavePoint : MonoBehaviour
         && PlayerController.Instance.isAlive == false)
         {
             animator.SetTrigger("Active");
+            StartCoroutine(ActiveEffect());
         }
         animator.SetBool("Idle", true);
     }

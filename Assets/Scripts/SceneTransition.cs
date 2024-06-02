@@ -11,7 +11,7 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] float exitTime;
     
     private void Start() {
-        if (transitionTo == GameManager.Instance.transitionFromScene)
+        if (transitionTo == GameManager.Instance.transitionFromScene && PlayerController.Instance.isAlive)
         {
             PlayerController.Instance.transform.position = startPoint.position;
             StartCoroutine(PlayerController.Instance.WalkIntoNewScene(exitDirection,exitTime));
