@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public bool isCutScene = false;
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
-	public float LastOnGroundTime { get; private set; }
+	[HideInInspector]public float LastOnGroundTime;
 	public float LastOnWallTime { get; private set; }
 
 	//Jump
@@ -60,6 +61,12 @@ public class PlayerController : MonoBehaviour
 	public float LastPressedJumpTime { get; private set; }
 	public float LastPressedDashTime { get; private set; }
 	[Space(5)]
+	#endregion
+
+	#region 
+	public bool isUnlockDash;
+	public bool isUnlockWallJump;
+	public bool isUnlockDoubleJump;
 	#endregion
 
 	#region CHECK PARAMETERS
@@ -1009,8 +1016,18 @@ public class PlayerController : MonoBehaviour
 		yield return new WaitForSeconds(time);
 		SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
 		isInvincible = false;
+		LastOnGroundTime = 0;
 		canControl = true;
 		Physics2D.IgnoreLayerCollision(gameObject.layer, 6, false);
+	}
+
+	public IEnumerator Awaken(float time){
+		canControl = false;
+		RB.constraints = RigidbodyConstraints2D.FreezePosition;
+		yield return new WaitForSeconds(time);
+		RB.constraints = RigidbodyConstraints2D.None;
+		SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+		canControl = true;
 	}
 
 	IEnumerator InvincibilityTimer(float time)
@@ -1042,7 +1059,6 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator Death()
 	{
-		isAlive = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
 		StartCoroutine(LostControl(2f));

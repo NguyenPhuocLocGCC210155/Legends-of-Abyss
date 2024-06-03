@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set;}
-    public string saveScene;
     public Vector2 respawnPoint;
+    public string saveScene;
     public Vector2 savePoint;
     public List<string> unlockedMap = new List<string>();
     public List<string> savedMap = new List<string>();
     public string currentMap;
-    SaveMapSystem saveMapSystem;
+    SaveGameSystem saveGameSystem;
     public string transitionFromScene;
     private void Awake() {
         if (Instance != null && Instance != this)
@@ -25,12 +25,14 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        saveMapSystem = GetComponent<SaveMapSystem>();
+        saveGameSystem = GetComponent<SaveGameSystem>();
         currentMap = SceneManager.GetActiveScene().name;
         if (!savedMap.Contains(currentMap))
         {
             unlockedMap.Add(currentMap);
         }
+        SceneManager.LoadScene(saveScene);
+        LoadSceneEnterGame();
     }
 
     public void RespawnPlayer(){
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator WaitForRespawn(){
+		PlayerController.Instance.isAlive = false;
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
         yield return new WaitForSeconds(1f);
         PlayerController.Instance.Health = PlayerController.Instance.maxHp;
@@ -47,8 +50,14 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.isAlive = true;
         PlayerController.Instance.animator.SetTrigger("Alive");
     }
+    
+    void LoadSceneEnterGame(){
+        PlayerController.Instance.transform.position = savePoint;
+        PlayerController.Instance.LastOnGroundTime = -1;
+        SceneManager.LoadScene(saveScene);
+    }
 
     public void SaveProgress(){
-        saveMapSystem.SaveProgress();
+        saveGameSystem.SaveProgress();
     }
 }

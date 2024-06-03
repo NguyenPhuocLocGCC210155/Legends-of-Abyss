@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class SaveMapSystem : MonoBehaviour
+public class SaveGameSystem : MonoBehaviour
 {
     private string saveFilePath;
 
@@ -18,8 +18,10 @@ public class SaveMapSystem : MonoBehaviour
         if (File.Exists(saveFilePath))
         {
             string json = File.ReadAllText(saveFilePath);
-            SaveMapData data = JsonUtility.FromJson<SaveMapData>(json);
+            GameData data = JsonUtility.FromJson<GameData>(json);
             GameManager.Instance.savedMap = data.unlockedMap;
+            GameManager.Instance.saveScene = data.saveScene;
+            GameManager.Instance.savePoint = data.savePoint;
         }
         else
         {
@@ -35,7 +37,7 @@ public class SaveMapSystem : MonoBehaviour
                 GameManager.Instance.savedMap.Add(map);
             }
         }
-        SaveMapData data = new SaveMapData(GameManager.Instance.savedMap);
+        GameData data = new GameData(GameManager.Instance.savedMap, GameManager.Instance.saveScene, GameManager.Instance.savePoint);
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, json);
     }

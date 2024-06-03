@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float hp;
     [SerializeField] protected float recoilLenght ;
@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     protected SpriteRenderer rd;
     protected Animator ani;
     protected Collider2D cd;
-    protected ManaObjectPooling pool;
+    protected ObjectPooling pool;
 
     protected enum EnemyStates{
         Idle,
@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rd = GetComponent<SpriteRenderer>();
         ani = GetComponent<Animator>();
-        pool = GetComponent<ManaObjectPooling>();
+        pool = GetComponent<ObjectPooling>();
     }
 
     // Update is called once per frame

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManaObjectPooling : MonoBehaviour
+public class ObjectPooling : MonoBehaviour
 {
     public GameObject objectPrefab;
-    public int initialPoolSize = 10;
+    public int initialPoolSize = 5;
     private List<GameObject> pool;
     GameObject poolParent;
     void Start()
     {
-        poolParent = new GameObject("ManaPool");
+        poolParent = new GameObject("Pool");
         pool = new List<GameObject>();
         for (int i = 0; i < initialPoolSize; i++)
         {
@@ -33,6 +33,7 @@ public class ManaObjectPooling : MonoBehaviour
         }
 
         GameObject newObj = Instantiate(objectPrefab, poolParent.transform);
+        newObj.transform.position = transform.position;
         newObj.SetActive(true);
         pool.Add(newObj);
         return newObj;

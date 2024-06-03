@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class ManaSFX : MonoBehaviour
 {
-    [SerializeField] float speed = 5;
-    Rigidbody2D rb;
-    private Coroutine movementCoroutine;
-    Vector2 randomDirection;
-    float randomDuration;
-    float startTime;
-    void Start()
+    [SerializeField] protected float speed = 5;
+    [SerializeField] protected float beginDuration = 0.2f;
+    [SerializeField] protected float endDuration = 0.5f;
+    protected Rigidbody2D rb;
+    protected Coroutine movementCoroutine;
+    protected Vector2 randomDirection;
+    protected float randomDuration;
+    protected float startTime;
+    protected virtual void Start()
     {
         randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-        randomDuration = Random.Range(0.2f, 0.5f);
+        randomDuration = Random.Range(beginDuration, endDuration);
         startTime = Time.time;
         rb = GetComponent<Rigidbody2D>();
         movementCoroutine = StartCoroutine(MoveRandomThenChase());
     }
 
-    IEnumerator MoveRandomThenChase()
+    protected virtual IEnumerator MoveRandomThenChase()
     {
         while (Time.time < startTime + randomDuration)
         {
@@ -41,7 +43,7 @@ public class ManaSFX : MonoBehaviour
         Start();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && Time.time > startTime + randomDuration)
         {
