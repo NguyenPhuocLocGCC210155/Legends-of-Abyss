@@ -27,12 +27,12 @@ public class PlayerController : MonoBehaviour
 	public bool _isJumping { get; private set; }
 	public bool IsDashing { get; private set; }
 	public bool IsSliding { get; private set; }
-	[HideInInspector]public bool isAlive;
-	private bool canControl;
+	[HideInInspector] public bool isAlive;
+	[HideInInspector]public bool canControl;
 	[HideInInspector] public bool isCutScene = false;
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
-	[HideInInspector]public float LastOnGroundTime;
+	[HideInInspector] public float LastOnGroundTime;
 	public float LastOnWallTime { get; private set; }
 
 	//Jump
@@ -166,15 +166,18 @@ public class PlayerController : MonoBehaviour
 		{
 			ColliderCheck();
 			CheckGravity();
-			if (canControl || isCutScene)
+			if (canControl)
 			{
-				CheckInputAndParemeter();
-				ToggleMap();
-				Healing();
-				JumpCheck();
-				DashCheck();
-				Attack();
-				WallSlide();
+				if (!isCutScene)
+				{
+					CheckInputAndParemeter();
+					ToggleMap();
+					Healing();
+					JumpCheck();
+					DashCheck();
+					Attack();
+					WallSlide();
+				}
 			}
 			if (Input.GetKeyDown(KeyCode.Q))
 			{
@@ -789,7 +792,7 @@ public class PlayerController : MonoBehaviour
 
 				// AnimHandler.startedJumping = true;
 			}
-			else if (Input.GetKeyDown(KeyCode.Space) && LastOnGroundTime < 0 && LastOnWallTime >= 0)
+			else if (Input.GetKeyDown(KeyCode.Space) && LastOnGroundTime < 0 && LastOnWallTime >= 0 && isUnlockWallJump)
 			{
 				WallJump();
 				_isWallJumping = true;
@@ -797,7 +800,7 @@ public class PlayerController : MonoBehaviour
 				_isJumpCut = false;
 				_isJumpFalling = false;
 			}
-			else if (LastOnGroundTime < -0.1f && airJumpCounter < maxAirJump && Input.GetKeyDown(KeyCode.Space) && LastOnWallTime < 0)
+			else if (LastOnGroundTime < -0.1f && airJumpCounter < maxAirJump && Input.GetKeyDown(KeyCode.Space) && LastOnWallTime < 0 && isUnlockDoubleJump)
 			{
 				_isJumping = true;
 				_isJumpCut = false;
@@ -811,7 +814,7 @@ public class PlayerController : MonoBehaviour
 
 	private void DashCheck()
 	{
-		if (CanDash() && LastPressedDashTime > 0)
+		if (CanDash() && LastPressedDashTime > 0 && isUnlockDash)
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
 			Sleep(Data.dashSleepTime);
@@ -888,7 +891,7 @@ public class PlayerController : MonoBehaviour
 
 	private void WallSlide()
 	{
-		if (LastOnWallTime >= 0 && LastOnGroundTime < 0 && RB.velocity.y <= 0)
+		if (LastOnWallTime >= 0 && LastOnGroundTime < 0 && RB.velocity.y <= 0 && isUnlockWallJump)
 		{
 			_isWallSliding = true;
 			Slide();
@@ -1021,11 +1024,13 @@ public class PlayerController : MonoBehaviour
 		Physics2D.IgnoreLayerCollision(gameObject.layer, 6, false);
 	}
 
-	public IEnumerator Awaken(float time){
+	public IEnumerator WaitForAwaken(float time)
+	{
 		canControl = false;
 		RB.constraints = RigidbodyConstraints2D.FreezePosition;
 		yield return new WaitForSeconds(time);
 		RB.constraints = RigidbodyConstraints2D.None;
+		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
 		canControl = true;
 	}
@@ -1066,15 +1071,18 @@ public class PlayerController : MonoBehaviour
 		Destroy(_bloodSpurtParticle, 1.5f);
 		animator.SetTrigger("Death");
 		yield return new WaitForSeconds(1f);
-		
+
 		GameManager.Instance.RespawnPlayer();
 	}
 
-	void ToggleMap(){
+	void ToggleMap()
+	{
 		if (isOpenMap)
 		{
 			UIManager.Instance.OpenMap(true);
-		}else{
+		}
+		else
+		{
 			UIManager.Instance.OpenMap(false);
 		}
 	}

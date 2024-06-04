@@ -22,6 +22,9 @@ public class SaveGameSystem : MonoBehaviour
             GameManager.Instance.savedMap = data.unlockedMap;
             GameManager.Instance.saveScene = data.saveScene;
             GameManager.Instance.savePoint = data.savePoint;
+            PlayerController.Instance.isUnlockDash = data.isUnlockDash;
+            PlayerController.Instance.isUnlockWallJump = data.isUnlockWallJump;
+            PlayerController.Instance.isUnlockDoubleJump = data.isUnlockDoubleJump;
         }
         else
         {

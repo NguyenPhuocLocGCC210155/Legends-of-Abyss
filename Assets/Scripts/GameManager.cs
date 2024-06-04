@@ -26,13 +26,15 @@ public class GameManager : MonoBehaviour
 
     private void Start() {
         saveGameSystem = GetComponent<SaveGameSystem>();
+        if(!savedMap.Contains(saveScene)){
+            unlockedMap.Add(saveScene);
+        }
+        LoadSceneEnterGame();
         currentMap = SceneManager.GetActiveScene().name;
         if (!savedMap.Contains(currentMap))
         {
             unlockedMap.Add(currentMap);
         }
-        SceneManager.LoadScene(saveScene);
-        LoadSceneEnterGame();
     }
 
     public void RespawnPlayer(){
