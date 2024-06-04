@@ -8,7 +8,6 @@ public class UnlockAbilities : MonoBehaviour
     public AbilitiesUnlock abilitiesUnlock;
     public GameObject uiCanvas;
     public int ConutEffect = 30;
-    bool used;
     private ObjectPooling pool;
     Collider2D cd;
     GameObject ui;
@@ -65,7 +64,6 @@ public class UnlockAbilities : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            used = true;
             switch (abilitiesUnlock)
             {
                 case AbilitiesUnlock.Dashing:

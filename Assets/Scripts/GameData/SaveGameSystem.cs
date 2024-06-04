@@ -25,6 +25,8 @@ public class SaveGameSystem : MonoBehaviour
             PlayerController.Instance.isUnlockDash = data.isUnlockDash;
             PlayerController.Instance.isUnlockWallJump = data.isUnlockWallJump;
             PlayerController.Instance.isUnlockDoubleJump = data.isUnlockDoubleJump;
+            PlayerController.Instance.maxHp = data.playerMaxHP;
+            PlayerController.Instance.heartShards = data.shardsCount;
         }
         else
         {

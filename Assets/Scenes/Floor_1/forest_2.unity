@@ -237,7 +237,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1075158751052160568, guid: c477d27825f46a644b7a6e4d28178855, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.903906
+      value: -16.833323
       objectReference: {fileID: 0}
     - target: {fileID: 1075158751052160568, guid: c477d27825f46a644b7a6e4d28178855, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1258,11 +1258,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5088756537393074058, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.94
+      value: -9.81
       objectReference: {fileID: 0}
     - target: {fileID: 5088756537393074058, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.07
+      value: 11.16
       objectReference: {fileID: 0}
     - target: {fileID: 5088756537393074058, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1584,6 +1584,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2532852121983183107, guid: bf31eff72ede1e549ae031d9387b0c0c, type: 3}
+      propertyPath: objectPrefab
+      value: 
+      objectReference: {fileID: 6855346634210270118, guid: fca5eb3d81c4aed4bb4dedb4293a15d3, type: 3}
     - target: {fileID: 3556676779184778287, guid: bf31eff72ede1e549ae031d9387b0c0c, type: 3}
       propertyPath: uiCanvas
       value: 

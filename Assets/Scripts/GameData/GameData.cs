@@ -14,6 +14,8 @@ public class GameData
     public bool isUnlockDash;
     public bool isUnlockWallJump;
     public bool isUnlockDoubleJump;
+    public int playerMaxHP;
+    public int shardsCount;
 
     public GameData(List<string> scenes, string savedScene, Vector2 savePoint)
     {
@@ -23,5 +25,7 @@ public class GameData
         this.isUnlockDash = PlayerController.Instance.isUnlockDash;
         this.isUnlockWallJump = PlayerController.Instance.isUnlockWallJump;
         this.isUnlockDoubleJump = PlayerController.Instance.isUnlockDoubleJump;
+        this.shardsCount = PlayerController.Instance.heartShards;
+        this.playerMaxHP = PlayerController.Instance.maxHp;
     }
 }

@@ -118,8 +118,10 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public delegate void OnHealthChangeDelegate();
 	[HideInInspector] public OnHealthChangeDelegate OnhealthChangeCallBack;
 	SpriteRenderer sprite;
-	public int hp;
+	private int hp;
 	public int maxHp;
+	public int maxTotalHealth = 10;
+	public int heartShards;
 	public bool isInvincible;
 	bool isHealing;
 	bool isOpenMap;
@@ -1059,6 +1061,7 @@ public class PlayerController : MonoBehaviour
 		}
 		CheckDirectionToFace(_moveInput.x > 0);
 		yield return new WaitForSeconds(delay);
+		LastOnGroundTime = -1;
 		isCutScene = false;
 	}
 
