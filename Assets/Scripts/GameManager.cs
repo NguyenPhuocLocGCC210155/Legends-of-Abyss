@@ -6,13 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set;}
+    [SerializeField] FadeUI fadeUI;
+    [SerializeField] float fadeTime;
     public Vector2 respawnPoint;
     public string saveScene;
     public Vector2 savePoint;
     public List<string> unlockedMap = new List<string>();
     public List<string> savedMap = new List<string>();
+    public List<string> unlockShards = new List<string>();
     public string currentMap;
-    SaveGameSystem saveGameSystem;
+    public SaveGameSystem saveGameSystem;
     public string transitionFromScene;
     private void Awake() {
         if (Instance != null && Instance != this)
@@ -35,6 +38,18 @@ public class GameManager : MonoBehaviour
         {
             unlockedMap.Add(currentMap);
         }
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale!=0)
+        {
+            fadeUI.FadeUiIn(fadeTime);
+            Time.timeScale = 0;
+        }
+    }
+
+    public void UnPauseGame(){
+        Time.timeScale = 1;
     }
 
     public void RespawnPlayer(){
@@ -61,5 +76,11 @@ public class GameManager : MonoBehaviour
 
     public void SaveProgress(){
         saveGameSystem.SaveProgress();
+    }
+
+    public void IncreaseShard(string shard){
+        if(!unlockShards.Contains(shard)){
+            unlockShards.Add(shard);
+        }
     }
 }

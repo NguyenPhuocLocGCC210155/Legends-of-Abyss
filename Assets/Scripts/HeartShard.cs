@@ -18,16 +18,15 @@ public class HeartShard : MonoBehaviour
             float t = Mathf.Clamp01(elapsedTime/lerpDuration);
             float lerpedFillAmount = Mathf.Lerp(initialFillAmount, targetFillAmount, 1);
             fill.fillAmount = lerpedFillAmount;
-
             yield return null;   
         }
         fill.fillAmount = targetFillAmount;
-
-        if (fill.fillAmount == 1)
+        if (fill.fillAmount == 1)   
         {
             PlayerController.Instance.maxHp++;
             PlayerController.Instance.OnhealthChangeCallBack();
-            PlayerController.Instance.heartShards = 0;            
+            PlayerController.Instance.heartShards = 0;  
+            PlayerController.Instance.Health = PlayerController.Instance.maxHp;
         }
     }
 }

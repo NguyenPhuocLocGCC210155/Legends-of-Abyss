@@ -19,13 +19,18 @@ public class SaveGameSystem : MonoBehaviour
         {
             string json = File.ReadAllText(saveFilePath);
             GameData data = JsonUtility.FromJson<GameData>(json);
-            GameManager.Instance.savedMap = data.unlockedMap;
+            GameManager.Instance.savedMap = data.unlockedMaps;
             GameManager.Instance.saveScene = data.saveScene;
             GameManager.Instance.savePoint = data.savePoint;
+            GameManager.Instance.unlockShards = data.unlockShards;
+            if (data.playerMaxHP > 0)
+            {
+                PlayerController.Instance.maxHp = data.playerMaxHP;
+                PlayerController.Instance.Health = PlayerController.Instance.maxHp;
+            }
             PlayerController.Instance.isUnlockDash = data.isUnlockDash;
             PlayerController.Instance.isUnlockWallJump = data.isUnlockWallJump;
             PlayerController.Instance.isUnlockDoubleJump = data.isUnlockDoubleJump;
-            PlayerController.Instance.maxHp = data.playerMaxHP;
             PlayerController.Instance.heartShards = data.shardsCount;
         }
         else
@@ -42,7 +47,7 @@ public class SaveGameSystem : MonoBehaviour
                 GameManager.Instance.savedMap.Add(map);
             }
         }
-        GameData data = new GameData(GameManager.Instance.savedMap, GameManager.Instance.saveScene, GameManager.Instance.savePoint);
+        GameData data = new GameData(GameManager.Instance.savedMap);
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, json);
     }

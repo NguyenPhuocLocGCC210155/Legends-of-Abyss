@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7232116849234087869}
   - component: {fileID: 7125446604727499618}
   - component: {fileID: 5008270018518898406}
+  - component: {fileID: -1732855419187936786}
   m_Layer: 0
   m_Name: Game manager
   m_TagString: Untagged
@@ -45,12 +46,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee88fd355ce78e4a85891decb7e69ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveScene: forest_1
+  fadeUI: {fileID: 0}
+  fadeTime: 0
+  isGamePause: 0
   respawnPoint: {x: 0, y: 0}
+  saveScene: forest_1
   savePoint: {x: -17.1, y: -2.7}
   unlockedMap: []
   savedMap: []
+  unlockShards: []
   currentMap: 
+  saveGameSystem: {fileID: 0}
   transitionFromScene: 
 --- !u!114 &5008270018518898406
 MonoBehaviour:
@@ -62,5 +68,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7ca8186a41259640aeea5c2d815795c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1732855419187936786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5533323277593566042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e0222b8de2495448b1b03ddefc4d25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

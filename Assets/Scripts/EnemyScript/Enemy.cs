@@ -54,6 +54,8 @@ public abstract class Enemy : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (Time.timeScale == 0) {return;}
+
         if (!PlayerController.Instance.isAlive)
         {
             ChangeState(EnemyStates.Idle);

@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 3174638334960574856}
   - component: {fileID: 2439880025216254415}
   - component: {fileID: 7882944935717536098}
+  - component: {fileID: -1667938032385233706}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -170,9 +171,15 @@ MonoBehaviour:
   Data: {fileID: 11400000, guid: b48ea00a2ea1a23449ce316d28bccfaf, type: 2}
   skills: {fileID: 0}
   animator: {fileID: 0}
+  isAlive: 0
+  canControl: 0
   isCutScene: 0
+  LastOnGroundTime: 0
   maxAirJump: 1
   dashEffect: {fileID: 3237601432430130777, guid: c43a3f4a2ac9e5048978827cec73d1b1, type: 3}
+  isUnlockDash: 0
+  isUnlockWallJump: 0
+  isUnlockDoubleJump: 0
   fallSpeedThreshold: -10
   _groundCheckPoint: {fileID: 4829524458692087931}
   _groundCheckSize: {x: 0.3, y: 0.03}
@@ -201,8 +208,9 @@ MonoBehaviour:
   hitFlashSpeed: 0.5
   bloodSpurt: {fileID: 6381220083336284561, guid: a57d5d3e870931545a3fe4644bd101b0, type: 3}
   timeToHeal: 2
-  hp: 0
   maxHp: 3
+  maxTotalHealth: 10
+  heartShards: 0
   isInvincible: 0
   _groundLayer:
     serializedVersion: 2
@@ -306,6 +314,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1667938032385233706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3866527997865466106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e0222b8de2495448b1b03ddefc4d25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5571131996437606945
 GameObject:
   m_ObjectHideFlags: 0

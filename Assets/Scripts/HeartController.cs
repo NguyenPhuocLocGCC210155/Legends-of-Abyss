@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class HeartController : MonoBehaviour
 {
-    PlayerController player;
     private GameObject[] heartContainer;
     private Image[] heartFill;
     public Transform heartsParent;
@@ -13,7 +12,6 @@ public class HeartController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = PlayerController.Instance;
         heartContainer = new GameObject[PlayerController.Instance.maxTotalHealth];
         heartFill = new Image[PlayerController.Instance.maxTotalHealth];
 
@@ -47,7 +45,7 @@ public class HeartController : MonoBehaviour
     }
 
     void InstantiateHeartContainer(){
-        for (int i = 0; i < player.maxTotalHealth; i++)
+        for (int i = 0; i < PlayerController.Instance.maxTotalHealth; i++)
         {
             GameObject temp = Instantiate(heartContainerPrefab);
             temp.transform.SetParent(heartsParent, false);

@@ -47,6 +47,10 @@ public class SceneFader : MonoBehaviour
 
     }
 
+    public void CallFadeAndLoadScene(string sceneToLoad){
+        StartCoroutine(FadeAndLoadScene(FadeDirection.In, sceneToLoad));
+    }
+
     public IEnumerator FadeAndLoadScene(FadeDirection _fadeDirection, string levelToLoad)
     {
         fadeOutUIImage.enabled = true;

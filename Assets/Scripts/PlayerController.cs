@@ -156,14 +156,16 @@ public class PlayerController : MonoBehaviour
 	{
 		SetGravityScale(Data.gravityScale);
 		IsFacingRight = true;
-		canControl = true;
 		Health = maxHp;
+		canControl = true;
 		isAlive = true;
 		ColliderCheck();
 	}
 
 	private void Update()
 	{
+		if (Time.timeScale == 0) {return;}
+
 		if (isAlive)
 		{
 			ColliderCheck();
@@ -246,6 +248,7 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		if (Time.timeScale == 0) {return;}
 		if (isCutScene)
 		{
 			return;

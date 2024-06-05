@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
-    public List<string> unlockedMap;
+    public List<string> unlockedMaps;
+    public List<string> unlockShards;
     public string saveScene;
     public Vector2 savePoint;
     
@@ -17,11 +18,12 @@ public class GameData
     public int playerMaxHP;
     public int shardsCount;
 
-    public GameData(List<string> scenes, string savedScene, Vector2 savePoint)
+    public GameData(List<string> scenes)
     {
-        unlockedMap = scenes;
-        this.saveScene = savedScene;
-        this.savePoint = savePoint;
+        unlockedMaps = scenes;
+        this.unlockShards = GameManager.Instance.unlockShards;
+        this.saveScene = GameManager.Instance.saveScene;
+        this.savePoint = GameManager.Instance.savePoint;
         this.isUnlockDash = PlayerController.Instance.isUnlockDash;
         this.isUnlockWallJump = PlayerController.Instance.isUnlockWallJump;
         this.isUnlockDoubleJump = PlayerController.Instance.isUnlockDoubleJump;
