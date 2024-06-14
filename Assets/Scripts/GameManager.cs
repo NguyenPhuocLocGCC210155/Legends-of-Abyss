@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale!=0)
         {
+            PlayerController.Instance.canControl = false;
             fadeUI.FadeUiIn(fadeTime);
             Time.timeScale = 0;
         }
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     public void UnPauseGame(){
         Time.timeScale = 1;
+        PlayerController.Instance.canControl = true;
     }
 
     public void RespawnPlayer(){
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator WaitForRespawn(){
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezePosition;
 		PlayerController.Instance.isAlive = false;
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
         yield return new WaitForSeconds(1f);
@@ -64,8 +68,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(saveScene);
         PlayerController.Instance.transform.position = savePoint;
         yield return new WaitForSeconds(1f);
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.None;
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
         PlayerController.Instance.isAlive = true;
         PlayerController.Instance.animator.SetTrigger("Alive");
+        PlayerController.Instance.canControl = true;
     }
     
     void LoadSceneEnterGame(){

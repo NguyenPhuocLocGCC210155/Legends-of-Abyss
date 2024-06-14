@@ -101,4 +101,5 @@ public class Charger : Enemy
             ani.speed = chargerSpeedMultiplier;
         }
     }
+     
 }

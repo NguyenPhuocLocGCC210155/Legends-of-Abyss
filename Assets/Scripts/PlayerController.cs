@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 	public bool IsDashing { get; private set; }
 	public bool IsSliding { get; private set; }
 	[HideInInspector] public bool isAlive;
-	[HideInInspector]public bool canControl;
+	[HideInInspector] public bool canControl;
 	[HideInInspector] public bool isCutScene = false;
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
@@ -100,10 +100,11 @@ public class PlayerController : MonoBehaviour
 	[Header("Recoil settings")]
 	[SerializeField] int recoilXStep = 5;
 	[SerializeField] int recoilYStep = 5;
-	[HideInInspector] public bool isRecoilingX, isRecoilingY;
+	[HideInInspector] public bool isRecoilingX, isRecoilingY, isRecoilByAttack;
 	[SerializeField] float recoilYSpeed;
 	[SerializeField] float recoilXSpeed;
-	int stepsXRecoiled, stepsYRecoiled;
+	int stepsXRecoiled, stepsYRecoiled, stepRecoildAttack;
+
 
 	[Header("Mana settings")]
 	public float mana;
@@ -164,15 +165,13 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		if (Time.timeScale == 0) {return;}
-
 		if (isAlive)
 		{
 			ColliderCheck();
 			CheckGravity();
 			if (canControl)
 			{
-				if (!isCutScene)
+				if (!isCutScene && !isRecoilByAttack)
 				{
 					CheckInputAndParemeter();
 					ToggleMap();
@@ -181,6 +180,10 @@ public class PlayerController : MonoBehaviour
 					DashCheck();
 					Attack();
 					WallSlide();
+				}
+				else
+				{
+					return;
 				}
 			}
 			if (Input.GetKeyDown(KeyCode.Q))
@@ -248,32 +251,43 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (Time.timeScale == 0) {return;}
-		if (isCutScene)
+		RestoreTimeSale();
+		if (!isAlive)
 		{
 			return;
 		}
-		Recoil();
-		if (IsDashing)
+		if (canControl)
 		{
-			return;
-		}
-		//Handle Run
-		if (!IsDashing && !isRecoilingX && canControl)
-		{
-			if (!_isWallJumping)
+			if (!isCutScene)
 			{
-				Run(1);
+				Recoil();
+				RecoilByAttack();
+				if (IsDashing)
+				{
+					return;
+				}
+				//Handle Run
+				if (!IsDashing && !isRecoilingX && canControl && !isRecoilByAttack)
+				{
+					if (!_isWallJumping)
+					{
+						Run(1);
+					}
+				}
+				else if (_isDashAttacking && canControl)
+				{
+					Run(Data.dashEndRunLerp);
+				}
+
+				//Handle Slide
+				if (IsSliding && canControl)
+					Slide();
+			}
+			else
+			{
+				return;
 			}
 		}
-		else if (_isDashAttacking && canControl)
-		{
-			Run(Data.dashEndRunLerp);
-		}
-
-		//Handle Slide
-		if (IsSliding && canControl)
-			Slide();
 	}
 
 	#region INPUT CALLBACKS
@@ -371,6 +385,30 @@ public class PlayerController : MonoBehaviour
 		_slashEffect.transform.localScale = new Vector2(_slashEffect.transform.localScale.x, _slashEffect.transform.localScale.y);
 	}
 
+	public void RecoilByAttack()
+	{
+		if (isRecoilByAttack)
+		{
+			if (IsFacingRight == true)
+			{
+				RB.velocity = new Vector2(-recoilXSpeed * 4, recoilYSpeed * 3);
+			}
+			else
+			{
+				RB.velocity = new Vector2(recoilXSpeed * 4, recoilYSpeed * 3);
+			}
+
+			if (stepRecoildAttack < recoilXStep)
+			{
+				stepRecoildAttack++;
+			}
+			else
+			{
+				StopRecoildByAttack();
+			}
+		}
+	}
+
 	void Recoil()
 	{
 		if (isRecoilingX)
@@ -390,10 +428,12 @@ public class PlayerController : MonoBehaviour
 			SetGravityScale(0);
 			if (_moveInput.y < 0)
 			{
+				RB.velocity = Vector2.zero;
 				RB.velocity = new Vector2(RB.velocity.x, recoilYSpeed);
 			}
 			else
 			{
+				RB.velocity = Vector2.zero;
 				RB.velocity = new Vector2(RB.velocity.x, -recoilYSpeed);
 			}
 			airJumpCounter = 0;
@@ -435,6 +475,13 @@ public class PlayerController : MonoBehaviour
 	{
 		stepsYRecoiled = 0;
 		isRecoilingY = false;
+	}
+
+	void StopRecoildByAttack()
+	{
+		isRecoilByAttack = false;
+		stepRecoildAttack = 0;
+		RB.velocity = new Vector2(0, 0);
 	}
 	#endregion
 
@@ -487,7 +534,12 @@ public class PlayerController : MonoBehaviour
 		{
 			if (Time.timeScale < 1)
 			{
-				Time.timeScale += Time.deltaTime * restoreTime;
+				Time.timeScale += Time.unscaledDeltaTime * restoreTime;
+				if (Time.timeScale >= 1)
+				{
+					Time.timeScale = 1;
+					isRestoreTime = false;
+				}
 			}
 			else
 			{
@@ -497,7 +549,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void HitStopTime(float _newTimeScale, int _restoreTime, float _delay)
+	public void HitStopTime(float _newTimeScale, float _restoreTime, float _delay)
 	{
 		restoreTime = _restoreTime;
 		Time.timeScale = _newTimeScale;
@@ -508,14 +560,15 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 		{
-			isRestoreTime = true;
+			isRestoreTime = false;
 		}
 	}
 
 	IEnumerator StartTimeAgain(float _delay)
 	{
 		isRestoreTime = true;
-		yield return new WaitForSeconds(_delay);
+		yield return new WaitForSecondsRealtime(_delay);
+		isRestoreTime = false; // Đảm bảo isRestoreTime được đặt lại
 	}
 
 	IEnumerator StopTakingDamaged()
@@ -1070,6 +1123,7 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator Death()
 	{
+		canControl = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
 		StartCoroutine(LostControl(2f));
@@ -1077,7 +1131,6 @@ public class PlayerController : MonoBehaviour
 		Destroy(_bloodSpurtParticle, 1.5f);
 		animator.SetTrigger("Death");
 		yield return new WaitForSeconds(1f);
-
 		GameManager.Instance.RespawnPlayer();
 	}
 
