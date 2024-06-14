@@ -19,6 +19,7 @@ public class StoneGruadian : Enemy
     [SerializeField] LayerMask playerLayer;
     List<Material> materials = new List<Material>();
     [SerializeField] LayerMask groundLayer;
+    private int countHpLost = 0;
 
     protected override void Start()
     {
@@ -78,6 +79,12 @@ public class StoneGruadian : Enemy
         if (hp > 0)
         {
             hp -= _dameDone;
+            countHpLost++;
+            if (countHpLost >= 5)
+            {
+                ani.SetTrigger("Jump");
+                countHpLost = 0;
+            }
             for (int i = 0; i < countManaSFX; i++)
             {
                 GameObject obj = pool.GetPooledObject();

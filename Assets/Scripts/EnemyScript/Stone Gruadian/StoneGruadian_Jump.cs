@@ -18,7 +18,7 @@ public class StoneGruadian_Jump : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         rb.gravityScale = 1;
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y <= 0)
         {
             animator.SetBool("IsFall", true);
         }
@@ -32,6 +32,7 @@ public class StoneGruadian_Jump : StateMachineBehaviour
 
     void JumpToPlayer()
     {
+        boss.LookAtPlayer();
         Vector2 direction = (PlayerController.Instance.transform.position - rb.transform.position).normalized;
 
         // Tính toán lực nhảy
