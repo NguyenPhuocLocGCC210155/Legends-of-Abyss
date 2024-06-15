@@ -611,6 +611,10 @@ PrefabInstance:
       propertyPath: fadeUI
       value: 
       objectReference: {fileID: 1986606816}
+    - target: {fileID: 7125446604727499618, guid: 2d73b85b1a8ef35448d0da1083c7b110, type: 3}
+      propertyPath: fadeTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 9140630526518632078, guid: 2d73b85b1a8ef35448d0da1083c7b110, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.19847

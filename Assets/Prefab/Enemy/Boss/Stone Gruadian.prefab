@@ -128,6 +128,7 @@ MonoBehaviour:
   countManaSFX: 5
   flashColor: {r: 4, g: 4, b: 4, a: 1}
   flashTime: 0.25
+  isDestroyed: 0
   isFliped: 0
   sideAttackArea: {x: 3, y: 2}
   upAttackArea: {x: 2, y: 3}
@@ -421,7 +422,7 @@ GameObject:
   - component: {fileID: 3285603946329263044}
   - component: {fileID: 6297218901315893432}
   - component: {fileID: 7982380372099409744}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Layer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

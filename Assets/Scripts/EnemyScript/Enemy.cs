@@ -22,7 +22,7 @@ public abstract class Enemy : MonoBehaviour
     protected Animator ani;
     protected Collider2D cd;
     protected ObjectPooling pool;
-    protected bool isDestroyed = false;
+    public bool isDestroyed = false;
 
     protected enum EnemyStates{
         Awake,

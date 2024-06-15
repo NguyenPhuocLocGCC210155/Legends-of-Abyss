@@ -1126,10 +1126,11 @@ public class PlayerController : MonoBehaviour
 		canControl = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
-		StartCoroutine(LostControl(2f));
 		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
 		Destroy(_bloodSpurtParticle, 1.5f);
 		animator.SetTrigger("Death");
+		animator.SetBool("isJumping", false);
+		animator.SetBool("isWalking", false);
 		yield return new WaitForSeconds(1f);
 		GameManager.Instance.RespawnPlayer();
 	}

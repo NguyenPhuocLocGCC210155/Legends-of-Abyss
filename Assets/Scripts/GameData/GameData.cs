@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class GameData
 {
     public List<string> unlockedMaps;
     public List<string> unlockShards;
+    public List<BossDefeatedData> bossDefeated;
     public string saveScene;
     public Vector2 savePoint;
     
@@ -24,6 +26,7 @@ public class GameData
         this.unlockShards = GameManager.Instance.unlockShards;
         this.saveScene = GameManager.Instance.saveScene;
         this.savePoint = GameManager.Instance.savePoint;
+        this.bossDefeated = GameManager.Instance.bossDefeated;
         this.isUnlockDash = PlayerController.Instance.isUnlockDash;
         this.isUnlockWallJump = PlayerController.Instance.isUnlockWallJump;
         this.isUnlockDoubleJump = PlayerController.Instance.isUnlockDoubleJump;

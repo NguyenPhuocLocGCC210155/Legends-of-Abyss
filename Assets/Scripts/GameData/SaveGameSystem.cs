@@ -23,6 +23,10 @@ public class SaveGameSystem : MonoBehaviour
             GameManager.Instance.saveScene = data.saveScene;
             GameManager.Instance.savePoint = data.savePoint;
             GameManager.Instance.unlockShards = data.unlockShards;
+            if (data.bossDefeated != null)
+            {
+                GameManager.Instance.bossDefeated = data.bossDefeated;
+            }
             if (data.playerMaxHP > 0)
             {
                 PlayerController.Instance.maxHp = data.playerMaxHP;

@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
 public class StoneGruadian : Enemy
 {
+    [SerializeField] protected string InstanceName;
     public bool isFliped = false;
     public Vector2 sideAttackArea;
     public Vector2 upAttackArea;
@@ -20,6 +23,7 @@ public class StoneGruadian : Enemy
     List<Material> materials = new List<Material>();
     [SerializeField] LayerMask groundLayer;
     private int countHpLost = 0;
+    private bool isAwaken = false;
 
     protected override void Start()
     {
@@ -35,6 +39,23 @@ public class StoneGruadian : Enemy
                 materials.Add(child.GetComponent<SpriteRenderer>().material);
             }
         }
+        if (GameManager.Instance.bossDefeated != null)
+        {
+            if (GameManager.Instance.bossDefeated.Any(b => b.name.Equals(InstanceName)))
+            {
+                isDestroyed = true;
+                Debug.Log(isDestroyed);
+                ani.SetTrigger("Death");
+                cd.enabled = false;
+                gameObject.layer = 8;
+                transform.position = GameManager.Instance.bossDefeated.FirstOrDefault(boss => boss.name.Equals(InstanceName)).position;
+            }
+        }
+    }
+
+    public void BeginFight()
+    {
+        isAwaken = true;
     }
 
     protected override void Update()
@@ -76,24 +97,32 @@ public class StoneGruadian : Enemy
 
     public override void EnemyHit(float _dameDone, Vector2 _hitDirection, float _hitForce)
     {
-        if (hp > 0)
+        if (isAwaken)
         {
-            hp -= _dameDone;
-            countHpLost++;
-            if (countHpLost >= 5)
+            if (hp > 0)
             {
-                ani.SetTrigger("Jump");
-                countHpLost = 0;
+                hp -= _dameDone;
+                if (hp <= 0)
+                {
+                    Death(1f);
+                    return;
+                }
+                countHpLost++;
+                if (countHpLost >= 5)
+                {
+                    ani.SetTrigger("Jump");
+                    countHpLost = 0;
+                }
+                for (int i = 0; i < countManaSFX; i++)
+                {
+                    GameObject obj = pool.GetPooledObject();
+                }
+                StartCoroutine(DamageFlash());
             }
-            for (int i = 0; i < countManaSFX; i++)
+            else
             {
-                GameObject obj = pool.GetPooledObject();
+                Death(1f);
             }
-            StartCoroutine(DamageFlash());
-        }
-        else
-        {
-            Death(1f);
         }
     }
 
@@ -105,6 +134,9 @@ public class StoneGruadian : Enemy
         cd.enabled = false;
         gameObject.layer = 8;
         ani.SetTrigger("Death");
+        isAwaken = false;
+        rb.velocity = Vector3.zero;
+        GameManager.Instance.AddDefeatedBoss(InstanceName, transform.position);
     }
 
     private void OnTriggerStay2D(Collider2D other)
@@ -196,7 +228,8 @@ public class StoneGruadian : Enemy
         return Physics2D.OverlapBox(groundCheckTransform.position, groundCheckSize, 0, groundLayer);
     }
 
-    public void DoneFallAttack(){
+    public void DoneFallAttack()
+    {
         StartCoroutine(WaitAndTransition());
         GameObject skillRight = Instantiate(baseAttackSkill, baseSkillTransform.position, Quaternion.identity);
         GameObject skillLeft = Instantiate(baseAttackSkill, baseSkillTransform.position, Quaternion.identity);

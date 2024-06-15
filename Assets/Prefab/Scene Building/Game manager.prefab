@@ -47,8 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeUI: {fileID: 0}
-  fadeTime: 0
-  isGamePause: 0
+  fadeTime: 0.5
   respawnPoint: {x: 0, y: 0}
   saveScene: forest_1
   savePoint: {x: -17.1, y: -2.7}
