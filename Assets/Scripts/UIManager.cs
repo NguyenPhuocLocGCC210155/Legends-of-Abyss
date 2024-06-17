@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set;}
     public SceneFader sceneFader; 
+    public GameObject inventoryHandle;
     public GameObject mapHandler;
     public GameObject emptyMap;
     public GameObject map;
@@ -20,12 +21,16 @@ public class UIManager : MonoBehaviour
         sceneFader = GetComponentInChildren<SceneFader>();  
     }
 
-    public void OpenMap(bool isOpen){
-        mapHandler.SetActive(isOpen);
+    private void Start() {
         CheckHaveMapOrEmpty();
     }
 
-    private void Start() {
+    public void OpenInventory(bool isOpen){
+        inventoryHandle.SetActive(isOpen);
+    }
+
+    public void OpenMap(bool isOpen){
+        mapHandler.SetActive(isOpen);
         CheckHaveMapOrEmpty();
     }
 

@@ -58,7 +58,7 @@ public class MoonSlash : MonoBehaviour
             Attack();
             if (PlayerController.Instance.isAlive)
             {
-                PlayerController.Instance.HitStopTime(0, 1, 1f);
+                PlayerController.Instance.HitStopTime(0, 1);
                 GameObject Obj = Instantiate(exploseEffect, checkFront.position, Quaternion.identity);
                 Destroy(Obj, 2f);
                 Destroy(gameObject);

@@ -9,6 +9,8 @@ public class GameData
     public List<string> unlockedMaps;
     public List<string> unlockShards;
     public List<BossDefeatedData> bossDefeated;
+    public List<string> unlockSkills;
+    public string[] equippedSkill;
     public string saveScene;
     public Vector2 savePoint;
     
@@ -17,8 +19,14 @@ public class GameData
     public bool isUnlockDash;
     public bool isUnlockWallJump;
     public bool isUnlockDoubleJump;
+    public bool isUnlockLantern;
+    public bool isUnlockMedal;
+    public bool isUnlockPosion;
+
+    //Player count items
     public int playerMaxHP;
     public int shardsCount;
+    public int chamberCount;
 
     public GameData(List<string> scenes)
     {
@@ -32,5 +40,8 @@ public class GameData
         this.isUnlockDoubleJump = PlayerController.Instance.isUnlockDoubleJump;
         this.shardsCount = PlayerController.Instance.heartShards;
         this.playerMaxHP = PlayerController.Instance.maxHp;
+        this.chamberCount = PlayerController.Instance.chamberCount;
+        this.unlockSkills = PlayerController.Instance.skillManager.GetSkillUnlocked();
+        this.equippedSkill = PlayerController.Instance.skillManager.GetEquippedSkill();
     }
 }

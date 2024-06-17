@@ -135,7 +135,7 @@ public abstract class Enemy : MonoBehaviour
             Attack();
             if (PlayerController.Instance.isAlive)
             {
-                PlayerController.Instance.HitStopTime(0, 1f,0.5f);
+                PlayerController.Instance.HitStopTime(0, 1f);
             }
         }
     }

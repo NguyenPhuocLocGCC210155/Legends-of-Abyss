@@ -146,7 +146,7 @@ public class StoneGruadian : Enemy
             Attack();
             if (PlayerController.Instance.isAlive)
             {
-                PlayerController.Instance.HitStopTime(0, 1, 1f);
+                PlayerController.Instance.HitStopTime(0, 1);
             }
         }
     }
@@ -167,9 +167,9 @@ public class StoneGruadian : Enemy
             if (hit.gameObject.CompareTag("Player") && !PlayerController.Instance.isInvincible && hp > 0)
             {
                 Attack();
-                if (PlayerController.Instance.isAlive)
+                if (PlayerController.Instance.isAlive && hp > 0)
                 {
-                    PlayerController.Instance.HitStopTime(0, 1, 0.5f);
+                    PlayerController.Instance.HitStopTime(0, 1f);
                     // PlayerController.Instance.isRecoilByAttack = true;
                 }
             }

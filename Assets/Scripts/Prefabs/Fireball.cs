@@ -2,23 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Fireball : ShootSkill
 {
-    float damage = 3;
-    [SerializeField] float hitForce;
-    [SerializeField] float speed;
-    [SerializeField] float lifeTime = 1f;
-    Rigidbody2D rb;
-
-    public float Damage { get => damage; set => damage = value; }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        Collider2D collider = GetComponent<Collider2D>();
-        Destroy(gameObject, lifeTime);
-    }
 
     private void FixedUpdate()
     {

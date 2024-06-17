@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -73,7 +71,6 @@ public class GameManager : MonoBehaviour
     IEnumerator WaitForRespawn()
     {
         PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezePosition;
-        PlayerController.Instance.isAlive = false;
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(saveScene);

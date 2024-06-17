@@ -32,6 +32,18 @@ public class SaveGameSystem : MonoBehaviour
                 PlayerController.Instance.maxHp = data.playerMaxHP;
                 PlayerController.Instance.Health = PlayerController.Instance.maxHp;
             }
+            if (data.chamberCount > 0 && data.chamberCount < 4)
+            {
+                PlayerController.Instance.chamberCount = data.chamberCount;
+            }
+            if (data.unlockSkills != null)
+            {
+                PlayerController.Instance.skillManager.LoadUnlockSkill(data.unlockSkills);
+            }
+            if (data.equippedSkill != null)
+            {
+                PlayerController.Instance.skillManager.LoadEquippedSkill(data.equippedSkill);
+            }
             PlayerController.Instance.isUnlockDash = data.isUnlockDash;
             PlayerController.Instance.isUnlockWallJump = data.isUnlockWallJump;
             PlayerController.Instance.isUnlockDoubleJump = data.isUnlockDoubleJump;

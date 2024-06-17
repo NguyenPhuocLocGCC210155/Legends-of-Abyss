@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
 	public GameObject skills;
 	#region COMPONENTS
 	public Rigidbody2D RB { get; private set; }
+	[HideInInspector]
+	public SkillManager skillManager;
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	[HideInInspector] public Animator animator;
 	#endregion
@@ -64,9 +66,15 @@ public class PlayerController : MonoBehaviour
 	#endregion
 
 	#region 
+	public int keys;
+	public int heartShards;
+	public int chamberCount = 1;
 	public bool isUnlockDash;
 	public bool isUnlockWallJump;
 	public bool isUnlockDoubleJump;
+	public bool isUnlockLantern;
+    public bool isUnlockMedal;
+    public bool isUnlockPosion;
 	#endregion
 
 	#region CHECK PARAMETERS
@@ -122,10 +130,12 @@ public class PlayerController : MonoBehaviour
 	private int hp;
 	public int maxHp;
 	public int maxTotalHealth = 10;
-	public int heartShards;
 	public bool isInvincible;
 	bool isHealing;
+
+
 	bool isOpenMap;
+	bool isOpenInventory;
 	float healTimer;
 
 
@@ -142,6 +152,7 @@ public class PlayerController : MonoBehaviour
 		RB = GetComponent<Rigidbody2D>();
 		animator = GetComponent<Animator>();
 		sprite = GetComponent<SpriteRenderer>();
+		skillManager = GetComponent<SkillManager>();
 		if (Instance != null && Instance != this)
 		{
 			Destroy(gameObject);
@@ -175,6 +186,7 @@ public class PlayerController : MonoBehaviour
 				{
 					CheckInputAndParemeter();
 					ToggleMap();
+					ToggleInventory();
 					Healing();
 					JumpCheck();
 					DashCheck();
@@ -185,10 +197,6 @@ public class PlayerController : MonoBehaviour
 				{
 					return;
 				}
-			}
-			if (Input.GetKeyDown(KeyCode.Q))
-			{
-				StartCoroutine(HandleControlAndInvincibility());
 			}
 		}
 
@@ -201,54 +209,6 @@ public class PlayerController : MonoBehaviour
 		UpdateCameraYDampForPlayerFall();
 		FlashWhileInvicible();
 	}
-
-	private IEnumerator HandleControlAndInvincibility()
-	{
-		// Khởi động mất điều khiển và vô địch
-		StartCoroutine(LostControl(0.4f));
-		StartCoroutine(InvincibilityTimer(0.4f));
-
-		// Đợi trước khi kích hoạt phép thuật
-		yield return new WaitForSeconds(0.1f);
-		Active();
-	}
-
-	public void Active()
-	{
-		animator.SetBool("isCasting", true);
-		StartCoroutine(Shoot());
-	}
-
-	private IEnumerator Shoot()
-	{
-		yield return new WaitForSeconds(0.20f);
-		GameObject _magic = Instantiate(skills, SideAttackTransform.position, Quaternion.identity);
-		if (IsFacingRight)
-		{
-			_magic.transform.eulerAngles = Vector3.zero;
-		}
-		else
-		{
-			_magic.transform.eulerAngles = new Vector2(_magic.transform.eulerAngles.x, 180);
-		}
-		isRecoilingX = true;
-		animator.SetBool("isCasting", false);
-	}
-
-	// IEnumerator Shoot(){
-	// 	animator.SetBool("isCasting", true);
-	//     yield return new WaitForSeconds(0.20f);
-	//     GameObject _magic = Instantiate(skills, SideAttackTransform.position, Quaternion.identity);
-	//     if (IsFacingRight)
-	//     {
-	//         _magic.transform.eulerAngles = Vector3.zero;
-	//     }else{
-	//         _magic.transform.eulerAngles = new Vector2(_magic.transform.eulerAngles.x, 180);
-	//     }
-	//     isRecoilingX = true;
-	//     animator.SetBool("isCasting", false);
-	// }
-
 	private void FixedUpdate()
 	{
 		RestoreTimeSale();
@@ -549,26 +509,23 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void HitStopTime(float _newTimeScale, float _restoreTime, float _delay)
+	public void HitStopTime(float _newTimeScale, float _restoreTime)
 	{
-		restoreTime = _restoreTime;
-		Time.timeScale = _newTimeScale;
-		if (_delay > 0)
+		if (hp > 0)
 		{
-			StopCoroutine(StartTimeAgain(_delay));
-			StartCoroutine(StartTimeAgain(_delay));
-		}
-		else
-		{
-			isRestoreTime = false;
+			restoreTime = _restoreTime;
+
+			StopCoroutine(StartTimeAgain(0.2f));
+			StartCoroutine(StartTimeAgain(0.2f));
+
+			Time.timeScale = _newTimeScale;
 		}
 	}
 
 	IEnumerator StartTimeAgain(float _delay)
 	{
-		isRestoreTime = true;
 		yield return new WaitForSecondsRealtime(_delay);
-		isRestoreTime = false; // Đảm bảo isRestoreTime được đặt lại
+		isRestoreTime = true; // Đảm bảo isRestoreTime được đặt lại
 	}
 
 	IEnumerator StopTakingDamaged()
@@ -875,11 +832,11 @@ public class PlayerController : MonoBehaviour
 		if (CanDash() && LastPressedDashTime > 0 && isUnlockDash)
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
-			Sleep(Data.dashSleepTime);
+			// Sleep(Data.dashSleepTime);
 
 			//If not direction pressed, dash forward
-			if (_moveInput != Vector2.zero)
-				_lastDashDir = _moveInput;
+			if (_moveInput.x != 0)
+				_lastDashDir.x = _moveInput.x;
 			else
 				_lastDashDir = IsFacingRight ? Vector2.right : Vector2.left;
 
@@ -1035,7 +992,20 @@ public class PlayerController : MonoBehaviour
 		{
 			OnDashInput();
 		}
+		if (Input.GetKeyDown(KeyCode.Q))
+        {
+            skillManager.ActivateSkill(0, gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            skillManager.ActivateSkill(1, gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            skillManager.ActivateSkill(2, gameObject);
+        }
 		isOpenMap = Input.GetKey(KeyCode.M);
+		isOpenInventory = Input.GetKey(KeyCode.Tab);
 		#endregion
 	}
 
@@ -1067,19 +1037,42 @@ public class PlayerController : MonoBehaviour
 		Gizmos.DrawWireCube(downAttackTransform.position, downAttackArea);
 	}
 
-	IEnumerator LostControl(float time)
+	public void ImmuneDamage(float time)
+	{
+		StartCoroutine(StartImmuneDamage(time));
+	}
+
+	public void LostControl(float time)
+	{
+		StartCoroutine(StartLostControl(time));
+	}
+
+	IEnumerator StartLostControl(float time)
 	{
 		canControl = false;
-		RB.velocity = new Vector2(0, 0);
-		SetGravityScale(0);
-		Physics2D.IgnoreLayerCollision(gameObject.layer, 6, true);
-		isInvincible = true;
 		yield return new WaitForSeconds(time);
-		SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-		isInvincible = false;
-		LastOnGroundTime = 0;
 		canControl = true;
-		Physics2D.IgnoreLayerCollision(gameObject.layer, 6, false);
+	}
+
+	IEnumerator StartImmuneDamage(float time)
+	{
+		int temp = gameObject.layer;
+		gameObject.layer = 8;
+		yield return new WaitForSeconds(time);
+		gameObject.layer = temp;
+	}
+
+	public void FreezePlayer(float time)
+	{
+		StartCoroutine(StartFreeze(time));
+	}
+
+	IEnumerator StartFreeze(float time)
+	{
+		RB.constraints = RigidbodyConstraints2D.FreezeAll;
+		yield return new WaitForSeconds(time);
+		RB.constraints = RigidbodyConstraints2D.None;
+		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 
 	public IEnumerator WaitForAwaken(float time)
@@ -1123,6 +1116,7 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator Death()
 	{
+		isAlive = false;
 		canControl = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
@@ -1144,6 +1138,18 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			UIManager.Instance.OpenMap(false);
+		}
+	}
+
+	void ToggleInventory()
+	{
+		if (isOpenInventory)
+		{
+			UIManager.Instance.OpenInventory(true);
+		}
+		else
+		{
+			UIManager.Instance.OpenInventory(false);
 		}
 	}
 }

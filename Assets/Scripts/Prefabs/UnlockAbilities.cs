@@ -16,8 +16,9 @@ public class UnlockAbilities : MonoBehaviour
         Dashing,
         WallJump,
         DoubleJump,
-        ShawdowDash
-
+        ShawdowDash,
+        Lantern,
+        Posion
     }
 
     private void Start()
@@ -42,6 +43,24 @@ public class UnlockAbilities : MonoBehaviour
                 break;
             case AbilitiesUnlock.DoubleJump:
                 if (PlayerController.Instance.isUnlockDoubleJump)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+            case AbilitiesUnlock.ShawdowDash:
+                if (PlayerController.Instance.isUnlockMedal)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+            case AbilitiesUnlock.Lantern:
+                if (PlayerController.Instance.isUnlockLantern)
+                {
+                    Destroy(gameObject);
+                }
+                break;
+            case AbilitiesUnlock.Posion:
+                if (PlayerController.Instance.isUnlockPosion)
                 {
                     Destroy(gameObject);
                 }
@@ -76,6 +95,15 @@ public class UnlockAbilities : MonoBehaviour
 
                 case AbilitiesUnlock.DoubleJump:
                     PlayerController.Instance.isUnlockDoubleJump = true;
+                    break;
+                case AbilitiesUnlock.ShawdowDash:
+                    PlayerController.Instance.isUnlockMedal = true;
+                    break;
+                case AbilitiesUnlock.Lantern:
+                    PlayerController.Instance.isUnlockLantern = true;
+                    break;
+                case AbilitiesUnlock.Posion:
+                    PlayerController.Instance.isUnlockPosion = true;
                     break;
             }
             StartCoroutine(ShowAbility());

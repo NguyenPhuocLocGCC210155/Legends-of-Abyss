@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86754c4637ff9e947b6a9d91ec032698, type: 3}
+  m_Name: Inferno Orb
+  m_EditorClassIdentifier: 
+  skillName: Inferno Orb
+  skillIcon: {fileID: 21300000, guid: 300abdf8cbdd5c742a05b6506767fd64, type: 3}
+  manaCosumed: 20
+  damage: 3
+  castingTime: 1
+  maigc: {fileID: 5844159095988893874, guid: efd54c181c3321e4db036227289876c8, type: 3}

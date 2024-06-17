@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class TriggerAwakeBoss : MonoBehaviour
@@ -37,8 +35,11 @@ public class TriggerAwakeBoss : MonoBehaviour
     IEnumerator PlayerWaitForBossAwake(){
         PlayerController.Instance.isCutScene = true;
         PlayerController.Instance.RB.velocity = Vector2.zero;
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezePositionX;
         PlayerController.Instance.animator.SetBool("isWalking", false);
         yield return new WaitForSeconds(2f);
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.None;
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
         PlayerController.Instance.isCutScene = false;
     }
 }
