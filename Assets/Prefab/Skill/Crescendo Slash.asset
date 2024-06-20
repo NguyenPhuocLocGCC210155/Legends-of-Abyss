@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9f92202c9b6f841bb1948f8c0f0524, type: 3}
+  m_Name: Crescendo Slash
+  m_EditorClassIdentifier: 
+  skillName: Crescendo Slash
+  skillIcon: {fileID: 21300000, guid: 0389074d1deba1c448d45812db40c0df, type: 3}
+  manaCosumed: 0
+  damage: 1
+  castingTime: 0.8
+  slash1: {fileID: 310392436804182121, guid: ec26a820517c3e94c9f94d38ce7610b5, type: 3}
+  slash2: {fileID: 4223353712168787095, guid: 6619f11d124a07841abfb80ea69db911, type: 3}
+  slash3: {fileID: 6654713375892072346, guid: 0a01f9ddef2f71644ace5d4b063c87d7, type: 3}

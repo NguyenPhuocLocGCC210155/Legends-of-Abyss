@@ -145,7 +145,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1514234777
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 84ce2f114ad12bd4ebafc77060220324, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -348,6 +348,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   listSkill:
   - {fileID: 11400000, guid: 3d09be5ef4c4c774797c6ffd6460c3cc, type: 2}
+  - {fileID: 11400000, guid: 4b135c095a40b484f89f041d2cb70be8, type: 2}
+  - {fileID: 11400000, guid: e5d3ab261dc82a741a8734d102ca0c84, type: 2}
+  - {fileID: 11400000, guid: 4e471785665deae4da03a04e350563af, type: 2}
+  - {fileID: 11400000, guid: d74c0c81e14c6324ea3915fe700ec44a, type: 2}
+  - {fileID: 11400000, guid: 16f6196637c2fe54e84822aa84479bf9, type: 2}
   unlockSkills: []
   equippedSkills:
   - {fileID: 0}

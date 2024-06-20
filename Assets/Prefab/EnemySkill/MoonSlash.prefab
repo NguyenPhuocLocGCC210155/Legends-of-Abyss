@@ -586,6 +586,9 @@ MonoBehaviour:
   checkFront: {fileID: 4026490630577624580}
   checkSize: {x: 0.2, y: 0.1}
   exploseEffect: {fileID: 8340300152966257022, guid: 35b60e7f4194d9b4395c97af69e571c6, type: 3}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &3887240431995005779
 GameObject:
   m_ObjectHideFlags: 0

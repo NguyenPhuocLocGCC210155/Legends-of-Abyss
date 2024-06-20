@@ -13,6 +13,7 @@ public class MoonSlash : MonoBehaviour
     [SerializeField] Transform checkFront;
     [SerializeField] Vector2 checkSize;
     [SerializeField] GameObject exploseEffect;
+    [SerializeField] LayerMask layerMask;
     float animationDuration;
     float elapseTime;
     float currentSpeed;
@@ -53,7 +54,7 @@ public class MoonSlash : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player") && !PlayerController.Instance.isInvincible && PlayerController.Instance.Health > 0)
+        if (IsInLayerMask(other.gameObject, layerMask) && !PlayerController.Instance.isInvincible && PlayerController.Instance.Health > 0)
         {
             Attack();
             if (PlayerController.Instance.isAlive)
@@ -64,6 +65,11 @@ public class MoonSlash : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private bool IsInLayerMask(GameObject obj, LayerMask mask)
+    {
+        return (mask == (mask | (1 << obj.layer)));
     }
 
     private void Attack()

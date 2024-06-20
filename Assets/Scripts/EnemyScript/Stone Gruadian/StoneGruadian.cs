@@ -44,7 +44,6 @@ public class StoneGruadian : Enemy
             if (GameManager.Instance.bossDefeated.Any(b => b.name.Equals(InstanceName)))
             {
                 isDestroyed = true;
-                Debug.Log(isDestroyed);
                 ani.SetTrigger("Death");
                 cd.enabled = false;
                 gameObject.layer = 8;
