@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Timeline;
 
 public class DestroyAfterAnimation : MonoBehaviour
@@ -24,6 +25,10 @@ public class DestroyAfterAnimation : MonoBehaviour
 
     IEnumerator DissolveAffterAnimation(float time){
         yield return new WaitForSeconds(time);
+        if (GetComponent<Light2D>() != null)
+        {
+            GetComponent<Light2D>().enabled = false;
+        }
         GetComponent<Disslove>().Vanish(useDissolve, useVertical);
     }
 

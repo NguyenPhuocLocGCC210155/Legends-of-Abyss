@@ -73,8 +73,8 @@ public class PlayerController : MonoBehaviour
 	public bool isUnlockWallJump;
 	public bool isUnlockDoubleJump;
 	public bool isUnlockLantern;
-    public bool isUnlockMedal;
-    public bool isUnlockPosion;
+	public bool isUnlockMedal;
+	public bool isUnlockPosion;
 	#endregion
 
 	#region CHECK PARAMETERS
@@ -617,7 +617,10 @@ public class PlayerController : MonoBehaviour
 
 		//Convert this to a vector and apply to rigidbody
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-		animator.SetBool("isWalking", _moveInput.x != 0 && isGround);
+		if (canControl)
+		{
+			animator.SetBool("isWalking", _moveInput.x != 0 && LastOnGroundTime > -1);
+		}
 
 		/*
 		 * For those interested here is what AddForce() will do
@@ -993,17 +996,17 @@ public class PlayerController : MonoBehaviour
 			OnDashInput();
 		}
 		if (Input.GetKeyDown(KeyCode.Q))
-        {
-            skillManager.ActivateSkill(0, gameObject);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            skillManager.ActivateSkill(1, gameObject);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            skillManager.ActivateSkill(2, gameObject);
-        }
+		{
+			skillManager.ActivateSkill(0, gameObject);
+		}
+		if (Input.GetKeyDown(KeyCode.W))
+		{
+			skillManager.ActivateSkill(1, gameObject);
+		}
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			skillManager.ActivateSkill(2, gameObject);
+		}
 		isOpenMap = Input.GetKey(KeyCode.M);
 		isOpenInventory = Input.GetKey(KeyCode.Tab);
 		#endregion
@@ -1070,6 +1073,16 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StartFreeze(float time)
 	{
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
+		animator.SetBool("isWalking", false);
+		if (LastOnGroundTime < -0.1f)
+		{
+			// AnimHandler.justLanded = true
+			isGround = true;
+			airJumpCounter = 0;
+			animator.SetBool("isJumping", false);
+		}
+
+		LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 		yield return new WaitForSeconds(time);
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;

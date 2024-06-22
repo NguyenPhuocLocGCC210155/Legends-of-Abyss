@@ -17,4 +17,4 @@ MonoBehaviour:
   manaCosumed: 0
   damage: 2
   castingTime: 0
-  effectSkill: {fileID: 1206498299807332555, guid: af6c1e3f046eecd4d81330aeb285600f, type: 3}
+  effectSkill: {fileID: 3800526170181332180, guid: bd8635c62e74c4c4d92211a6d4da5cc6, type: 3}

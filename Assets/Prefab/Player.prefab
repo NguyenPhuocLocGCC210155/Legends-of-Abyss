@@ -353,6 +353,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4e471785665deae4da03a04e350563af, type: 2}
   - {fileID: 11400000, guid: d74c0c81e14c6324ea3915fe700ec44a, type: 2}
   - {fileID: 11400000, guid: 16f6196637c2fe54e84822aa84479bf9, type: 2}
+  - {fileID: 11400000, guid: 2fbfbd1c28cb53749b753fcbf2497b16, type: 2}
   unlockSkills: []
   equippedSkills:
   - {fileID: 0}

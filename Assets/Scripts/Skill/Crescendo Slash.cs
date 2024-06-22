@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Shoot Skill", menuName = "Shoot Skill/Crescendo Slash")]
@@ -35,6 +36,7 @@ public class CrescendoSlash : Skills
     void Slash(GameObject slash, float dmg)
     {
         GameObject obj = Instantiate(slash, PlayerController.Instance.SideAttackTransform.position, Quaternion.identity);
+        obj.GetComponent<ShootSkill>().damage = dmg;
         if (PlayerController.Instance.IsFacingRight)
         {
             obj.transform.eulerAngles = Vector3.zero;

@@ -11,16 +11,17 @@ public class DesignatedDemolition : Skills
     [SerializeField] LayerMask layerMask;
     [SerializeField] float hitForce;
     [SerializeField] float distanceSpamLighting;
+    [SerializeField] Vector2 exploseScale;
     public override void Activate()
     {
         PlayerController.Instance.animator.SetTrigger("Attacking");
         PlayerController.Instance.animator.SetBool("isWalking", false);
-        PlayerController.Instance.LostControl(castingTime);
-        PlayerController.Instance.FreezePlayer(castingTime);
+        PlayerController.Instance.LostControl(castingTime/2);
+        PlayerController.Instance.FreezePlayer(castingTime/2);
         Collider2D[] objectToHit = Physics2D.OverlapCircleAll(PlayerController.Instance.transform.position, sizeAttack, layerMask, 0);
         PlayerController.Instance.StartCoroutine(HandleActive(objectToHit));
-        Debug.Log(objectToHit.Length);
     }
+     
 
     IEnumerator HandleActive(Collider2D[] objectToHit)
     {
@@ -32,7 +33,9 @@ public class DesignatedDemolition : Skills
                 int dirRecoil = PlayerController.Instance.IsFacingRight ? 1 : -1;
                 // objectToHit[i].GetComponent<Enemy>().EnemyHit(dmg, ((transform.position - objectToHit[i].transform.position).normalized * -1), _recoilStregth);
                 objectToHit[i].GetComponent<Enemy>().EnemyHit(damage, dirRecoil * Vector2.right, hitForce);
-                GameObject obj = Instantiate(skillEffect, objectToHit[i].transform.position + new Vector3(0, distanceSpamLighting, 0), Quaternion.identity);
+                GameObject lighting = Instantiate(skillEffect, objectToHit[i].transform.position + new Vector3(0, distanceSpamLighting, 0), Quaternion.identity);
+                GameObject explose = Instantiate(exploseEffect,  objectToHit[i].transform.position, Quaternion.identity);
+                explose.transform.localScale = exploseScale;
             }
         }
     }

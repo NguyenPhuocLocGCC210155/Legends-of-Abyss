@@ -123,6 +123,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Death(float _destroyTime){
         isDestroyed = true;
+        gameObject.layer = 8;
         GameObject effect = Instantiate(bloodEffect);
         effect.transform.position = transform.position;
         Destroy(effect, 3f);
