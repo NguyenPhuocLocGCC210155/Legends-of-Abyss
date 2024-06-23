@@ -107,10 +107,9 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void EnemyHit(float _dameDone, Vector2 _hitDirection, float _hitForce){
         hp -= _dameDone;    
+        _hitDirection = (transform.position - PlayerController.Instance.transform.position).normalized;
         if (!isRecoiling)
         {
-            // GameObject _blood = Instantiate(bloodEffect, transform.position,Quaternion.identity);
-            // Destroy(_blood, 2);
             for (int i = 0; i < countManaSFX; i++)
             {
                 GameObject obj = pool.GetPooledObject();

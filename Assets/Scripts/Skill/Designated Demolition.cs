@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Detect Skill", menuName = "Detect Skill/Designated Demolition")]
+[CreateAssetMenu(fileName = "Summon Skill", menuName = "Summon Skill/Designated Demolition")]
 public class DesignatedDemolition : Skills
 {
     [SerializeField] float sizeAttack;

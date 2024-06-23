@@ -1045,6 +1045,15 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(StartImmuneDamage(time));
 	}
 
+	public void ImmuneDamage(bool isActive){
+		if (isActive)
+		{
+			gameObject.layer = 8;
+		}else{
+			gameObject.layer = 10;
+		}
+	}
+
 	public void LostControl(float time)
 	{
 		StartCoroutine(StartLostControl(time));
@@ -1074,7 +1083,7 @@ public class PlayerController : MonoBehaviour
 	{
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
 		animator.SetBool("isWalking", false);
-		if (LastOnGroundTime < -0.1f)
+		if (LastOnGroundTime > 0)
 		{
 			// AnimHandler.justLanded = true
 			isGround = true;
@@ -1084,6 +1093,13 @@ public class PlayerController : MonoBehaviour
 
 		LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 		yield return new WaitForSeconds(time);
+		if (LastOnGroundTime > 0)
+		{
+			// AnimHandler.justLanded = true
+			isGround = true;
+			airJumpCounter = 0;
+			animator.SetBool("isJumping", false);
+		}
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}

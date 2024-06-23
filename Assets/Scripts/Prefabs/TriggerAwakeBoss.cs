@@ -23,7 +23,8 @@ public class TriggerAwakeBoss : MonoBehaviour
         if (other.CompareTag("Player") && !boss.isDestroyed)
         {
             boss.BeginAwaken();
-            StartCoroutine(PlayerWaitForBossAwake());
+            PlayerController.Instance.FreezePlayer(2f);
+            PlayerController.Instance.LostControl(2f);
             GetComponent<Collider2D>().enabled = false;
             foreach (LockBossRoom l in lockDoor)
             {
@@ -32,14 +33,4 @@ public class TriggerAwakeBoss : MonoBehaviour
         }
     }
 
-    IEnumerator PlayerWaitForBossAwake(){
-        PlayerController.Instance.isCutScene = true;
-        PlayerController.Instance.RB.velocity = Vector2.zero;
-        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezePositionX;
-        PlayerController.Instance.animator.SetBool("isWalking", false);
-        yield return new WaitForSeconds(2f);
-        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.None;
-        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
-        PlayerController.Instance.isCutScene = false;
-    }
 }

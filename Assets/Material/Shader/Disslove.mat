@@ -55,10 +55,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _DissloveAmount: 0
-    - _DissloveScale: 30
+    - _DissloveScale: 60
     - _OutlikeThickness: 0.1
     - _SpriralStrenght: 5
     - _VerticalDisslove: 0
     m_Colors:
-    - _OutlikeColor: {r: 0, g: 0.007103112, b: 0.4528303, a: 1}
+    - _OutlikeColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

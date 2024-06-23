@@ -354,6 +354,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d74c0c81e14c6324ea3915fe700ec44a, type: 2}
   - {fileID: 11400000, guid: 16f6196637c2fe54e84822aa84479bf9, type: 2}
   - {fileID: 11400000, guid: 2fbfbd1c28cb53749b753fcbf2497b16, type: 2}
+  - {fileID: 11400000, guid: 2121b191790459c428688f296a66e2bd, type: 2}
+  - {fileID: 11400000, guid: 6e0a5ac21a92b1846818e569146b5bd5, type: 2}
+  - {fileID: 11400000, guid: c6c41b247eb26934f9d826fc9398ead3, type: 2}
+  - {fileID: 11400000, guid: 87d987456354bc046ae2ada2bf2c0f57, type: 2}
+  - {fileID: 11400000, guid: 819197fe560f43045ac3364db6a33c33, type: 2}
   unlockSkills: []
   equippedSkills:
   - {fileID: 0}
