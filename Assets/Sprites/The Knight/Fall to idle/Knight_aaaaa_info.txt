@@ -1,0 +1,10 @@
+version: 2
+type: animation
+name: Land
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 3
+0	Land_land0000_000.png
+1	Land_land0001_001.png
+2	Land_land0002_002.png

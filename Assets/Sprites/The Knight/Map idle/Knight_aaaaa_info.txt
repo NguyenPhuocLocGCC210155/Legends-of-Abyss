@@ -1,0 +1,14 @@
+version: 2
+type: animation
+name: Map Idle
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 7
+0	Map Idle_idle_map0003_000.png
+1	Map Idle_idle_map0004_001.png
+2	Map Idle_idle_map0005_002.png
+3	Map Idle_idle_map0006_003.png
+4	Map Idle_idle_map0007_004.png
+5	Map Idle_idle_map0008_005.png
+6	Map Idle_idle_map0002_006.png

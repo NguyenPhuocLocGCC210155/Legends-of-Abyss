@@ -53,6 +53,7 @@ public class ManaSFX : MonoBehaviour
                 StopCoroutine(movementCoroutine);
             }
             rb.velocity = Vector2.zero;
+            PlayerController.Instance.Mana += 0.01f;
         }
     }
 }

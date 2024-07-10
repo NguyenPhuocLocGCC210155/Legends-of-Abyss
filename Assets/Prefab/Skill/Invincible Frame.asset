@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Invincible Frame
   skillIcon: {fileID: 21300000, guid: a2563f2b8dbc4044b9a50537d3a29962, type: 3}
-  manaCosumed: 0
+  manaCosumed: 100
   damage: 2
   castingTime: 0
   effectSkill: {fileID: 3800526170181332180, guid: bd8635c62e74c4c4d92211a6d4da5cc6, type: 3}

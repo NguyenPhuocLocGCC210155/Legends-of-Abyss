@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Seeking Spellshots
   m_EditorClassIdentifier: 
   skillName: Seeking Spellshots
-  skillIcon: {fileID: 0}
-  manaCosumed: 0
-  damage: 10
+  skillIcon: {fileID: 21300000, guid: bbe833a9207e7fa41bbd3ce71ad09605, type: 3}
+  manaCosumed: 30
+  damage: 3
   castingTime: 1
   skillPrefabs: {fileID: 3431196785554700696, guid: 032553e316a901f4698838d6017896ee, type: 3}
   speed: 25

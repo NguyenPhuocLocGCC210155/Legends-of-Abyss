@@ -5,26 +5,27 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float hp;
-    [SerializeField] protected float recoilLenght ;
+    [SerializeField] protected float recoilLenght;
     [SerializeField] protected float recoilFactor;
     public float speed;
     [SerializeField] protected float damage;
     [SerializeField] protected GameObject bloodEffect;
     [SerializeField] protected float countManaSFX = 5;
-    [ColorUsage(true, true )]
+    [ColorUsage(true, true)]
     [SerializeField] protected Color flashColor = Color.white;
     [SerializeField] protected float flashTime = 0.25f;
     protected Material material;
     protected bool isRecoiling = false;
     protected float recoilTimer;
-    protected Rigidbody2D rb;   
+    protected Rigidbody2D rb;
     protected SpriteRenderer rd;
     protected Animator ani;
     protected Collider2D cd;
     protected ObjectPooling pool;
     public bool isDestroyed = false;
 
-    protected enum EnemyStates{
+    protected enum EnemyStates
+    {
         Awake,
         Idle,
         Flip,
@@ -36,10 +37,12 @@ public abstract class Enemy : MonoBehaviour
     }
     protected EnemyStates currentStates;
 
-    protected virtual EnemyStates CurrentStates {
-        get => currentStates; 
-        set {
-            if (currentStates != value) 
+    protected virtual EnemyStates CurrentStates
+    {
+        get => currentStates;
+        set
+        {
+            if (currentStates != value)
             {
                 currentStates = value;
                 ChangeCurrentAnimation();
@@ -58,7 +61,8 @@ public abstract class Enemy : MonoBehaviour
         material = rd.material;
     }
 
-    protected virtual IEnumerator DamageFlash(){
+    protected virtual IEnumerator DamageFlash()
+    {
         SetFlashColor();
         float currentFlashAmount = 0;
         float elapsedTime = 0;
@@ -71,18 +75,20 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void SetFlashAmount(float amount){
+    protected virtual void SetFlashAmount(float amount)
+    {
         material.SetFloat("_FlashAmount", amount);
     }
 
-    protected virtual void SetFlashColor(){
+    protected virtual void SetFlashColor()
+    {
         material.SetColor("_FlashColor", flashColor);
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (isDestroyed) {return;}
+        if (isDestroyed) { return; }
 
         if (!PlayerController.Instance.isAlive)
         {
@@ -93,20 +99,24 @@ public abstract class Enemy : MonoBehaviour
             if (recoilTimer < recoilLenght)
             {
                 recoilTimer += Time.deltaTime;
-            }else
+            }
+            else
             {
                 isRecoiling = false;
                 recoilTimer = 0;
             }
-        }else{
+        }
+        else
+        {
             UpdateState();
         }
     }
 
-    protected virtual void ChangeCurrentAnimation(){}
+    protected virtual void ChangeCurrentAnimation() { }
 
-    public virtual void EnemyHit(float _dameDone, Vector2 _hitDirection, float _hitForce){
-        hp -= _dameDone;    
+    public virtual void EnemyHit(float _dameDone, Vector2 _hitDirection, float _hitForce)
+    {
+        hp -= _dameDone;
         _hitDirection = (transform.position - PlayerController.Instance.transform.position).normalized;
         if (!isRecoiling)
         {
@@ -114,13 +124,20 @@ public abstract class Enemy : MonoBehaviour
             {
                 GameObject obj = pool.GetPooledObject();
             }
-            rb.velocity = Vector2.zero;
-            rb.velocity = _hitForce * recoilFactor * _hitDirection;
+            if (rb.velocity.x > 0 && recoilFactor > 0)
+            {
+                // rb.velocity = _hitForce * recoilFactor * _hitDirection * speed;
+                rb.AddForce( _hitForce * recoilFactor * _hitDirection * speed);
+            }else{
+                // rb.velocity = _hitForce * recoilFactor * _hitDirection;
+                rb.AddForce( _hitForce * (recoilFactor / 10) * _hitDirection);
+            }
             StartCoroutine(DamageFlash());
         }
     }
 
-    protected virtual void Death(float _destroyTime){
+    protected virtual void Death(float _destroyTime)
+    {
         isDestroyed = true;
         gameObject.layer = 8;
         GameObject effect = Instantiate(bloodEffect);
@@ -129,7 +146,8 @@ public abstract class Enemy : MonoBehaviour
         Destroy(gameObject, _destroyTime);
     }
 
-    protected void OnCollisionStay2D(Collision2D other) {
+    protected void OnCollisionStay2D(Collision2D other)
+    {
         if (other.gameObject.CompareTag("Player") && !PlayerController.Instance.isInvincible && hp > 0)
         {
             Attack();
@@ -140,15 +158,17 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void Attack(){
+    protected virtual void Attack()
+    {
         PlayerController.Instance.TakeDamage(damage);
     }
 
-    protected virtual void UpdateState(){}
+    protected virtual void UpdateState() { }
 
-    protected void ChangeState(EnemyStates _newState){
+    protected void ChangeState(EnemyStates _newState)
+    {
         CurrentStates = _newState;
     }
 
-    public virtual void BeginAwaken(){}
+    public virtual void BeginAwaken() { }
 }

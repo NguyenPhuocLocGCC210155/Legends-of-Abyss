@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class SkillDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Canvas canvas; // Tham chiếu đến canvas
-    private RectTransform rectTransform;
+    public Sprite noneImage;
+    public Sprite defaultImage;
+    [HideInInspector] public bool isActive;
     private CanvasGroup canvasGroup;
     private Image skillImage;
     private GameObject draggingIcon;
@@ -17,9 +19,8 @@ public class SkillDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
     InventoryManager inventoryManager;
     private bool isDragging = false;
 
-    private void Awake()
+    private void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
         skillImage = GetComponent<Image>();
         inventoryManager = GetComponentInParent<InventoryManager>();
@@ -27,26 +28,29 @@ public class SkillDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        isDragging = true;
-        // Tạo hình ảnh đại diện cho skill đang kéo
-        draggingIcon = new GameObject("Dragging Icon");
-        draggingIcon.transform.SetParent(canvas.transform, false);
-        draggingIcon.transform.SetAsLastSibling();
+        if (isActive)
+        {
+            isDragging = true;
+            // Tạo hình ảnh đại diện cho skill đang kéo
+            draggingIcon = new GameObject("Dragging Icon");
+            draggingIcon.transform.SetParent(canvas.transform, false);
+            draggingIcon.transform.SetAsLastSibling();
 
-        draggingImage = draggingIcon.AddComponent<Image>();
-        draggingImage.raycastTarget = false;
-        draggingImage.sprite = skillImage.sprite;
-        draggingImage.SetNativeSize();
-        draggingImage.transform.localScale = new Vector3(0.25f, 0.25f, 1);
-        canvasGroupTemp = draggingIcon.AddComponent<CanvasGroup>();
+            draggingImage = draggingIcon.AddComponent<Image>();
+            draggingImage.raycastTarget = false;
+            draggingImage.sprite = skillImage.sprite;
+            draggingImage.SetNativeSize();
+            draggingImage.transform.localScale = new Vector3(0.25f, 0.25f, 1);
+            canvasGroupTemp = draggingIcon.AddComponent<CanvasGroup>();
 
-        draggingImage.sprite = skillImage.sprite;
-        canvasGroup.blocksRaycasts = false; // Cho phép xuyên qua khi kéo
-        canvasGroup.alpha = 0.6f;
-        canvasGroupTemp.blocksRaycasts = false;
-        canvasGroupTemp.alpha = 0.6f;
-        draggingPlane = canvas.transform as RectTransform;
-        SetDraggedPosition(eventData);
+            draggingImage.sprite = skillImage.sprite;
+            canvasGroup.blocksRaycasts = false; // Cho phép xuyên qua khi kéo
+            canvasGroup.alpha = 0.6f;
+            canvasGroupTemp.blocksRaycasts = false;
+            canvasGroupTemp.alpha = 0.6f;
+            draggingPlane = canvas.transform as RectTransform;
+            SetDraggedPosition(eventData);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -59,13 +63,16 @@ public class SkillDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        isDragging = false;
-        canvasGroup.blocksRaycasts = true; // Chặn xuyên qua khi thả
-        canvasGroup.alpha = 1f;
-        draggingImage.raycastTarget = true;
-        if (draggingIcon != null)
+        if (isActive)
         {
-            Destroy(draggingIcon); // Hủy hình ảnh đại diện khi thả
+            isDragging = false;
+            canvasGroup.blocksRaycasts = true; // Chặn xuyên qua khi thả
+            canvasGroup.alpha = 1f;
+            draggingImage.raycastTarget = true;
+            if (draggingIcon != null)
+            {
+                Destroy(draggingIcon); // Hủy hình ảnh đại diện khi thả
+            }
         }
     }
 
@@ -85,5 +92,10 @@ public class SkillDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             // Hủy động tác kéo nếu đối tượng cha bị vô hiệu hóa
             OnEndDrag(null);
         }
+    }
+
+    public void SetActive(bool value)
+    {
+        isActive = value;
     }
 }

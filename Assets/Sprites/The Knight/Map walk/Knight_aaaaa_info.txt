@@ -1,0 +1,15 @@
+version: 2
+type: animation
+name: Map Walk
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 8
+0	Map Walk_walk_map0002_000.png
+1	Map Walk_walk_map0003_001.png
+2	Map Walk_walk_map0004_002.png
+3	Map Walk_walk_map0005_003.png
+4	Map Walk_walk_map0006_004.png
+5	Map Walk_walk_map0007_005.png
+6	Map Walk_walk_map0008_006.png
+7	Map Walk_walk_map0009_007.png

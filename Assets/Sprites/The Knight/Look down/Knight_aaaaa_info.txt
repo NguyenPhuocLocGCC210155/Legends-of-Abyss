@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: LookDown
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	LookDown_look_down0000_000.png
+1	LookDown_look_down0001_001.png
+2	LookDown_look_down0002_002.png
+3	LookDown_look_down0003_003.png
+4	LookDown_look_down0004_004.png
+5	LookDown_look_down0005_005.png

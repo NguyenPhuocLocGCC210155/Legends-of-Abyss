@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: SlashEffectAlt M
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	SlashEffectAlt M_slashes_effect0004_000.png
+1	SlashEffectAlt M_slashes_effect0007_001.png
+2	SlashEffectAlt M_mantis_slash_left0005_002.png
+3	SlashEffectAlt M_mantis_slash_left0005_003.png
+4	SlashEffectAlt M_mantis_slash_left0006_004.png
+5	SlashEffectAlt M_mantis_slash_left0006_005.png

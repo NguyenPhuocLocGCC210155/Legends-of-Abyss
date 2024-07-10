@@ -1,0 +1,14 @@
+version: 2
+type: animation
+name: Scream 2
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 7
+0	Scream 2_scream_cast_lvl_020001_000.png
+1	Scream 2_scream_cast_lvl_020002_001.png
+2	Scream 2_scream_cast_lvl_020003_002.png
+3	Scream 2_scream_cast_lvl_020004_003.png
+4	Scream 2_scream_cast_lvl_020005_004.png
+5	Scream 2_scream_cast_lvl_020006_005.png
+6	Scream 2_scream_cast_lvl_020007_006.png

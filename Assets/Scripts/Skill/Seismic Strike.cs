@@ -28,6 +28,7 @@ public class SeismicStrike : Skills
         while (PlayerController.Instance.LastOnGroundTime < 0)
         {
             PlayerController.Instance.RB.velocity = speed * Vector2.down;
+            PlayerController.Instance.ImmuneDamage(true);
             yield return null;
         }
 
@@ -40,7 +41,6 @@ public class SeismicStrike : Skills
     IEnumerator WaitToEnd()
     {
         yield return new WaitForSeconds(castingTime);
-        PlayerController.Instance.ImmuneDamage(true);
         PlayerController.Instance.animator.SetBool("IsSkillGround", false);
         PlayerController.Instance.canControl = true;
         yield return new WaitForSeconds(castingTime);

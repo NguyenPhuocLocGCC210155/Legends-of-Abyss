@@ -1,0 +1,23 @@
+version: 2
+type: animation
+name: NA Big Slash Effect
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 16
+0	NA Big Slash Effect_charge_slash_effect0000_000.png
+1	NA Big Slash Effect_charge_slash_effect0000_001.png
+2	NA Big Slash Effect_charge_slash_effect0000_002.png
+3	NA Big Slash Effect_charge_slash_effect0000_003.png
+4	NA Big Slash Effect_charge_slash_effect0000_004.png
+5	NA Big Slash Effect_charge_slash_effect0000_005.png
+6	NA Big Slash Effect_charge_slash_effect0001_006.png
+7	NA Big Slash Effect_charge_slash_effect0001_007.png
+8	NA Big Slash Effect_charge_slash_effect0002_008.png
+9	NA Big Slash Effect_charge_slash_effect0002_009.png
+10	NA Big Slash Effect_charge_slash_effect0003_010.png
+11	NA Big Slash Effect_charge_slash_effect0003_011.png
+12	NA Big Slash Effect_charge_slash_effect0004_012.png
+13	NA Big Slash Effect_charge_slash_effect0004_013.png
+14	NA Big Slash Effect_charge_slash_effect0006_014.png
+15	NA Big Slash Effect_charge_slash_effect0007_015.png

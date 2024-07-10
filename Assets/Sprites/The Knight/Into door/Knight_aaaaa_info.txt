@@ -1,0 +1,17 @@
+version: 2
+type: animation
+name: Enter
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 10
+0	Enter_into_door0000_000.png
+1	Enter_into_door0001_001.png
+2	Enter_into_door0002_002.png
+3	Enter_into_door0003_003.png
+4	Enter_into_door0004_004.png
+5	Enter_into_door0005_005.png
+6	Enter_into_door0006_006.png
+7	Enter_into_door0007_007.png
+8	Enter_into_door0008_008.png
+9	Enter_into_door0009_009.png

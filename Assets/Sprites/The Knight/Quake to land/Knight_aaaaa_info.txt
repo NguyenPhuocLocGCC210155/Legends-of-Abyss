@@ -1,0 +1,21 @@
+version: 2
+type: animation
+name: Quake Land 2
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 14
+0	Quake Land 2_quake_cast_level_02_shadow0005_000.png
+1	Quake Land 2_quake_cast_level_02_shadow0006_001.png
+2	Quake Land 2_quake_cast_level_02_shadow0007_002.png
+3	Quake Land 2_quake_cast_level_02_shadow0008_003.png
+4	Quake Land 2_quake_cast_level_02_shadow0009_004.png
+5	Quake Land 2_quake_cast_level_02_shadow0010_005.png
+6	Quake Land 2_quake_cast_level_02_shadow0011_006.png
+7	Quake Land 2_quake_cast_level_02_shadow0012_007.png
+8	Quake Land 2_quake_cast_level_02_shadow0013_008.png
+9	Quake Land 2_quake_cast_level_02_shadow0014_009.png
+10	Quake Land 2_quake_cast_level_02_shadow0015_010.png
+11	Quake Land 2_quake_cast_level_02_shadow0016_011.png
+12	Quake Land 2_quake_cast_level_02_shadow0017_012.png
+13	Quake Land 2_quake_cast_level_02_shadow0018_013.png

@@ -1,0 +1,10 @@
+version: 2
+type: animation
+name: Quake Fall 2
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 3
+0	Quake Fall 2_quake_cast_level_02_shadow0001_000.png
+1	Quake Fall 2_quake_cast_level_02_shadow0002_001.png
+2	Quake Fall 2_quake_cast_level_02_shadow0003_002.png

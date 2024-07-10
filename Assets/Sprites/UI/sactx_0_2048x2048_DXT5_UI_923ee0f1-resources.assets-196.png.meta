@@ -273,7 +273,7 @@ TextureImporter:
         width: 138
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -281,6 +281,27 @@ TextureImporter:
       bones: []
       spriteID: 4e15cd077aac609489501a58831f4aec
       internalID: -916215045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sactx_0_2048x2048_DXT5_UI_923ee0f1-resources.assets-196_9
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 1651
+        width: 76
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e05968e9201d2ab4ca895501ab937a38
+      internalID: 2032172370
       vertices: []
       indices: 
       edges: []
@@ -305,6 +326,7 @@ TextureImporter:
       sactx_0_2048x2048_DXT5_UI_923ee0f1-resources.assets-196_6: 858850371
       sactx_0_2048x2048_DXT5_UI_923ee0f1-resources.assets-196_7: 1560299688
       sactx_0_2048x2048_DXT5_UI_923ee0f1-resources.assets-196_8: -916215045
+      sactx_0_2048x2048_DXT5_UI_923ee0f1-resources.assets-196_9: 2032172370
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

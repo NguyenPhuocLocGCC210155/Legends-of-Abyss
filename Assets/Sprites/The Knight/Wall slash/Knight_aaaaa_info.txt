@@ -1,0 +1,14 @@
+version: 2
+type: animation
+name: Wall Slash
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 7
+0	Wall Slash_wall_slash0001_000.png
+1	Wall Slash_wall_slash0002_001.png
+2	Wall Slash_wall_slash0003_002.png
+3	Wall Slash_wall_slash0004_003.png
+4	Wall Slash_wall_slash0004_004.png
+5	Wall Slash_wall_slash0005_005.png
+6	Wall Slash_wall_slash0005_006.png

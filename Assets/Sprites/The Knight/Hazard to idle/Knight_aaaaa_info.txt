@@ -1,0 +1,27 @@
+version: 2
+type: animation
+name: Hazard Respawn
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 20
+0	Hazard Respawn_wake_up_ground0009_000.png
+1	Hazard Respawn_wake_up_ground0009_001.png
+2	Hazard Respawn_wake_up_ground0009_002.png
+3	Hazard Respawn_wake_up_ground0009_003.png
+4	Hazard Respawn_wake_up_ground0009_004.png
+5	Hazard Respawn_wake_up_ground0009_005.png
+6	Hazard Respawn_wake_up_ground0009_006.png
+7	Hazard Respawn_wake_up_ground0009_007.png
+8	Hazard Respawn_wake_up_ground0009_008.png
+9	Hazard Respawn_wake_up_ground0009_009.png
+10	Hazard Respawn_wake_up_ground0009_010.png
+11	Hazard Respawn_wake_up_ground0009_011.png
+12	Hazard Respawn_wake_up_ground0013_012.png
+13	Hazard Respawn_wake_up_ground0014_013.png
+14	Hazard Respawn_wake_up_ground0015_014.png
+15	Hazard Respawn_wake_up_ground0016_015.png
+16	Hazard Respawn_wake_up_ground0017_016.png
+17	Hazard Respawn_wake_up_ground0018_017.png
+18	Hazard Respawn_wake_up_ground0019_018.png
+19	Hazard Respawn_idle_still_020000_019.png

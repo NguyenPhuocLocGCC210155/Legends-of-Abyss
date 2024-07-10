@@ -30,6 +30,7 @@ public class SeekingSpellshots : Skills
             if (target != null)
             {
                 GameObject missile = Instantiate(skillPrefabs, PlayerController.Instance.transform.position, Quaternion.identity);
+                missile.GetComponent<HomingMissile>().damage = this.damage;
                 HomingMissile homingMissile = missile.GetComponent<HomingMissile>();
                 if (homingMissile != null)
                 {

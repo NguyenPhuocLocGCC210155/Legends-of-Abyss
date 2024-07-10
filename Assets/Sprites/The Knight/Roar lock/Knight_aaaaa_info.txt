@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: Roar Lock
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	Roar Lock_roar_lock0003_000.png
+1	Roar Lock_roar_lock0004_001.png
+2	Roar Lock_roar_lock0005_002.png
+3	Roar Lock_roar_lock0006_003.png
+4	Roar Lock_roar_lock0007_004.png
+5	Roar Lock_roar_lock0008_005.png

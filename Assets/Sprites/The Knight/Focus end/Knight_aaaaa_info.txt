@@ -1,0 +1,10 @@
+version: 2
+type: animation
+name: Focus End
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 3
+0	Focus End_focus_v020002_000.png
+1	Focus End_focus_v020001_001.png
+2	Focus End_focus_v020000_002.png

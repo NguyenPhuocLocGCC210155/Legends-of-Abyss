@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: UpSlashEffect M
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	UpSlashEffect M_up_slash_effect0000_0_000.png
+1	UpSlashEffect M_up_slash_effect0002_001.png
+2	UpSlashEffect M_mantis_up_slash0000_002.png
+3	UpSlashEffect M_mantis_up_slash0000_003.png
+4	UpSlashEffect M_mantis_up_slash0001_004.png
+5	UpSlashEffect M_mantis_up_slash0001_005.png

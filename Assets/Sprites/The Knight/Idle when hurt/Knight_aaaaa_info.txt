@@ -1,0 +1,19 @@
+version: 2
+type: animation
+name: Idle Hurt
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 12
+0	Idle Hurt_collect_normal0001_000.png
+1	Idle Hurt_collect_normal0002_001.png
+2	Idle Hurt_idle_low_health000_002.png
+3	Idle Hurt_idle_low_health001_003.png
+4	Idle Hurt_idle_low_health002_004.png
+5	Idle Hurt_idle_low_health003_005.png
+6	Idle Hurt_idle_low_health004_006.png
+7	Idle Hurt_idle_low_health005_007.png
+8	Idle Hurt_idle_low_health006_008.png
+9	Idle Hurt_idle_low_health007_009.png
+10	Idle Hurt_idle_low_health008_010.png
+11	Idle Hurt_idle_low_health009_011.png

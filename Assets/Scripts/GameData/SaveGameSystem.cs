@@ -8,7 +8,12 @@ public class SaveGameSystem : MonoBehaviour
     private string saveFilePath;
 
     private void Start() {
-        saveFilePath = Path.Combine(Application.persistentDataPath, "savegame.json");
+        if (SaveFileManager.Instance != null)
+        {
+            saveFilePath = SaveFileManager.Instance.SaveFileName;
+        }else{
+            saveFilePath = Path.Combine(Application.persistentDataPath, "savegame.json");
+        }
         Debug.Log(saveFilePath);
         LoadProgress();
     }

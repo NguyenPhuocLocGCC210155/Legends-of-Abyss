@@ -7,35 +7,48 @@ using UnityEngine.SceneManagement;
 public class MenuFadeController : MonoBehaviour
 {
     private FadeUI fadeUI;
-    Vector2 pos;
     string scene;
-
+    [SerializeField] ConfirmPopup confirmPopup;
     [SerializeField] float fadeTime;
     private string saveFilePath;
     private void Start()
     {
         fadeUI = GetComponent<FadeUI>();
         fadeUI.FadeUiOut(fadeTime);
-        saveFilePath = Path.Combine(Application.persistentDataPath, "savegame.json");
-        Debug.Log(saveFilePath);
     }
 
-    public void CallFadeAndStartGame()
+    public void CallFadeAndStartGame(string filename)
     {
-        if (File.Exists(saveFilePath))
+        if (SaveFileManager.Instance != null)
         {
-            string json = File.ReadAllText(saveFilePath);
-            GameData data = JsonUtility.FromJson<GameData>(json);
-            pos = data.savePoint;
-            scene = data.saveScene;
+            saveFilePath = Path.Combine(Application.persistentDataPath, filename + ".json");
+            SaveFileManager.Instance.SaveFileName = saveFilePath;
+            if (File.Exists(saveFilePath))
+            {
+                string json = File.ReadAllText(saveFilePath);
+                GameData data = JsonUtility.FromJson<GameData>(json);
+                scene = data.saveScene;
+            }else{
+                scene = "forest_1";
+            }
+            Debug.Log(scene);
+            StartCoroutine(FadeAndStartGame(scene));
         }
-        StartCoroutine(FadeAndStartGame(scene, pos));
+        else
+        {
+            Debug.Log("Null save file manager");
+        }
     }
 
-    IEnumerator FadeAndStartGame(string sceneToLoad, Vector2 positionToLoad)
+    IEnumerator FadeAndStartGame(string sceneToLoad)
     {
         fadeUI.FadeUiIn(fadeTime);
         yield return new WaitForSeconds(fadeTime);
         SceneManager.LoadScene(sceneToLoad);
+    }
+
+    public void ConfirmClear(string filename){
+        confirmPopup.gameObject.SetActive(true);
+        confirmPopup.saveFileName = filename;
     }
 }

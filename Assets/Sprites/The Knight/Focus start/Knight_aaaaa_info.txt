@@ -1,0 +1,18 @@
+version: 2
+type: animation
+name: Focus Get
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 11
+0	Focus Get_focus_v020007_000.png
+1	Focus Get_focus_v020007_001.png
+2	Focus Get_focus_v020008_002.png
+3	Focus Get_focus_v020009_003.png
+4	Focus Get_focus_v020010_004.png
+5	Focus Get_focus_v020011_005.png
+6	Focus Get_focus_v020002_006.png
+7	Focus Get_focus_v020003_007.png
+8	Focus Get_focus_v020004_008.png
+9	Focus Get_focus_v020005_009.png
+10	Focus Get_focus_v020006_010.png

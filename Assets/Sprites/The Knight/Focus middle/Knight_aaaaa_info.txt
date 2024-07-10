@@ -1,0 +1,16 @@
+version: 2
+type: animation
+name: NA Charge
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 9
+0	NA Charge_first_charge_effect0000_000.png
+1	NA Charge_first_charge_effect0001_001.png
+2	NA Charge_first_charge_effect0002_002.png
+3	NA Charge_first_charge_effect0003_003.png
+4	NA Charge_first_charge_effect0004_004.png
+5	NA Charge_first_charge_effect0005_005.png
+6	NA Charge_first_charge_effect0006_006.png
+7	NA Charge_first_charge_effect0007_007.png
+8	NA Charge_first_charge_effect0008_008.png

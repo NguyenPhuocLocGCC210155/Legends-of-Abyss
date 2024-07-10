@@ -1,0 +1,10 @@
+version: 2
+type: animation
+name: Map Open
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 3
+0	Map Open_idle_map0000_000.png
+1	Map Open_idle_map0001_001.png
+2	Map Open_idle_map0002_002.png

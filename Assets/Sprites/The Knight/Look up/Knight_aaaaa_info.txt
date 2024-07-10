@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: LookUp
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	LookUp_look_up0000_000.png
+1	LookUp_look_up0001_001.png
+2	LookUp_look_up0002_002.png
+3	LookUp_look_up0003_003.png
+4	LookUp_look_up0004_004.png
+5	LookUp_look_up0005_005.png

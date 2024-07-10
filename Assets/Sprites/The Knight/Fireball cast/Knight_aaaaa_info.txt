@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: Fireball2 Cast
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	Fireball2 Cast_cast_level_020000_000.png
+1	Fireball2 Cast_cast_level_020001_001.png
+2	Fireball2 Cast_cast_level_020002_002.png
+3	Fireball2 Cast_cast_level_020003_003.png
+4	Fireball2 Cast_cast_level_020004_004.png
+5	Fireball2 Cast_cast_level_020008_005.png

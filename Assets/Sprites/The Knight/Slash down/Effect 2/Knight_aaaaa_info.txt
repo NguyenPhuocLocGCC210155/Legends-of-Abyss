@@ -1,0 +1,14 @@
+version: 2
+type: animation
+name: DownSlashEffect F
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 7
+0	DownSlashEffect F_down_slash_effect0000_000.png
+1	DownSlashEffect F_down_slash_effect0003_001.png
+2	DownSlashEffect F_rage_slash_down0001_002.png
+3	DownSlashEffect F_rage_slash_down0001_003.png
+4	DownSlashEffect F_rage_slash_down0002_004.png
+5	DownSlashEffect F_rage_slash_down0002_005.png
+6	DownSlashEffect F_rage_slash_down0003_006.png

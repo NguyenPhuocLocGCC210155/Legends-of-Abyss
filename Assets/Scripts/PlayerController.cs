@@ -184,14 +184,18 @@ public class PlayerController : MonoBehaviour
 			{
 				if (!isCutScene && !isRecoilByAttack)
 				{
-					CheckInputAndParemeter();
-					ToggleMap();
-					ToggleInventory();
+
 					Healing();
-					JumpCheck();
-					DashCheck();
-					Attack();
-					WallSlide();
+					if (!isHealing)
+					{
+						CheckInputAndParemeter();
+						ToggleMap();
+						ToggleInventory();
+						JumpCheck();
+						DashCheck();
+						Attack();
+						WallSlide();
+					}
 				}
 				else
 				{
@@ -216,7 +220,7 @@ public class PlayerController : MonoBehaviour
 		{
 			return;
 		}
-		if (canControl)
+		if (canControl && !isHealing)
 		{
 			if (!isCutScene)
 			{
@@ -330,10 +334,10 @@ public class PlayerController : MonoBehaviour
 			{
 				// objectToHit[i].GetComponent<Enemy>().EnemyHit(dmg, ((transform.position - objectToHit[i].transform.position).normalized * -1), _recoilStregth);
 				objectToHit[i].GetComponent<Enemy>().EnemyHit(dmg, _recoilDir, _recoilStregth);
-				if (objectToHit[i].CompareTag("Enemy"))
-				{
-					Mana += manaGain;
-				}
+				// if (objectToHit[i].CompareTag("Enemy"))
+				// {
+				// 	Mana += manaGain;
+				// }
 			}
 		}
 	}
@@ -385,15 +389,15 @@ public class PlayerController : MonoBehaviour
 
 		if (isRecoilingY)
 		{
-			SetGravityScale(0);
+			// SetGravityScale(0);
 			if (_moveInput.y < 0)
 			{
-				RB.velocity = Vector2.zero;
+				// RB.velocity = Vector2.zero;
 				RB.velocity = new Vector2(RB.velocity.x, recoilYSpeed);
 			}
 			else
 			{
-				RB.velocity = Vector2.zero;
+				// RB.velocity = Vector2.zero;
 				RB.velocity = new Vector2(RB.velocity.x, -recoilYSpeed);
 			}
 			airJumpCounter = 0;
@@ -448,7 +452,7 @@ public class PlayerController : MonoBehaviour
 	#region HEALTH METHODS
 	void Healing()
 	{
-		if (Input.GetKey(KeyCode.E) && Health < maxHp && Mana > 0 && LastOnGroundTime > 0 && !IsDashing)
+		if (Input.GetKey(KeyCode.S) && Health < maxHp && Mana > 0 && LastOnGroundTime > 0 && !IsDashing)
 		{
 			animator.SetBool("isHealing", true);
 			isHealing = true;
@@ -557,7 +561,7 @@ public class PlayerController : MonoBehaviour
 	#endregion
 
 	#region MANA
-	float Mana
+	public float Mana
 	{
 		get { return mana; }
 		set
@@ -683,6 +687,7 @@ public class PlayerController : MonoBehaviour
 		RB.velocity = new Vector2(wallJumpDirection * Data.wallJumpForce.x, Data.wallJumpForce.y);
 		LastOnWallTime = 0;
 		Invoke(nameof(StopWallJumping), wallJumpDuration);
+		Turn();
 	}
 
 	private void StopWallJumping()
@@ -997,15 +1002,24 @@ public class PlayerController : MonoBehaviour
 		}
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
-			skillManager.ActivateSkill(0, gameObject);
+			if (skillManager.equippedSkills[0] != null)
+			{
+				skillManager.ActivateSkill(0, gameObject);
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.W))
 		{
-			skillManager.ActivateSkill(1, gameObject);
+			if (skillManager.equippedSkills[1] != null)
+			{
+				skillManager.ActivateSkill(1, gameObject);
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.E))
 		{
-			skillManager.ActivateSkill(2, gameObject);
+			if (skillManager.equippedSkills[2] != null)
+			{
+				skillManager.ActivateSkill(2, gameObject);
+			}
 		}
 		isOpenMap = Input.GetKey(KeyCode.M);
 		isOpenInventory = Input.GetKey(KeyCode.Tab);
@@ -1045,11 +1059,14 @@ public class PlayerController : MonoBehaviour
 		StartCoroutine(StartImmuneDamage(time));
 	}
 
-	public void ImmuneDamage(bool isActive){
+	public void ImmuneDamage(bool isActive)
+	{
 		if (isActive)
 		{
 			gameObject.layer = 8;
-		}else{
+		}
+		else
+		{
 			gameObject.layer = 10;
 		}
 	}

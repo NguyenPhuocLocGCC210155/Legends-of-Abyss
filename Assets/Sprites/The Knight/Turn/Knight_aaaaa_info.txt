@@ -1,0 +1,9 @@
+version: 2
+type: animation
+name: Turn
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 2
+0	Turn_turn001_000.png
+1	Turn_turn000_001.png

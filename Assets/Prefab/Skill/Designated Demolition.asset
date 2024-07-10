@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Designated Demolition
   skillIcon: {fileID: 21300000, guid: 37de44bcb59b8174497def1957cc490b, type: 3}
-  manaCosumed: 0
-  damage: 3
+  manaCosumed: 80
+  damage: 4
   castingTime: 1
   sizeAttack: 8
   skillEffect: {fileID: 843681192688339448, guid: 47b1dc8fe7481d848bcde5847cbcc528, type: 3}
@@ -23,6 +23,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 64
-  hitForce: 0
+  hitForce: 10
   distanceSpamLighting: 5
   exploseScale: {x: 2, y: 2}

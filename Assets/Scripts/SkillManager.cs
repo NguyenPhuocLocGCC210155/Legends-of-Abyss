@@ -20,13 +20,16 @@ public class SkillManager : MonoBehaviour
 
     public void ActivateSkill(int slot, GameObject user)
     {
-        if (slot >= 0 && slot < equippedSkills.Length && equippedSkills[slot] != null)
+        if (PlayerController.Instance.Mana >= (equippedSkills[slot].manaCosumed/100))
         {
-            if (PlayerController.Instance.chamberCount >= slot + 1)
+            if (slot >= 0 && slot < equippedSkills.Length && equippedSkills[slot] != null)
             {
-                equippedSkills[slot].Activate();
+                if (PlayerController.Instance.chamberCount >= slot + 1)
+                {
+                    equippedSkills[slot].Activate();
+                    PlayerController.Instance.Mana -= equippedSkills[slot].manaCosumed/100;
+                }
             }
-
         }
     }
 
@@ -72,7 +75,7 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    private Skills GetSkillByName(string name)
+    public Skills GetSkillByName(string name)
     {
         foreach (Skills s in listSkill)
         {
@@ -82,5 +85,23 @@ public class SkillManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public bool GetUnlockSkillByName(string name)
+    {
+        Skills skills = GetSkillByName(name);
+        if (unlockSkills.Contains(skills))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void AddUnlockSkill(string name)
+    {
+        if (GetSkillByName(name) != null)
+        {
+            unlockSkills.Add(GetSkillByName(name));
+        }
     }
 }

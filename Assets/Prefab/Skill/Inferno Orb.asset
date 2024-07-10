@@ -15,6 +15,6 @@ MonoBehaviour:
   skillName: Inferno Orb
   skillIcon: {fileID: 21300000, guid: 300abdf8cbdd5c742a05b6506767fd64, type: 3}
   manaCosumed: 20
-  damage: 3
+  damage: 4
   castingTime: 1
   maigc: {fileID: 5844159095988893874, guid: efd54c181c3321e4db036227289876c8, type: 3}

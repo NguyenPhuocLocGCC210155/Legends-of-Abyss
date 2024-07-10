@@ -1,0 +1,12 @@
+version: 2
+type: animation
+name: Idle Wind
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 5
+0	Idle Wind_hungry knight_side0000_000.png
+1	Idle Wind_hungry knight_side0001_001.png
+2	Idle Wind_hungry knight_side0002_002.png
+3	Idle Wind_hungry knight_side0003_003.png
+4	Idle Wind_hungry knight_side0004_004.png

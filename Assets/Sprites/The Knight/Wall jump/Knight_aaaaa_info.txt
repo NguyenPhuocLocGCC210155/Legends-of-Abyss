@@ -1,0 +1,16 @@
+version: 2
+type: animation
+name: Walljump
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 9
+0	Walljump_wall_jump0000_000.png
+1	Walljump_wall_jump0001_001.png
+2	Walljump_wall_jump0002_002.png
+3	Walljump_jump_04_003.png
+4	Walljump_jump_04_004.png
+5	Walljump_jump_05_005.png
+6	Walljump_jump_05_006.png
+7	Walljump_jump_06_007.png
+8	Walljump_jump_06_008.png

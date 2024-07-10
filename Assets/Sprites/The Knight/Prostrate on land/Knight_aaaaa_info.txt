@@ -1,0 +1,28 @@
+version: 2
+type: animation
+name: Prostrate Rise
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 21
+0	Prostrate Rise_wake_up_ground0003_000.png
+1	Prostrate Rise_wake_up_ground0004_001.png
+2	Prostrate Rise_wake_up_ground0005_002.png
+3	Prostrate Rise_wake_up_ground0006_003.png
+4	Prostrate Rise_wake_up_ground0007_004.png
+5	Prostrate Rise_wake_up_ground0008_005.png
+6	Prostrate Rise_wake_up_ground0009_006.png
+7	Prostrate Rise_wake_up_ground0010_007.png
+8	Prostrate Rise_wake_up_ground0011_008.png
+9	Prostrate Rise_wake_up_ground0011_009.png
+10	Prostrate Rise_wake_up_ground0011_010.png
+11	Prostrate Rise_wake_up_ground0011_011.png
+12	Prostrate Rise_wake_up_ground0012_012.png
+13	Prostrate Rise_wake_up_ground0013_013.png
+14	Prostrate Rise_wake_up_ground0014_014.png
+15	Prostrate Rise_wake_up_ground0015_015.png
+16	Prostrate Rise_wake_up_ground0016_016.png
+17	Prostrate Rise_wake_up_ground0017_017.png
+18	Prostrate Rise_wake_up_ground0018_018.png
+19	Prostrate Rise_wake_up_ground0019_019.png
+20	Prostrate Rise_wake_up_ground0020_020.png

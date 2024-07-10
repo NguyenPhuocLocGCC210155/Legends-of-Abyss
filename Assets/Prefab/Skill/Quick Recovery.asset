@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Quick Recovery
   skillIcon: {fileID: 21300000, guid: bb67b03c2969d104caba950c446f8c8d, type: 3}
-  manaCosumed: 0
+  manaCosumed: 100
   damage: 2
   castingTime: 0
   effectSkill: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd, type: 3}

@@ -1,0 +1,15 @@
+version: 2
+type: animation
+name: Spike Death
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 8
+0	Spike Death_spike_death000_000.png
+1	Spike Death_spike_death001_001.png
+2	Spike Death_spike_death002_002.png
+3	Spike Death_spike_death003_003.png
+4	Spike Death_spike_death004_004.png
+5	Spike Death_spike_death005_005.png
+6	Spike Death_spike_death006_006.png
+7	Spike Death_spike_death007_007.png

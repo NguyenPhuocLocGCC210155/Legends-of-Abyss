@@ -13,6 +13,7 @@ public class SimpleEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+        CurrentStates = EnemyStates.Idle;
     }
 
 

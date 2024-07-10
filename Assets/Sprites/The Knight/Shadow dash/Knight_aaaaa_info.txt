@@ -1,0 +1,28 @@
+version: 2
+type: animation
+name: Shadow Recharge
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 21
+0	Shadow Recharge_shadow_recharge0000_000.png
+1	Shadow Recharge_shadow_recharge0001_001.png
+2	Shadow Recharge_shadow_recharge0002_002.png
+3	Shadow Recharge_shadow_recharge0003_003.png
+4	Shadow Recharge_shadow_recharge0004_004.png
+5	Shadow Recharge_shadow_recharge0005_005.png
+6	Shadow Recharge_shadow_recharge0006_006.png
+7	Shadow Recharge_shadow_recharge0007_007.png
+8	Shadow Recharge_shadow_recharge0008_008.png
+9	Shadow Recharge_shadow_recharge0009_009.png
+10	Shadow Recharge_shadow_recharge0010_010.png
+11	Shadow Recharge_shadow_recharge0011_011.png
+12	Shadow Recharge_shadow_recharge0012_012.png
+13	Shadow Recharge_shadow_recharge0013_013.png
+14	Shadow Recharge_shadow_recharge0014_014.png
+15	Shadow Recharge_shadow_recharge0015_015.png
+16	Shadow Recharge_shadow_recharge0016_016.png
+17	Shadow Recharge_shadow_recharge0017_017.png
+18	Shadow Recharge_shadow_recharge0018_018.png
+19	Shadow Recharge_shadow_recharge0019_019.png
+20	Shadow Recharge_shadow_recharge0020_020.png

@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: Double Jump Wings 2
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	Double Jump Wings 2_double_jump_wings0000_000.png
+1	Double Jump Wings 2_double_jump_wings0001_001.png
+2	Double Jump Wings 2_double_jump_wings0002_002.png
+3	Double Jump Wings 2_double_jump_wings0003_003.png
+4	Double Jump Wings 2_double_jump_wings0004_004.png
+5	Double Jump Wings 2_double_jump_wings0005_005.png

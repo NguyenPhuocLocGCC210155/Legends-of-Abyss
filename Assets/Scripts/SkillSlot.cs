@@ -29,7 +29,7 @@ public class SkillSlot : MonoBehaviour, IDropHandler
         {
             //Lấy kỹ năng được kéo thả
             SkillDragHandler skill = eventData.pointerDrag.GetComponent<SkillDragHandler>();
-            if (skill != null)
+            if (skill != null && skill.isActive)
             {
                 // Thay đổi hình ảnh của slot thành hình ảnh của kỹ năng
                 slotImage.sprite = skill.GetComponent<Image>().sprite;

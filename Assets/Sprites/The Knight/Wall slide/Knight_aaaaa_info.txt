@@ -1,0 +1,13 @@
+version: 2
+type: animation
+name: Walljump Puff
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 6
+0	Walljump Puff_wall_puff0000_000.png
+1	Walljump Puff_wall_puff0001_001.png
+2	Walljump Puff_wall_puff0002_002.png
+3	Walljump Puff_wall_puff0003_003.png
+4	Walljump Puff_wall_puff0004_004.png
+5	Walljump Puff_wall_puff0005_005.png

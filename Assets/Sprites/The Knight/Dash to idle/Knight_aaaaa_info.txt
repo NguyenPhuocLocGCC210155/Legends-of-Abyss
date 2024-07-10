@@ -1,0 +1,11 @@
+version: 2
+type: animation
+name: Dash To Idle
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 4
+0	Dash To Idle_dash_v020008_000.png
+1	Dash To Idle_dash_v020009_001.png
+2	Dash To Idle_dash_v020010_002.png
+3	Dash To Idle_dash_v020011_003.png

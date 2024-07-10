@@ -1,0 +1,15 @@
+version: 2
+type: animation
+name: Exit
+consistent_sprite_size: true
+enable_borders: false
+use_sprite_name: true
+sprites: 8
+0	Exit_tram_leave0000_000.png
+1	Exit_tram_leave0001_001.png
+2	Exit_tram_leave0002_002.png
+3	Exit_tram_leave0003_003.png
+4	Exit_tram_leave0004_004.png
+5	Exit_tram_leave0005_005.png
+6	Exit_tram_leave0006_006.png
+7	Exit_tram_leave0007_007.png
