@@ -12,13 +12,13 @@ public class PlayerController : MonoBehaviour
 	//just paste in all the parameters, though you will need to manuly change all references in this script
 	public PlayerData Data;
 	public static PlayerController Instance;
-	public GameObject skills;
 	#region COMPONENTS
 	public Rigidbody2D RB { get; private set; }
 	[HideInInspector]
 	public SkillManager skillManager;
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	[HideInInspector] public Animator animator;
+	[HideInInspector] public PlayerAnimationController playerAnimation;
 	#endregion
 
 	#region STATE PARAMETERS
@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
 	private Vector2 _lastDashDir;
 	private bool _isDashAttacking;
 	[SerializeField] GameObject dashEffect;
+	[SerializeField] GameObject doubleJumpEffect;
 	#endregion
 
 	#region INPUT PARAMETERS
@@ -93,12 +94,15 @@ public class PlayerController : MonoBehaviour
 	[Header("Attack settings")]
 	[SerializeField] float dmg = 1;
 	[SerializeField] GameObject slashEffect;
-	[SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform;
+	[SerializeField] GameObject slashSecondEffect;
+	[SerializeField] GameObject slashUpEffect;
+	[SerializeField] GameObject slashDownEffect;
+	[SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform, backAttackTransform;
 	public Transform SideAttackTransform { get => sideAttackTransform; private set => sideAttackTransform = value; }
-
 	[SerializeField] Vector2 sideAttackArea, upAttackArea, downAttackArea;
 	[Range(0, 1)]
 	[SerializeField] float timeSinceAttack;
+	bool isAttackCombo;
 	bool canAttack = false;
 	[SerializeField] float timeBetweenAttack;
 	bool isRestoreTime;
@@ -153,6 +157,7 @@ public class PlayerController : MonoBehaviour
 		animator = GetComponent<Animator>();
 		sprite = GetComponent<SpriteRenderer>();
 		skillManager = GetComponent<SkillManager>();
+		playerAnimation = GetComponent<PlayerAnimationController>();
 		if (Instance != null && Instance != this)
 		{
 			Destroy(gameObject);
@@ -301,22 +306,52 @@ public class PlayerController : MonoBehaviour
 		if (canAttack && timeSinceAttack >= timeBetweenAttack)
 		{
 			timeSinceAttack = 0;
-			animator.SetTrigger("Attacking");
-			if (_moveInput.y < 0 && LastOnGroundTime < -0.1f)
+			// animator.SetTrigger("Attacking");
+			if (_moveInput.x != 0 && LastOnWallTime > 0)
 			{
+				playerAnimation.WallSlash();
+				int recoilLeftOrRight = IsFacingRight ? 1 : -1;
+				hitBox(backAttackTransform, sideAttackArea, ref isRecoilingX, Vector2.right * recoilLeftOrRight, recoilXSpeed);
+				SlashEffectAttacking(slashEffect, 180,backAttackTransform);
+			}
+			else if (_moveInput.y < 0 && LastOnGroundTime < -0.1f)
+			{
+				playerAnimation.SlashDown();
 				hitBox(downAttackTransform, downAttackArea, ref isRecoilingY, Vector2.down, recoilYSpeed);
-				SlashEffectAttacking(slashEffect, -90, downAttackTransform);
+				// SlashEffectAttacking(slashEffect, -90, downAttackTransform);
+				Instantiate(slashDownEffect, downAttackTransform);
 			}
 			else if (_moveInput.y > 0)
 			{
+				playerAnimation.SlashUp();
 				hitBox(upAttackTransform, upAttackArea, ref isRecoilingY, Vector2.up, recoilYSpeed);
-				SlashEffectAttacking(slashEffect, 90, upAttackTransform);
+				// SlashEffectAttacking(slashEffect, 90, upAttackTransform);
+				Instantiate(slashUpEffect, upAttackTransform);
 			}
 			else if (_moveInput.y == 0 || _moveInput.y < 0 && isGround)
 			{
 				int recoilLeftOrRight = IsFacingRight ? 1 : -1;
 				hitBox(SideAttackTransform, sideAttackArea, ref isRecoilingX, Vector2.right * recoilLeftOrRight, recoilXSpeed);
-				Instantiate(slashEffect, SideAttackTransform);
+				if (RB.velocity.y == 0)
+				{
+					if (isAttackCombo)
+					{
+						playerAnimation.SlashSecond();
+						isAttackCombo = false;
+						Instantiate(slashSecondEffect, SideAttackTransform);
+					}
+					else
+					{
+						playerAnimation.Slash();
+						isAttackCombo = true;
+						Instantiate(slashEffect, SideAttackTransform);
+					}
+				}
+				else
+				{
+					playerAnimation.Slash();
+					Instantiate(slashEffect, SideAttackTransform);
+				}
 			}
 		}
 	}
@@ -454,7 +489,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKey(KeyCode.S) && Health < maxHp && Mana > 0 && LastOnGroundTime > 0 && !IsDashing)
 		{
-			animator.SetBool("isHealing", true);
+			// animator.SetBool("isHealing", true);
 			isHealing = true;
 			healTimer += Time.deltaTime;
 			if (healTimer >= timeToHeal)
@@ -467,7 +502,7 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			isHealing = false;
-			animator.SetBool("isHealing", false);
+			// animator.SetBool("isHealing", false);
 			healTimer = 0;
 		}
 	}
@@ -535,7 +570,7 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StopTakingDamaged()
 	{
 		isInvincible = true;
-		animator.SetTrigger("TakeDmg");
+		// animator.SetTrigger("TakeDmg");
 		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
 		Destroy(_bloodSpurtParticle, 1.5f);
 		yield return new WaitForSeconds(1f);
@@ -623,7 +658,7 @@ public class PlayerController : MonoBehaviour
 		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
 		if (canControl)
 		{
-			animator.SetBool("isWalking", _moveInput.x != 0 && LastOnGroundTime > -1);
+			playerAnimation.Run(_moveInput.x != 0 && LastOnGroundTime > -1);
 		}
 
 		/*
@@ -643,6 +678,7 @@ public class PlayerController : MonoBehaviour
 			transform.localScale = scale;
 
 			IsFacingRight = !IsFacingRight;
+			playerAnimation.Turn();
 		}
 	}
 	#endregion
@@ -663,11 +699,11 @@ public class PlayerController : MonoBehaviour
 			force -= RB.velocity.y;
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-		animator.SetBool("isJumping", true);
+		playerAnimation.Jump(true);
 		#endregion
 	}
 
-	private void AirJump()
+	private void DoubleJump()
 	{
 		//Ensures we can't call Jump multiple times from one press
 		LastPressedJumpTime = 0;
@@ -675,10 +711,14 @@ public class PlayerController : MonoBehaviour
 
 		RB.velocity = new Vector2(0, 0);
 		RB.velocity = new Vector3(RB.velocity.x, Data.jumpForce / 1.3f);
+		playerAnimation.DoubleJump();
+		Instantiate(doubleJumpEffect, transform);
 	}
 
 	private void WallJump()
 	{
+		playerAnimation.WallJump();
+		playerAnimation.WallSlide(false);
 		if (_isWallSliding)
 		{
 			_isWallJumping = false;
@@ -708,7 +748,8 @@ public class PlayerController : MonoBehaviour
 
 		float startTime = Time.time;
 
-		animator.SetTrigger("Dashing");
+		// animator.SetTrigger("Dashing");
+		playerAnimation.Dash();
 		_dashesLeft--;
 		_isDashAttacking = true;
 
@@ -830,7 +871,7 @@ public class PlayerController : MonoBehaviour
 				_isJumpFalling = false;
 				_isWallJumping = false;
 				airJumpCounter++;
-				AirJump();
+				DoubleJump();
 			}
 		}
 	}
@@ -862,6 +903,16 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
+		{
+			playerAnimation.FallToLand();
+			playerAnimation.WallSlide(false);
+			_isJumpCut = false;
+		}
+	}
+
 	private void ColliderCheck()
 	{
 		if (!IsDashing && !_isJumping)
@@ -871,12 +922,11 @@ public class PlayerController : MonoBehaviour
 			{
 				if (LastOnGroundTime < -0.1f)
 				{
-					// AnimHandler.justLanded = true
 					isGround = true;
 					airJumpCounter = 0;
-					animator.SetBool("isJumping", false);
+					playerAnimation.Jump(false);
+					playerAnimation.Fall(false);
 				}
-
 				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 			}
 			else
@@ -890,6 +940,7 @@ public class PlayerController : MonoBehaviour
 				wallJumpDirection = -transform.localScale.x;
 				LastOnWallTime = Data.coyoteTime;
 				airJumpCounter = 0;
+				playerAnimation.WallSlide(true);
 			}
 		}
 	}
@@ -922,6 +973,7 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			_isWallSliding = false;
+			playerAnimation.WallSlide(false);
 		}
 	}
 
@@ -940,12 +992,14 @@ public class PlayerController : MonoBehaviour
 				SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
+				playerAnimation.Fall(true);
 			}
 			else if (_isJumpCut)
 			{
 				//Higher gravity if jump button released
 				SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
+				playerAnimation.Fall(true);
 			}
 			else if ((_isJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
 			{
@@ -953,6 +1007,7 @@ public class PlayerController : MonoBehaviour
 			}
 			else if (RB.velocity.y < 0)
 			{
+				playerAnimation.Fall(true);
 				//Higher gravity if falling
 				SetGravityScale(Data.gravityScale * Data.fallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
@@ -1041,18 +1096,6 @@ public class PlayerController : MonoBehaviour
 	}
 
 	#endregion
-	// #region EDITOR METHODS
-	private void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.green;
-		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
-		Gizmos.color = Color.blue;
-		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireCube(SideAttackTransform.position, sideAttackArea);
-		Gizmos.DrawWireCube(upAttackTransform.position, upAttackArea);
-		Gizmos.DrawWireCube(downAttackTransform.position, downAttackArea);
-	}
 
 	public void ImmuneDamage(float time)
 	{
@@ -1099,13 +1142,13 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StartFreeze(float time)
 	{
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
-		animator.SetBool("isWalking", false);
+		// animator.SetBool("isWalking", false);
 		if (LastOnGroundTime > 0)
 		{
 			// AnimHandler.justLanded = true
 			isGround = true;
 			airJumpCounter = 0;
-			animator.SetBool("isJumping", false);
+			// animator.SetBool("isJumping", false);
 		}
 
 		LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
@@ -1115,7 +1158,7 @@ public class PlayerController : MonoBehaviour
 			// AnimHandler.justLanded = true
 			isGround = true;
 			airJumpCounter = 0;
-			animator.SetBool("isJumping", false);
+			// animator.SetBool("isJumping", false);
 		}
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -1145,8 +1188,8 @@ public class PlayerController : MonoBehaviour
 		if (exitDir.y > 0)
 		{
 			RB.velocity = new Vector2(Data.runMaxSpeed * 1.5f * exitDir.x, Data.jumpForce * 0.8f * exitDir.y);
-			SetGravityScale(1);
-			animator.SetBool("isJumping", true);
+			SetGravityScale(Data.gravityScale);
+			playerAnimation.Jump(true);
 		}
 
 		if (exitDir.x != 0)
@@ -1168,9 +1211,9 @@ public class PlayerController : MonoBehaviour
 		RB.velocity = Vector2.zero;
 		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
 		Destroy(_bloodSpurtParticle, 1.5f);
-		animator.SetTrigger("Death");
-		animator.SetBool("isJumping", false);
-		animator.SetBool("isWalking", false);
+		// animator.SetTrigger("Death");
+		// animator.SetBool("isJumping", false);
+		// animator.SetBool("isWalking", false);
 		yield return new WaitForSeconds(1f);
 		GameManager.Instance.RespawnPlayer();
 	}
@@ -1197,6 +1240,20 @@ public class PlayerController : MonoBehaviour
 		{
 			UIManager.Instance.OpenInventory(false);
 		}
+	}
+
+	// #region EDITOR METHODS
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.green;
+		Gizmos.DrawWireCube(_groundCheckPoint.position, _groundCheckSize);
+		Gizmos.color = Color.blue;
+		Gizmos.DrawWireCube(_frontWallCheckPoint.position, _wallCheckSize);
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireCube(SideAttackTransform.position, sideAttackArea);
+		Gizmos.DrawWireCube(upAttackTransform.position, upAttackArea);
+		Gizmos.DrawWireCube(downAttackTransform.position, downAttackArea);
+		Gizmos.DrawWireCube(backAttackTransform.position, sideAttackArea);
 	}
 }
 

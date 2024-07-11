@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crawler  (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1978116429418344101, guid: 1e9eb7c080cd3ba47a8dcfd4ea1eb412, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6356670502452265132, guid: 1e9eb7c080cd3ba47a8dcfd4ea1eb412, type: 3}
       propertyPath: speed
       value: 1
@@ -195,25 +199,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 431021385014753955, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2134325271192975156, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3485396836570217194, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: skills
+      propertyPath: doubleJumpEffect
       value: 
-      objectReference: {fileID: 5844159095988893874, guid: efd54c181c3321e4db036227289876c8, type: 3}
+      objectReference: {fileID: 3271103198613487806, guid: c8430ca2d121d8e4098d70ecbc1e6acd, type: 3}
     - target: {fileID: 3866527997865466106, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3866527997865466106, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5088756537393074058, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -254,22 +246,6 @@ PrefabInstance:
     - target: {fileID: 5088756537393074058, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5571131996437606945, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6224641634310447737, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7030489799988856549, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: availableSkills.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378984394492061875, guid: bb910985bc2d25a4fa15364409f6951f, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
