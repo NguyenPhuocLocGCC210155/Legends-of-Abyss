@@ -45,7 +45,7 @@ public class IncreaseMaxHP : MonoBehaviour
 
     IEnumerator ShowAbility()
     {
-        StartCoroutine(PlayerController.Instance.WaitForAwaken(2.5f));
+        PlayerController.Instance.Awaken(2.5f);
 
         yield return new WaitForSeconds(3f);
         canvasUI.SetActive(true);

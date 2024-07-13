@@ -87,9 +87,9 @@ public class GameManager : MonoBehaviour
 
     void LoadSceneEnterGame()
     {
+        SceneManager.LoadScene(saveScene);
         PlayerController.Instance.transform.position = savePoint;
         PlayerController.Instance.LastOnGroundTime = -1;
-        SceneManager.LoadScene(saveScene);
     }
 
     public void SaveProgress()

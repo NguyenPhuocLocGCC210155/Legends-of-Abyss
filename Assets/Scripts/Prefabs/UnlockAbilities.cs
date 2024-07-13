@@ -68,13 +68,15 @@ public class UnlockAbilities : MonoBehaviour
         }
     }
 
-    private void Update() {
+    private void Update()
+    {
         if (ui != null)
         {
             if (Input.GetKey(KeyCode.Z))
             {
                 Destroy(ui);
                 PlayerController.Instance.canControl = true;
+                PlayerController.Instance.playerAnimation.Kneel(true);
             }
         }
     }
@@ -115,9 +117,13 @@ public class UnlockAbilities : MonoBehaviour
         }
     }
 
-    IEnumerator ShowAbility(){
-        StartCoroutine(PlayerController.Instance.WaitForAwaken(2.5f));
+    IEnumerator ShowAbility()
+    {
+        PlayerController.Instance.playerAnimation.Scream();
+        PlayerController.Instance.isLie = true;
+        PlayerController.Instance.Awaken(2.5f);
         yield return new WaitForSeconds(3f);
+        PlayerController.Instance.FreezePlayer(0);
         ui = Instantiate(uiCanvas);
         PlayerController.Instance.canControl = false;
         GameManager.Instance.SaveProgress();

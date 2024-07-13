@@ -1013,6 +1013,9 @@ public class PlayerController : MonoBehaviour
 
 	public void CheckGravity()
 	{
+		if (RB.velocity.y < 0){
+			playerAnimation.Jump(true);
+		}
 		if (!_isDashAttacking)
 		{
 			//Higher gravity if we've released the jump input or are falling
@@ -1071,7 +1074,7 @@ public class PlayerController : MonoBehaviour
 		_moveInput.y = Input.GetAxisRaw("Vertical");
 		if (isLie && Input.GetAxisRaw("Horizontal") != 0)
 		{
-			LieToWakeUp();
+			WakeUp();
 		}
 		else
 		{
@@ -1092,7 +1095,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else if (Input.GetKeyUp(KeyCode.Space) && isLie)
 		{
-			LieToWakeUp();
+			WakeUp();
 		}
 
 		if (Input.GetKeyUp(KeyCode.Space) && !isLie)
@@ -1101,7 +1104,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else if (Input.GetKeyUp(KeyCode.Space) && isLie)
 		{
-			LieToWakeUp();
+			WakeUp();
 		}
 
 		if (Input.GetKeyDown(KeyCode.D) && !isLie)
@@ -1110,7 +1113,7 @@ public class PlayerController : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.D) && isLie)
 		{
-			LieToWakeUp();
+			WakeUp();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Q) && !isLie)
@@ -1253,7 +1256,11 @@ public class PlayerController : MonoBehaviour
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 
-	public IEnumerator WaitForAwaken(float time)
+	public void Awaken(float time){
+		StartCoroutine(WaitForAwaken(time));
+	}
+
+	IEnumerator WaitForAwaken(float time)
 	{
 		canControl = false;
 		RB.constraints = RigidbodyConstraints2D.FreezePosition;
@@ -1261,7 +1268,6 @@ public class PlayerController : MonoBehaviour
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-		canControl = true;
 	}
 
 	IEnumerator InvincibilityTimer(float time)
@@ -1311,7 +1317,7 @@ public class PlayerController : MonoBehaviour
 		Instantiate(deathEffect, transform.position, Quaternion.identity);
 	}
 
-	void LieToWakeUp()
+	void WakeUp()
 	{
 		StartCoroutine(StartWakeUp());
 	}
@@ -1320,6 +1326,7 @@ public class PlayerController : MonoBehaviour
 	{
 		canControl = false;
 		playerAnimation.WakeUp();
+		playerAnimation.Kneel(false);
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
 		isLie = false;
 		yield return new WaitForSeconds(1.6f);
