@@ -19,6 +19,7 @@ public class BlastwaveHop : Skills
 
     IEnumerator HandleActivate(Collider2D[] objectToHit)
     {
+        
         yield return new WaitForSeconds(castingTime / 2);
         GameObject obj = Instantiate(skillEffect, PlayerController.Instance.transform.position, Quaternion.identity);
         obj.transform.SetParent(PlayerController.Instance.transform, true);

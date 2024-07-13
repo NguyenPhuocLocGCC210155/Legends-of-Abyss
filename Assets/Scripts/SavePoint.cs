@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SavePoint : MonoBehaviour
 {
+    [SerializeField] Transform savePoint;
     [SerializeField] GameObject effect;
     private float cooldownTime;
     MapUI mapUI;
@@ -31,9 +32,9 @@ public class SavePoint : MonoBehaviour
         cooldownTime += Time.deltaTime;
     }
     private void OnTriggerStay2D(Collider2D other) {
-        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.UpArrow) && cooldownTime >= 5f){
+        if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.UpArrow) && cooldownTime >= 3f && PlayerController.Instance.canControl == true && PlayerController.Instance.isLie != true){
             GameManager.Instance.saveScene = SceneManager.GetActiveScene().name;
-            GameManager.Instance.savePoint = gameObject.transform.position;
+            GameManager.Instance.savePoint = savePoint.position;
             StartCoroutine(ActiveEffect());
             cooldownTime = 0;
             GameManager.Instance.SaveProgress();

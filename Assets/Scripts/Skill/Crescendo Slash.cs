@@ -16,7 +16,7 @@ public class CrescendoSlash : Skills
 
     IEnumerator HandleCrescendoSlash()
     {
-        PlayerController.Instance.animator.SetTrigger("Attacking");
+        PlayerController.Instance.playerAnimation.SlashSuper();
         PlayerController.Instance.LostControl(castingTime);
         PlayerController.Instance.FreezePlayer(castingTime);
         yield return new WaitForSeconds(0.1f);

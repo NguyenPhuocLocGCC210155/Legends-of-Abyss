@@ -8,22 +8,15 @@ public class SlashSkill : MonoBehaviour
     [HideInInspector] public float hitForce;
     [SerializeField] GameObject exploseEffect;
     [SerializeField] Vector2 attackSize;
-    [SerializeField] bool useDissolve = true;
-    [SerializeField] bool useVertical = false;
-    [SerializeField][ColorUsage(true, true)] Color color = Color.white;
     [SerializeField] Vector2 scaleEffect = new Vector2(1, 1);
     [SerializeField] LayerMask layerMask;
     Material material;
-    Disslove disslove;
     SpriteRenderer spriteRenderer;
 
-    // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        disslove = GetComponent<Disslove>();
         material = spriteRenderer.material;
-        material.SetColor("_OutlikeColor", color);
         hitBox(transform, attackSize, hitForce);
     }
 
@@ -47,14 +40,6 @@ public class SlashSkill : MonoBehaviour
             }
             isDetect = false;
         }
-    }
-
-    void DissloveAfterAnimation()
-    {
-        float timeAnimation = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-        disslove.Vanish(useDissolve, useVertical);
-        Destroy(gameObject, timeAnimation + 0.5f);
-
     }
 
     protected virtual void OnDrawGizmos()

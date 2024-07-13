@@ -21,7 +21,9 @@ public class CelestialBlast : Skills
         {
             obj.transform.position += new Vector3(0, distance, 0);
         }
+        PlayerController.Instance.playerAnimation.ShadowScream(true);
         yield return new WaitForSeconds(castingTime);
+        PlayerController.Instance.playerAnimation.ShadowScream(false);
         obj.SetActive(true);
     }
 }

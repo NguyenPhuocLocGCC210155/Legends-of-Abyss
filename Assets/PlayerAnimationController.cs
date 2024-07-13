@@ -10,84 +10,167 @@ public class PlayerAnimationController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void Jump(bool value){
+    public void Jump(bool value)
+    {
         animator.SetBool("IsJump", value);
     }
 
-    public void Fall(bool value){
+    public void Fall(bool value)
+    {
         animator.SetBool("IsFall", value);
     }
 
-    public void FallToLand(){
+    public void FallToLand()
+    {
         animator.SetBool("IsFall", false);
         animator.SetBool("IsJump", false);
     }
 
-    public void Turn(){
+    public void Turn()
+    {
         animator.SetTrigger("Turn");
     }
 
-    public void Run(bool value){
+    public void Run(bool value)
+    {
         animator.SetBool("IsWalk", value);
     }
 
-    public void Dash(){
+    public void Dash()
+    {
         animator.SetTrigger("Dash");
     }
 
-    public void DoubleJump(){
+    public void DoubleJump()
+    {
         animator.SetTrigger("DoubleJump");
     }
 
-    public void Slash(){
+    public void Slash()
+    {
         animator.SetTrigger("Slash");
     }
 
-    public void SlashUp(){
+    public void SlashUp()
+    {
         animator.SetTrigger("SlashUp");
     }
 
-    public void SlashDown(){
+    public void SlashDown()
+    {
         animator.SetTrigger("SlashDown");
     }
 
-    public void SlashSecond(){
+    public void SlashSecond()
+    {
         animator.SetTrigger("SlashSecond");
     }
 
-    public void Kneel(bool value) {
+    public void SlashSuper()
+    {
+        animator.SetTrigger("SlashSuper");
+    }
+
+    public void Kneel(bool value)
+    {
         animator.SetBool("IsKneel", value);
     }
 
-    public void Focus(){
-        animator.SetBool("IsFoucs", true);
+    public void Focus(bool value)
+    {
+        animator.SetBool("IsFocus", value);
     }
 
-    public void EndFocus(){
+    public void EndFocus()
+    {
         animator.SetTrigger("EndFocus");
     }
 
-    public void WallSlide(bool value){
-        animator.SetBool("IsWallSlide", value );
+    public void WallSlide(bool value)
+    {
+        animator.SetBool("IsWallSlide", value);
     }
 
-    public void WallJump(){
+    public void WallJump()
+    {
         animator.SetTrigger("WallJump");
     }
 
-    public void WallSlash(){
+    public void WallSlash()
+    {
         animator.SetTrigger("SlashWall");
     }
 
-    public void Stun(){
+    public void Stun()
+    {
         animator.SetTrigger("Stun");
     }
 
-    public void Death(){
+    public void Death()
+    {
         animator.SetTrigger("Death");
     }
 
-    public void DeathBySpike(){
+    public void DeathBySpike()
+    {
         animator.SetTrigger("DeathBySpike");
+    }
+
+    public void WakeUp()
+    {
+        animator.SetTrigger("WakeUp");
+    }
+
+    public void Respawn()
+    {
+        animator.SetTrigger("Respawn");
+    }
+
+    public void CastShootSkill()
+    {
+        animator.SetTrigger("CastShoot");
+    }
+
+    public void Fear(bool value)
+    {
+        if (value)
+        {
+            animator.SetBool("IsFear", value);
+            animator.SetTrigger("Fear");
+        }
+        else
+        {
+            animator.SetBool("IsFear", value);
+        }
+    }
+
+    public void Quake(bool value)
+    {
+        if (value)
+        {
+            animator.SetBool("IsQuake", value);
+            animator.SetTrigger("Quake");
+        }
+        else
+        {
+            animator.SetBool("IsQuake", value);
+        }
+    }
+
+    public void Scream()
+    {
+        animator.SetTrigger("Scream");
+        animator.SetBool("IsScreamShadow", false);
+    }
+
+    public void ShadowScream(bool value)
+    {
+        if (value)
+        {
+            animator.SetTrigger("Scream");
+            animator.SetBool("IsScreamShadow", value);
+        }else{
+            animator.SetBool("IsScreamShadow", value);
+        }
     }
 }

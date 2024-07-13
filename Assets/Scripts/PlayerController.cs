@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public PlayerAnimationController playerAnimation;
+	SpriteRenderer sprite;
 	#endregion
 
 	#region STATE PARAMETERS
@@ -55,8 +58,18 @@ public class PlayerController : MonoBehaviour
 	private bool _dashRefilling;
 	private Vector2 _lastDashDir;
 	private bool _isDashAttacking;
+	#endregion
+
+	#region Effect
+	[SerializeField] GameObject focusEffect;
+	[SerializeField] GameObject focusEndEffect;
+	[SerializeField] GameObject deathEffect;
 	[SerializeField] GameObject dashEffect;
 	[SerializeField] GameObject doubleJumpEffect;
+	[SerializeField] GameObject slashEffect;
+	[SerializeField] GameObject slashSecondEffect;
+	[SerializeField] GameObject slashUpEffect;
+	[SerializeField] GameObject slashDownEffect;
 	#endregion
 
 	#region INPUT PARAMETERS
@@ -93,10 +106,6 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Attack settings")]
 	[SerializeField] float dmg = 1;
-	[SerializeField] GameObject slashEffect;
-	[SerializeField] GameObject slashSecondEffect;
-	[SerializeField] GameObject slashUpEffect;
-	[SerializeField] GameObject slashDownEffect;
 	[SerializeField] Transform sideAttackTransform, upAttackTransform, downAttackTransform, backAttackTransform;
 	public Transform SideAttackTransform { get => sideAttackTransform; private set => sideAttackTransform = value; }
 	[SerializeField] Vector2 sideAttackArea, upAttackArea, downAttackArea;
@@ -130,14 +139,12 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] float timeToHeal;
 	[HideInInspector] public delegate void OnHealthChangeDelegate();
 	[HideInInspector] public OnHealthChangeDelegate OnhealthChangeCallBack;
-	SpriteRenderer sprite;
+	[HideInInspector] public bool isLie;
 	private int hp;
 	public int maxHp;
 	public int maxTotalHealth = 10;
 	public bool isInvincible;
 	bool isHealing;
-
-
 	bool isOpenMap;
 	bool isOpenInventory;
 	float healTimer;
@@ -312,7 +319,7 @@ public class PlayerController : MonoBehaviour
 				playerAnimation.WallSlash();
 				int recoilLeftOrRight = IsFacingRight ? 1 : -1;
 				hitBox(backAttackTransform, sideAttackArea, ref isRecoilingX, Vector2.right * recoilLeftOrRight, recoilXSpeed);
-				SlashEffectAttacking(slashEffect, 180,backAttackTransform);
+				SlashEffectAttacking(slashEffect, 180, backAttackTransform);
 			}
 			else if (_moveInput.y < 0 && LastOnGroundTime < -0.1f)
 			{
@@ -489,20 +496,29 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKey(KeyCode.S) && Health < maxHp && Mana > 0 && LastOnGroundTime > 0 && !IsDashing)
 		{
-			// animator.SetBool("isHealing", true);
+			if (!isHealing)
+			{
+				focusEffect.SetActive(true);
+			}
+			playerAnimation.Focus(true);
 			isHealing = true;
 			healTimer += Time.deltaTime;
 			if (healTimer >= timeToHeal)
 			{
 				Health++;
 				healTimer = 0;
+				playerAnimation.EndFocus();
+				isHealing = false;
+				focusEffect.SetActive(false);
+				Instantiate(focusEndEffect, transform);
 			}
 			Mana -= Time.deltaTime * manaDrainSpeed;
 		}
 		else
 		{
 			isHealing = false;
-			// animator.SetBool("isHealing", false);
+			focusEffect.SetActive(false);
+			playerAnimation.Focus(false);
 			healTimer = 0;
 		}
 	}
@@ -511,6 +527,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (isAlive)
 		{
+			healTimer = 0;
 			Health -= Mathf.RoundToInt(_dmg);
 			if (Health <= 0)
 			{
@@ -570,7 +587,7 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StopTakingDamaged()
 	{
 		isInvincible = true;
-		// animator.SetTrigger("TakeDmg");
+		playerAnimation.Stun();
 		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
 		Destroy(_bloodSpurtParticle, 1.5f);
 		yield return new WaitForSeconds(1f);
@@ -853,9 +870,8 @@ public class PlayerController : MonoBehaviour
 				_isJumpFalling = false;
 				_isWallJumping = false;
 				Jump();
-
-				// AnimHandler.startedJumping = true;
 			}
+			//Wall Jump
 			else if (Input.GetKeyDown(KeyCode.Space) && LastOnGroundTime < 0 && LastOnWallTime >= 0 && isUnlockWallJump)
 			{
 				WallJump();
@@ -864,7 +880,8 @@ public class PlayerController : MonoBehaviour
 				_isJumpCut = false;
 				_isJumpFalling = false;
 			}
-			else if (LastOnGroundTime < -0.1f && airJumpCounter < maxAirJump && Input.GetKeyDown(KeyCode.Space) && LastOnWallTime < 0 && isUnlockDoubleJump)
+			//Double Jump
+			else if (airJumpCounter < maxAirJump && Input.GetKeyDown(KeyCode.Space) && isUnlockDoubleJump)
 			{
 				_isJumping = true;
 				_isJumpCut = false;
@@ -882,7 +899,12 @@ public class PlayerController : MonoBehaviour
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
 			// Sleep(Data.dashSleepTime);
-
+			// if (isLie)
+			// {
+			// 	LieToWakeUp();
+			// 	LastPressedDashTime = 0;
+			// 	return;
+			// }
 			//If not direction pressed, dash forward
 			if (_moveInput.x != 0)
 				_lastDashDir.x = _moveInput.x;
@@ -908,8 +930,13 @@ public class PlayerController : MonoBehaviour
 		if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 		{
 			playerAnimation.FallToLand();
+			playerAnimation.Jump(false);
+			playerAnimation.Fall(false);
 			playerAnimation.WallSlide(false);
 			_isJumpCut = false;
+			_isJumping = false;
+			airJumpCounter=0;
+			LastOnGroundTime = Data.coyoteTime;
 		}
 	}
 
@@ -920,6 +947,7 @@ public class PlayerController : MonoBehaviour
 			//Ground Check
 			if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 			{
+				RB.velocity = new Vector2(RB.velocity.x, 0);
 				if (LastOnGroundTime < -0.1f)
 				{
 					isGround = true;
@@ -933,26 +961,32 @@ public class PlayerController : MonoBehaviour
 			{
 				isGround = false;
 			}
-			//Wall check
-
-			if (Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _wallLayer) && LastOnGroundTime < 0)
-			{
-				wallJumpDirection = -transform.localScale.x;
-				LastOnWallTime = Data.coyoteTime;
-				airJumpCounter = 0;
-				playerAnimation.WallSlide(true);
-			}
+		}
+		//Wall check
+		if (Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _wallLayer) && LastOnGroundTime < 0)
+		{
+			wallJumpDirection = -transform.localScale.x;
+			LastOnWallTime = Data.coyoteTime;
+			airJumpCounter = 0;
+			playerAnimation.WallSlide(true);
 		}
 	}
 
 	private bool CanDash()
 	{
+
 		if (!IsDashing && _dashesLeft < Data.dashAmount && LastOnGroundTime > 0 && !_dashRefilling)
 		{
 			StartCoroutine(nameof(RefillDash), 1);
 		}
 
+		if (!IsDashing && _dashesLeft < Data.dashAmount && LastOnWallTime > 0 && !_dashRefilling)
+		{
+			StartCoroutine(nameof(RefillDash), 1);
+		}
+
 		return _dashesLeft > 0;
+
 	}
 
 	// public bool CanSlide()
@@ -1034,50 +1068,77 @@ public class PlayerController : MonoBehaviour
 		LastPressedDashTime -= Time.deltaTime;
 
 		#region INPUT HANDLER
-		_moveInput.x = Input.GetAxisRaw("Horizontal");
 		_moveInput.y = Input.GetAxisRaw("Vertical");
-		canAttack = Input.GetKeyDown(KeyCode.A);
+		if (isLie && Input.GetAxisRaw("Horizontal") != 0)
+		{
+			LieToWakeUp();
+		}
+		else
+		{
+			_moveInput.x = Input.GetAxisRaw("Horizontal");
+		}
+
+		if (!isLie)
+		{
+			canAttack = Input.GetKeyDown(KeyCode.A);
+		}
 
 		if (_moveInput.x != 0)
 			CheckDirectionToFace(_moveInput.x > 0);
 
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.Space) && !isLie)
 		{
 			OnJumpInput();
 		}
+		else if (Input.GetKeyUp(KeyCode.Space) && isLie)
+		{
+			LieToWakeUp();
+		}
 
-		if (Input.GetKeyUp(KeyCode.Space))
+		if (Input.GetKeyUp(KeyCode.Space) && !isLie)
 		{
 			OnJumpUpInput();
 		}
+		else if (Input.GetKeyUp(KeyCode.Space) && isLie)
+		{
+			LieToWakeUp();
+		}
 
-		if (Input.GetKeyDown(KeyCode.D))
+		if (Input.GetKeyDown(KeyCode.D) && !isLie)
 		{
 			OnDashInput();
 		}
-		if (Input.GetKeyDown(KeyCode.Q))
+		else if (Input.GetKeyDown(KeyCode.D) && isLie)
+		{
+			LieToWakeUp();
+		}
+
+		if (Input.GetKeyDown(KeyCode.Q) && !isLie)
 		{
 			if (skillManager.equippedSkills[0] != null)
 			{
 				skillManager.ActivateSkill(0, gameObject);
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.W))
+		if (Input.GetKeyDown(KeyCode.W) && !isLie)
 		{
 			if (skillManager.equippedSkills[1] != null)
 			{
 				skillManager.ActivateSkill(1, gameObject);
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.E))
+		if (Input.GetKeyDown(KeyCode.E) && !isLie)
 		{
 			if (skillManager.equippedSkills[2] != null)
 			{
 				skillManager.ActivateSkill(2, gameObject);
 			}
 		}
-		isOpenMap = Input.GetKey(KeyCode.M);
-		isOpenInventory = Input.GetKey(KeyCode.Tab);
+		if (!isLie)
+		{
+			isOpenMap = Input.GetKey(KeyCode.M);
+			isOpenInventory = Input.GetKey(KeyCode.Tab);
+		}
 		#endregion
 	}
 
@@ -1132,6 +1193,34 @@ public class PlayerController : MonoBehaviour
 		gameObject.layer = 8;
 		yield return new WaitForSeconds(time);
 		gameObject.layer = temp;
+	}
+
+	public void FreezeXPlayer(float time){
+		StartCoroutine(StartFreezeXPlayer(time));
+	}
+
+	IEnumerator StartFreezeXPlayer(float time)
+	{
+		RB.constraints = RigidbodyConstraints2D.FreezePositionX;
+		if (LastOnGroundTime > 0)
+		{
+			// AnimHandler.justLanded = true
+			isGround = true;
+			airJumpCounter = 0;
+			// animator.SetBool("isJumping", false);
+		}
+
+		LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+		yield return new WaitForSeconds(time);
+		if (LastOnGroundTime > 0)
+		{
+			// AnimHandler.justLanded = true
+			isGround = true;
+			airJumpCounter = 0;
+			// animator.SetBool("isJumping", false);
+		}
+		RB.constraints = RigidbodyConstraints2D.None;
+		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 
 	public void FreezePlayer(float time)
@@ -1209,13 +1298,34 @@ public class PlayerController : MonoBehaviour
 		canControl = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
-		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
-		Destroy(_bloodSpurtParticle, 1.5f);
-		// animator.SetTrigger("Death");
-		// animator.SetBool("isJumping", false);
-		// animator.SetBool("isWalking", false);
+		playerAnimation.Death();
+		playerAnimation.Run(false);
+		playerAnimation.Jump(false);
+		playerAnimation.Fall(false);
 		yield return new WaitForSeconds(1f);
 		GameManager.Instance.RespawnPlayer();
+	}
+
+	void DeathEffect()
+	{
+		Instantiate(deathEffect, transform.position, Quaternion.identity);
+	}
+
+	void LieToWakeUp()
+	{
+		StartCoroutine(StartWakeUp());
+	}
+
+	IEnumerator StartWakeUp()
+	{
+		canControl = false;
+		playerAnimation.WakeUp();
+		RB.constraints = RigidbodyConstraints2D.FreezeAll;
+		isLie = false;
+		yield return new WaitForSeconds(1.6f);
+		RB.constraints = RigidbodyConstraints2D.None;
+		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
+		canControl = true;
 	}
 
 	void ToggleMap()

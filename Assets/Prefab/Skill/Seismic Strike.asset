@@ -17,6 +17,7 @@ MonoBehaviour:
   manaCosumed: 0
   damage: 3
   castingTime: 1
+  a: 0.4
   speed: 50
   hitForce: 50
   skillEffect: {fileID: 4593184484909914552, guid: 2e1e9506f5904a64b81744324fb7cd50, type: 3}

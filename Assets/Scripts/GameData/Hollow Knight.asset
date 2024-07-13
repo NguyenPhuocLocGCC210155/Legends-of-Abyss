@@ -45,7 +45,7 @@ MonoBehaviour:
   dashAmount: 1
   dashSpeed: 32
   dashSleepTime: 0.05
-  dashAttackTime: 0.2
+  dashAttackTime: 0.15
   dashEndTime: 0.28
   dashEndSpeed: {x: 15, y: 15}
   dashEndRunLerp: 0.5

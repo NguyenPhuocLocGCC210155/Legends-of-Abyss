@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -70,18 +71,18 @@ public class GameManager : MonoBehaviour
 
     IEnumerator WaitForRespawn()
     {
-        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezePosition;
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(saveScene);
-        PlayerController.Instance.Health = PlayerController.Instance.maxHp;
-        PlayerController.Instance.transform.position = savePoint;
-        yield return new WaitForSeconds(2f);
-        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.None;
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.Out));
+        PlayerController.Instance.playerAnimation.Respawn();
         PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
+        SceneManager.LoadScene(saveScene);
+        PlayerController.Instance.transform.position = savePoint;
+        PlayerController.Instance.Health = PlayerController.Instance.maxHp;
+        PlayerController.Instance.RB.gravityScale = 18;
         PlayerController.Instance.isAlive = true;
-        PlayerController.Instance.animator.SetTrigger("Alive");
         PlayerController.Instance.canControl = true;
+        PlayerController.Instance.isLie = true;
     }
 
     void LoadSceneEnterGame()

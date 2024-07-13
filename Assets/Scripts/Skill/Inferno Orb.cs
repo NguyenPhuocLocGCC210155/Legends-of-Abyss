@@ -19,13 +19,13 @@ public class InfernoOrb : Skills
 
         // Đợi trước khi kích hoạt phép thuật
         yield return new WaitForSeconds(0.1f);
-        PlayerController.Instance.animator.SetBool("isCasting", true);
+         PlayerController.Instance.playerAnimation.CastShootSkill();
         PlayerController.Instance.StartCoroutine(Shoot());
     }
 
     IEnumerator Shoot()
     {
-        yield return new WaitForSeconds(0.20f);
+        yield return new WaitForSeconds(0.30f);
         GameObject magic = Instantiate(maigc, PlayerController.Instance.SideAttackTransform.position, Quaternion.identity);
         magic.GetComponent<ShootSkill>().damage = this.damage;
         if (PlayerController.Instance.IsFacingRight)
@@ -36,7 +36,5 @@ public class InfernoOrb : Skills
         {
             magic.transform.eulerAngles = new Vector2(maigc.transform.eulerAngles.x, 180);
         }
-        PlayerController.Instance.isRecoilingX = true;
-        PlayerController.Instance.animator.SetBool("isCasting", false);
     }
 }

@@ -8,7 +8,8 @@ public class TriggerAwakeBoss : MonoBehaviour
     [SerializeField] List<LockBossRoom> lockDoor = new List<LockBossRoom>();
     private bool isComplete;
 
-    private void Update() {
+    private void Update()
+    {
         if (boss.isDestroyed && !isComplete)
         {
             foreach (LockBossRoom l in lockDoor)
@@ -19,12 +20,12 @@ public class TriggerAwakeBoss : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         if (other.CompareTag("Player") && !boss.isDestroyed)
         {
             boss.BeginAwaken();
-            PlayerController.Instance.FreezePlayer(2f);
-            PlayerController.Instance.LostControl(2f);
+            StartCoroutine(LockPlayerWhenRoar());
             GetComponent<Collider2D>().enabled = false;
             foreach (LockBossRoom l in lockDoor)
             {
@@ -33,4 +34,12 @@ public class TriggerAwakeBoss : MonoBehaviour
         }
     }
 
+    IEnumerator LockPlayerWhenRoar()
+    {
+        PlayerController.Instance.FreezeXPlayer(2f);
+        PlayerController.Instance.LostControl(2f);
+        PlayerController.Instance.playerAnimation.Fear(true);
+        yield return new WaitForSeconds(2f);
+        PlayerController.Instance.playerAnimation.Fear(false);
+    }
 }

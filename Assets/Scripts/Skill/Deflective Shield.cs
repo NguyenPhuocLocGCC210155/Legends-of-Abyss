@@ -11,8 +11,14 @@ public class DeflectiveShield : Skills
         PlayerController.Instance.FreezePlayer(castingTime);
         PlayerController.Instance.LostControl(castingTime);
         PlayerController.Instance.ImmuneDamage(castingTime);
+        PlayerController.Instance.StartCoroutine(AnimationActive());
         GameObject obj = Instantiate(skillEffect, PlayerController.Instance.transform.position, Quaternion.identity);
         obj.transform.SetParent(PlayerController.Instance.transform, true);
     }
 
+    IEnumerator AnimationActive(){
+        PlayerController.Instance.playerAnimation.ShadowScream(true);
+        yield return new WaitForSeconds(castingTime);
+        PlayerController.Instance.playerAnimation.ShadowScream(false);
+    }
 }

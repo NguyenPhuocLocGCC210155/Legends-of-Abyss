@@ -1,10 +1,17 @@
 version: 2
 type: animation
-name: Focus End
+name: NA Charged Effect
 consistent_sprite_size: true
 enable_borders: false
 use_sprite_name: true
-sprites: 3
-0	Focus End_focus_v020002_000.png
-1	Focus End_focus_v020001_001.png
-2	Focus End_focus_v020000_002.png
+sprites: 10
+0	NA Charged Effect_nail_charge_effect0000_000.png
+1	NA Charged Effect_nail_charge_effect0001_001.png
+2	NA Charged Effect_nail_charge_effect0002_002.png
+3	NA Charged Effect_nail_charge_effect0003_003.png
+4	NA Charged Effect_nail_charge_effect0004_004.png
+5	NA Charged Effect_nail_charge_effect0005_005.png
+6	NA Charged Effect_nail_charge_effect0006_006.png
+7	NA Charged Effect_nail_charge_effect0007_007.png
+8	NA Charged Effect_nail_charge_effect0008_008.png
+9	NA Charged Effect_nail_charge_effect0009_009.png

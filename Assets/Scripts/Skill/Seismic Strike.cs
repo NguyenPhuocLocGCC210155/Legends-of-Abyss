@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "Summon Skill", menuName = "Summon Skill/Seismic Strike")]
 public class SeismicStrike : Skills
 {
+    public float a;
     [SerializeField] float speed;
     [SerializeField] float hitForce;
     [SerializeField] GameObject skillEffect;
@@ -16,33 +18,42 @@ public class SeismicStrike : Skills
     {
         if (PlayerController.Instance.LastOnGroundTime < 0)
         {
+            PlayerController.Instance.canControl = false;
+            PlayerController.Instance.playerAnimation.Quake(true);
+            PlayerController.Instance.playerAnimation.Run(false);
             PlayerController.Instance.StartCoroutine(HandleActivate());
         }
     }
 
     IEnumerator HandleActivate()
     {
-        PlayerController.Instance.canControl = false;
-        PlayerController.Instance.animator.SetBool("IsSkillGround", true);
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeAll;
+        yield return new WaitForSeconds(a);
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.None;
 
         while (PlayerController.Instance.LastOnGroundTime < 0)
         {
             PlayerController.Instance.RB.velocity = speed * Vector2.down;
             PlayerController.Instance.ImmuneDamage(true);
+            Debug.Log(PlayerController.Instance.LastOnGroundTime);
             yield return null;
         }
 
+        PlayerController.Instance.playerAnimation.Quake(false);
         PlayerController.Instance.StartCoroutine(WaitToEnd());
         Attack();
+        // PlayerController.Instance.playerAnimation.Fall(false);
+		// PlayerController.Instance.playerAnimation.WallSlide(false);
         GameObject obj = Instantiate(skillEffect, PlayerController.Instance.transform.position + new Vector3(0, -2, 0), Quaternion.identity);
         obj.transform.localScale = new Vector3(scale, scale, 0);
     }
 
     IEnumerator WaitToEnd()
     {
+        PlayerController.Instance.FreezePlayer(0);
         yield return new WaitForSeconds(castingTime);
-        PlayerController.Instance.animator.SetBool("IsSkillGround", false);
         PlayerController.Instance.canControl = true;
+        PlayerController.Instance.LastOnGroundTime = 1;
         yield return new WaitForSeconds(castingTime);
         PlayerController.Instance.ImmuneDamage(false);
     }

@@ -10,8 +10,7 @@ public class ColossalCleaver : Skills
     [SerializeField] GameObject slash;
     public override void Activate()
     {
-        PlayerController.Instance.animator.SetTrigger("Attacking");
-        PlayerController.Instance.animator.SetBool("isWalking", false);
+        PlayerController.Instance.playerAnimation.SlashSuper();
         PlayerController.Instance.LostControl(castingTime);
         PlayerController.Instance.FreezePlayer(castingTime);
         GameObject obj = Instantiate(slash, PlayerController.Instance.SideAttackTransform.position, Quaternion.identity);
@@ -27,6 +26,5 @@ public class ColossalCleaver : Skills
             obj.transform.position += new Vector3(spawnTranform.x * -1, spawnTranform.y, spawnTranform.z);
             obj.transform.eulerAngles = new Vector2(slash.transform.eulerAngles.x, 180);
         }
-
     }
 }

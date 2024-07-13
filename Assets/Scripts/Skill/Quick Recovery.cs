@@ -10,7 +10,6 @@ public class QuickRecovery : Skills
     public override void Activate()
     {
         GameObject obj = Instantiate(effectSkill, PlayerController.Instance.transform.position, Quaternion.identity);
-        Destroy(obj, 2f);
         obj.transform.localScale = new Vector3(2, 2, 2);
         PlayerController.Instance.Health += Mathf.CeilToInt(damage);
     }

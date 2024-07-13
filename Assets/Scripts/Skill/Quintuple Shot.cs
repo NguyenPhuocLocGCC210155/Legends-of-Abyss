@@ -19,16 +19,14 @@ public class QuintupleShot : Skills
 
         // Đợi trước khi kích hoạt phép thuật
         yield return new WaitForSeconds(0.1f);
-        PlayerController.Instance.animator.SetBool("isCasting", true);
+        PlayerController.Instance.playerAnimation.CastShootSkill();
         PlayerController.Instance.StartCoroutine(Shoot());
     }
 
     IEnumerator Shoot()
     {
-        yield return new WaitForSeconds(0.20f);
+        yield return new WaitForSeconds(0.30f);
         PlayerController.Instance.StartCoroutine(StartShoot());
-        PlayerController.Instance.isRecoilingX = true;
-        PlayerController.Instance.animator.SetBool("isCasting", false);
     }
 
     IEnumerator StartShoot()
@@ -61,6 +59,6 @@ public class QuintupleShot : Skills
 
     float RanDomRange()
     {
-        return Random.Range(-0.2f, 1);
+        return Random.Range(-0.4f, 1);
     }
 }
