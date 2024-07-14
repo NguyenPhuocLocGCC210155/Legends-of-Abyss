@@ -2,12 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+public class PlayerAnimationAndAudioController : MonoBehaviour
 {
+    [SerializeField] AudioClip jump;
+    [SerializeField] AudioClip doubleJump;
+    [SerializeField] AudioClip wallJump;
+    [SerializeField] AudioClip wallSlide;
+    [SerializeField] AudioClip slashFirst;
+    [SerializeField] AudioClip slashSecond;
+    [SerializeField] AudioClip shootSkill;
+    [SerializeField] AudioClip takeDamage;
+    [SerializeField] AudioClip death;
+    [SerializeField] AudioClip dash;
+    [SerializeField] AudioClip shadowDash;
+    [SerializeField] AudioClip refillShadowDashFirst;
+    [SerializeField] AudioClip refillShadowDashSecond;
+    [SerializeField] AudioClip fall;
+    [SerializeField] AudioClip fallToLand;
+    [SerializeField] AudioClip CompleteAwaken;
+    [SerializeField] AudioClip quakePrepare;
+    [SerializeField] AudioClip quakeImpact;
+    [SerializeField] AudioClip runOnGrass;
     Animator animator;
+    AudioSource audioSource;
+    [SerializeField] AudioSource wallSildeaudioSource;
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Jump(bool value)
@@ -15,15 +37,32 @@ public class PlayerAnimationController : MonoBehaviour
         animator.SetBool("IsJump", value);
     }
 
+    public void PlayJump()
+    {
+        audioSource.PlayOneShot(jump);
+    }
+
     public void Fall(bool value)
     {
         animator.SetBool("IsFall", value);
+        // if (value)
+        // {
+        //     audioSource.clip = fall;
+        //     if (!audioSource.isPlaying)
+        //     {
+        //         audioSource.Play();
+        //     }
+        // }else
+        // {
+        //     audioSource.clip = null;
+        // }
     }
 
     public void FallToLand()
     {
         animator.SetBool("IsFall", false);
         animator.SetBool("IsJump", false);
+        audioSource.PlayOneShot(fallToLand);
     }
 
     public void Turn()
@@ -34,41 +73,70 @@ public class PlayerAnimationController : MonoBehaviour
     public void Run(bool value)
     {
         animator.SetBool("IsWalk", value);
+        PlayRun(value, PlayerController.Instance.LastOnGroundTime > 0);
+    }
+
+    public void PlayRun(bool isInput, bool isGround)
+    {
+        if (isInput && isGround)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = runOnGrass;
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.clip = null;
+        }
     }
 
     public void Dash()
     {
         animator.SetTrigger("Dash");
+        audioSource.PlayOneShot(dash);
     }
 
     public void DoubleJump()
     {
         animator.SetTrigger("DoubleJump");
+        audioSource.PlayOneShot(doubleJump);
     }
 
     public void Slash()
     {
         animator.SetTrigger("Slash");
+        audioSource.PlayOneShot(slashFirst);
     }
 
     public void SlashUp()
     {
         animator.SetTrigger("SlashUp");
+        audioSource.PlayOneShot(slashFirst);
     }
 
     public void SlashDown()
     {
         animator.SetTrigger("SlashDown");
+        audioSource.PlayOneShot(slashFirst);
     }
 
     public void SlashSecond()
     {
         animator.SetTrigger("SlashSecond");
+        audioSource.PlayOneShot(slashSecond);
     }
 
     public void SlashSuper()
     {
         animator.SetTrigger("SlashSuper");
+    }
+
+    public void WallSlash()
+    {
+        animator.SetTrigger("SlashWall");
+        audioSource.PlayOneShot(slashFirst);
     }
 
     public void Kneel(bool value)
@@ -89,31 +157,47 @@ public class PlayerAnimationController : MonoBehaviour
     public void WallSlide(bool value)
     {
         animator.SetBool("IsWallSlide", value);
+        PlayWallSlide(value, PlayerController.Instance._isWallSliding);
+    }
+    public void PlayWallSlide(bool isInput, bool isWall)
+    {
+        if (isInput && isWall)
+        {
+            if (!wallSildeaudioSource.isPlaying)
+            {
+                wallSildeaudioSource.clip = wallSlide;
+                wallSildeaudioSource.Play();
+            }
+        }
+        else
+        {
+            wallSildeaudioSource.Stop();
+            wallSildeaudioSource.clip = null;
+        }
     }
 
     public void WallJump()
     {
         animator.SetTrigger("WallJump");
-    }
-
-    public void WallSlash()
-    {
-        animator.SetTrigger("SlashWall");
+        audioSource.PlayOneShot(wallJump);
     }
 
     public void Stun()
     {
         animator.SetTrigger("Stun");
+        audioSource.PlayOneShot(takeDamage);
     }
 
     public void Death()
     {
         animator.SetTrigger("Death");
+        audioSource.PlayOneShot(death);
     }
 
     public void DeathBySpike()
     {
         animator.SetTrigger("DeathBySpike");
+        audioSource.PlayOneShot(takeDamage);
     }
 
     public void WakeUp()
@@ -129,6 +213,7 @@ public class PlayerAnimationController : MonoBehaviour
     public void CastShootSkill()
     {
         animator.SetTrigger("CastShoot");
+        audioSource.PlayOneShot(shootSkill);
     }
 
     public void Fear(bool value)
@@ -150,10 +235,12 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetBool("IsQuake", value);
             animator.SetTrigger("Quake");
+            audioSource.PlayOneShot(quakePrepare);
         }
         else
         {
             animator.SetBool("IsQuake", value);
+            audioSource.PlayOneShot(quakeImpact);
         }
     }
 
@@ -169,8 +256,25 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetTrigger("Scream");
             animator.SetBool("IsScreamShadow", value);
-        }else{
+        }
+        else
+        {
             animator.SetBool("IsScreamShadow", value);
         }
+    }
+
+    public void OpenMap(bool value)
+    {
+        animator.SetBool("IsOpenMap", value);
+    }
+
+    public void LookUp(bool value)
+    {
+        animator.SetBool("IsLookUp", value);
+    }
+
+    public void LookDown(bool value)
+    {
+        animator.SetBool("IsLookDown", value);
     }
 }

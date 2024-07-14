@@ -71,5 +71,8 @@ public class CameraManager : MonoBehaviour
             yield return null;
         }
         isLerpingYDamping = false;
+        hasLerpedYDamping = false;
     }
+
+
 }

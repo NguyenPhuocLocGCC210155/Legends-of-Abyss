@@ -18,7 +18,7 @@ public class SavePoint : MonoBehaviour
         cooldownTime = 5f;
     }
     private void Start() {
-        Vector2 checkPos = transform.position;
+        Vector3 checkPos = transform.position;
         if (GameManager.Instance.savePoint == checkPos 
         && GameManager.Instance.saveScene.Equals(SceneManager.GetActiveScene().name)
         && PlayerController.Instance.isAlive == false)

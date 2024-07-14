@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float fadeTime;
     public Vector2 respawnPoint;
     public string saveScene;
-    public Vector2 savePoint;
+    public Vector3 savePoint;
     public List<string> unlockedMap = new List<string>();
     public List<string> savedMap = new List<string>();
     public List<string> unlockShards = new List<string>();
@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.transform.position = savePoint;
         PlayerController.Instance.Health = PlayerController.Instance.maxHp;
         PlayerController.Instance.RB.gravityScale = 18;
+        yield return new WaitForSeconds(0.2f);
         PlayerController.Instance.isAlive = true;
         PlayerController.Instance.canControl = true;
         PlayerController.Instance.isLie = true;

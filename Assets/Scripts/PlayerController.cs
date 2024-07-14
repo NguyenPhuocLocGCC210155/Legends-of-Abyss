@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 	public SkillManager skillManager;
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	[HideInInspector] public Animator animator;
-	[HideInInspector] public PlayerAnimationController playerAnimation;
+	[HideInInspector] public PlayerAnimationAndAudioController playerAnimation;
 	SpriteRenderer sprite;
 	#endregion
 
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] int maxAirJump;
 
 	//Wall Jump
-	private bool _isWallSliding;
+	public bool _isWallSliding { get; private set; }
 	private bool _isWallJumping;
 	private float wallJumpDirection;
 	private float wallJumpDuration = 0.4f;
@@ -140,13 +140,14 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public delegate void OnHealthChangeDelegate();
 	[HideInInspector] public OnHealthChangeDelegate OnhealthChangeCallBack;
 	[HideInInspector] public bool isLie;
-	private int hp;
+	int hp;
 	public int maxHp;
 	public int maxTotalHealth = 10;
 	public bool isInvincible;
 	bool isHealing;
 	bool isOpenMap;
 	bool isOpenInventory;
+	bool isLook;
 	float healTimer;
 
 
@@ -164,7 +165,7 @@ public class PlayerController : MonoBehaviour
 		animator = GetComponent<Animator>();
 		sprite = GetComponent<SpriteRenderer>();
 		skillManager = GetComponent<SkillManager>();
-		playerAnimation = GetComponent<PlayerAnimationController>();
+		playerAnimation = GetComponent<PlayerAnimationAndAudioController>();
 		if (Instance != null && Instance != this)
 		{
 			Destroy(gameObject);
@@ -203,6 +204,7 @@ public class PlayerController : MonoBehaviour
 						CheckInputAndParemeter();
 						ToggleMap();
 						ToggleInventory();
+						ToggleLook();
 						JumpCheck();
 						DashCheck();
 						Attack();
@@ -256,8 +258,8 @@ public class PlayerController : MonoBehaviour
 				}
 
 				//Handle Slide
-				if (IsSliding && canControl)
-					Slide();
+				// if (IsSliding && canControl)
+				// 	Slide();
 			}
 			else
 			{
@@ -313,7 +315,6 @@ public class PlayerController : MonoBehaviour
 		if (canAttack && timeSinceAttack >= timeBetweenAttack)
 		{
 			timeSinceAttack = 0;
-			// animator.SetTrigger("Attacking");
 			if (_moveInput.x != 0 && LastOnWallTime > 0)
 			{
 				playerAnimation.WallSlash();
@@ -672,7 +673,15 @@ public class PlayerController : MonoBehaviour
 		float movement = speedDif * accelRate;
 
 		//Convert this to a vector and apply to rigidbody
-		RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+		if (isOpenMap)
+		{
+			RB.velocity = new Vector2(movement / 100, RB.velocity.y);
+		}
+		else
+		{
+			RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+		}
+
 		if (canControl)
 		{
 			playerAnimation.Run(_moveInput.x != 0 && LastOnGroundTime > -1);
@@ -796,6 +805,8 @@ public class PlayerController : MonoBehaviour
 
 		//Dash over
 		IsDashing = false;
+		playerAnimation.Jump(false);
+		playerAnimation.Fall(false);
 	}
 
 	//Short period before the player is able to dash again
@@ -827,7 +838,6 @@ public class PlayerController : MonoBehaviour
 			//So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
 			//The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
 			movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
-
 			RB.AddForce(movement * Vector2.up);
 		}
 	}
@@ -870,6 +880,7 @@ public class PlayerController : MonoBehaviour
 				_isJumpFalling = false;
 				_isWallJumping = false;
 				Jump();
+				playerAnimation.PlayJump();
 			}
 			//Wall Jump
 			else if (Input.GetKeyDown(KeyCode.Space) && LastOnGroundTime < 0 && LastOnWallTime >= 0 && isUnlockWallJump)
@@ -935,7 +946,7 @@ public class PlayerController : MonoBehaviour
 			playerAnimation.WallSlide(false);
 			_isJumpCut = false;
 			_isJumping = false;
-			airJumpCounter=0;
+			airJumpCounter = 0;
 			LastOnGroundTime = Data.coyoteTime;
 		}
 	}
@@ -1013,8 +1024,10 @@ public class PlayerController : MonoBehaviour
 
 	public void CheckGravity()
 	{
-		if (RB.velocity.y < 0){
+		if (RB.velocity.y < 0)
+		{
 			playerAnimation.Jump(true);
+			playerAnimation.Fall(true);
 		}
 		if (!_isDashAttacking)
 		{
@@ -1072,7 +1085,7 @@ public class PlayerController : MonoBehaviour
 
 		#region INPUT HANDLER
 		_moveInput.y = Input.GetAxisRaw("Vertical");
-		if (isLie && Input.GetAxisRaw("Horizontal") != 0)
+		if (isLie && Input.GetAxisRaw("Horizontal") != 0 && !isOpenInventory)
 		{
 			WakeUp();
 		}
@@ -1081,7 +1094,7 @@ public class PlayerController : MonoBehaviour
 			_moveInput.x = Input.GetAxisRaw("Horizontal");
 		}
 
-		if (!isLie)
+		if (!isLie && !isOpenInventory && !isOpenMap)
 		{
 			canAttack = Input.GetKeyDown(KeyCode.A);
 		}
@@ -1089,58 +1102,70 @@ public class PlayerController : MonoBehaviour
 		if (_moveInput.x != 0)
 			CheckDirectionToFace(_moveInput.x > 0);
 
-		if (Input.GetKeyDown(KeyCode.Space) && !isLie)
+		if (Input.GetKeyDown(KeyCode.Space) && !isLie && !isOpenInventory)
 		{
 			OnJumpInput();
+			isOpenMap = false;
 		}
 		else if (Input.GetKeyUp(KeyCode.Space) && isLie)
 		{
 			WakeUp();
 		}
 
-		if (Input.GetKeyUp(KeyCode.Space) && !isLie)
+		if (Input.GetKeyUp(KeyCode.Space) && !isLie && !isOpenInventory)
 		{
 			OnJumpUpInput();
+			isOpenMap = false;
 		}
 		else if (Input.GetKeyUp(KeyCode.Space) && isLie)
 		{
 			WakeUp();
 		}
 
-		if (Input.GetKeyDown(KeyCode.D) && !isLie)
+		if (Input.GetKeyDown(KeyCode.D) && !isLie && !isOpenInventory)
 		{
 			OnDashInput();
+			isOpenMap = false;
 		}
 		else if (Input.GetKeyDown(KeyCode.D) && isLie)
 		{
 			WakeUp();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Q) && !isLie)
+		if (Input.GetKeyDown(KeyCode.Q) && !isLie && !isOpenInventory)
 		{
 			if (skillManager.equippedSkills[0] != null)
 			{
 				skillManager.ActivateSkill(0, gameObject);
+				isOpenMap = false;
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.W) && !isLie)
+		if (Input.GetKeyDown(KeyCode.W) && !isLie && !isOpenInventory)
 		{
 			if (skillManager.equippedSkills[1] != null)
 			{
 				skillManager.ActivateSkill(1, gameObject);
+				isOpenMap = false;
 			}
 		}
-		if (Input.GetKeyDown(KeyCode.E) && !isLie)
+		if (Input.GetKeyDown(KeyCode.E) && !isLie && !isOpenInventory)
 		{
 			if (skillManager.equippedSkills[2] != null)
 			{
 				skillManager.ActivateSkill(2, gameObject);
+				isOpenMap = false;
 			}
 		}
 		if (!isLie)
 		{
+			isLook = _moveInput.y != 0;
 			isOpenMap = Input.GetKey(KeyCode.M);
 			isOpenInventory = Input.GetKey(KeyCode.Tab);
+
+			if (isOpenInventory)
+			{
+				isOpenMap = false;
+			}
 		}
 		#endregion
 	}
@@ -1198,7 +1223,8 @@ public class PlayerController : MonoBehaviour
 		gameObject.layer = temp;
 	}
 
-	public void FreezeXPlayer(float time){
+	public void FreezeXPlayer(float time)
+	{
 		StartCoroutine(StartFreezeXPlayer(time));
 	}
 
@@ -1234,29 +1260,25 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StartFreeze(float time)
 	{
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
-		// animator.SetBool("isWalking", false);
 		if (LastOnGroundTime > 0)
 		{
-			// AnimHandler.justLanded = true
 			isGround = true;
 			airJumpCounter = 0;
-			// animator.SetBool("isJumping", false);
 		}
 
 		LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 		yield return new WaitForSeconds(time);
 		if (LastOnGroundTime > 0)
 		{
-			// AnimHandler.justLanded = true
 			isGround = true;
 			airJumpCounter = 0;
-			// animator.SetBool("isJumping", false);
 		}
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 
-	public void Awaken(float time){
+	public void Awaken(float time)
+	{
 		StartCoroutine(WaitForAwaken(time));
 	}
 
@@ -1279,6 +1301,10 @@ public class PlayerController : MonoBehaviour
 
 	public IEnumerator WalkIntoNewScene(Vector2 exitDir, float delay)
 	{
+		playerAnimation.Fall(false);
+		playerAnimation.Jump(false);
+		playerAnimation.WallSlide(false);
+		canControl = false;
 		RB.velocity = Vector2.zero;
 		if (exitDir.y > 0)
 		{
@@ -1291,17 +1317,23 @@ public class PlayerController : MonoBehaviour
 		{
 			_moveInput.x = exitDir.x > 0 ? 1 : -1;
 			Run(1);
+			playerAnimation.Run(true);
 		}
 		CheckDirectionToFace(_moveInput.x > 0);
 		yield return new WaitForSeconds(delay);
+		LastPressedJumpTime = 0;
+		playerAnimation.Run(false);
 		LastOnGroundTime = -1;
 		isCutScene = false;
+		canControl = true;
 	}
 
 	IEnumerator Death()
 	{
 		isAlive = false;
 		canControl = false;
+		isOpenMap = false;
+		isOpenInventory = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
 		playerAnimation.Death();
@@ -1337,25 +1369,54 @@ public class PlayerController : MonoBehaviour
 
 	void ToggleMap()
 	{
-		if (isOpenMap)
+		if (isOpenMap && LastOnGroundTime > 0 && !isOpenInventory && !isLook)
 		{
 			UIManager.Instance.OpenMap(true);
+			playerAnimation.OpenMap(true);
 		}
 		else
 		{
 			UIManager.Instance.OpenMap(false);
+			playerAnimation.OpenMap(false);
 		}
 	}
 
 	void ToggleInventory()
 	{
-		if (isOpenInventory)
+		if (isOpenInventory && LastOnGroundTime > 0 && !isOpenMap && !isLook)
 		{
 			UIManager.Instance.OpenInventory(true);
 		}
 		else
 		{
 			UIManager.Instance.OpenInventory(false);
+		}
+	}
+
+	void ToggleLook()
+	{
+		if (isLook && LastOnGroundTime > 0 && !isOpenMap && !isOpenInventory && hp == maxHp && _moveInput.x == 0)
+		{
+			if (_moveInput.y > 0)
+			{
+				playerAnimation.LookUp(true);
+				playerAnimation.LookDown(false);
+			}
+			else if (_moveInput.y < 0)
+			{
+				playerAnimation.LookDown(true);
+				playerAnimation.LookUp(false);
+			}
+			else
+			{
+				playerAnimation.LookUp(false);
+				playerAnimation.LookDown(false);
+			}
+		}
+		else
+		{
+			playerAnimation.LookUp(false);
+			playerAnimation.LookDown(false);
 		}
 	}
 
