@@ -22,6 +22,10 @@ public class StoneGruadian : Enemy
     [SerializeField] LayerMask playerLayer;
     List<Material> materials = new List<Material>();
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] AudioClip screamSound;
+    [SerializeField] AudioClip attackSound;
+    [SerializeField] AudioClip skillSound;
+    public AudioClip jumpSound;
     private int countHpLost = 0;
     private bool isAwaken = false;
 
@@ -117,6 +121,7 @@ public class StoneGruadian : Enemy
                     GameObject obj = pool.GetPooledObject();
                 }
                 StartCoroutine(DamageFlash());
+                GetComponent<AudioSource>().PlayOneShot(damageSound);
             }
             else
             {
@@ -157,6 +162,7 @@ public class StoneGruadian : Enemy
 
     public void BaseAttack()
     {
+        GetComponent<AudioSource>().PlayOneShot(attackSound);
         GameObject attackEffect = Instantiate(baseAttackSFX);
         attackEffect.transform.position = sideAttackTransform.position;
         Destroy(attackEffect, 1f);
@@ -177,6 +183,7 @@ public class StoneGruadian : Enemy
 
     public void BaseSkillAttack()
     {
+        GetComponent<AudioSource>().PlayOneShot(skillSound);
         GameObject attackSkill = Instantiate(baseAttackSkill, baseSkillTransform.position, Quaternion.identity);
         if (!isFliped)
         {
@@ -218,7 +225,8 @@ public class StoneGruadian : Enemy
     }
 
     public override void BeginAwaken()
-    {
+    {   
+        GetComponent<AudioSource>().PlayOneShot(screamSound);
         ani.SetTrigger("Awake");
     }
 
@@ -229,6 +237,7 @@ public class StoneGruadian : Enemy
 
     public void DoneFallAttack()
     {
+        GetComponent<AudioSource>().PlayOneShot(skillSound);
         StartCoroutine(WaitAndTransition());
         GameObject skillRight = Instantiate(baseAttackSkill, baseSkillTransform.position, Quaternion.identity);
         GameObject skillLeft = Instantiate(baseAttackSkill, baseSkillTransform.position, Quaternion.identity);

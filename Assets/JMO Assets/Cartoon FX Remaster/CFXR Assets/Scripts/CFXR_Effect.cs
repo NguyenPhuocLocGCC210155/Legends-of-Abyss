@@ -188,36 +188,36 @@ namespace CartoonFX
 
 				void fetchProperties(SerializedProperty property)
 				{
-					light                 = property.FindPropertyRelative("light");
+					light = property.FindPropertyRelative("light");
 
-					loop                  = property.FindPropertyRelative("loop");
+					loop = property.FindPropertyRelative("loop");
 
-					animateIntensity      = property.FindPropertyRelative("animateIntensity");
-					intensityStart        = property.FindPropertyRelative("intensityStart");
-					intensityEnd          = property.FindPropertyRelative("intensityEnd");
-					intensityDuration     = property.FindPropertyRelative("intensityDuration");
-					intensityCurve        = property.FindPropertyRelative("intensityCurve");
-					perlinIntensity       = property.FindPropertyRelative("perlinIntensity");
-					perlinIntensitySpeed  = property.FindPropertyRelative("perlinIntensitySpeed");
-					fadeIn                = property.FindPropertyRelative("fadeIn");
-					fadeInDuration        = property.FindPropertyRelative("fadeInDuration");
-					fadeOut               = property.FindPropertyRelative("fadeOut");
-					fadeOutDuration       = property.FindPropertyRelative("fadeOutDuration");
+					animateIntensity = property.FindPropertyRelative("animateIntensity");
+					intensityStart = property.FindPropertyRelative("intensityStart");
+					intensityEnd = property.FindPropertyRelative("intensityEnd");
+					intensityDuration = property.FindPropertyRelative("intensityDuration");
+					intensityCurve = property.FindPropertyRelative("intensityCurve");
+					perlinIntensity = property.FindPropertyRelative("perlinIntensity");
+					perlinIntensitySpeed = property.FindPropertyRelative("perlinIntensitySpeed");
+					fadeIn = property.FindPropertyRelative("fadeIn");
+					fadeInDuration = property.FindPropertyRelative("fadeInDuration");
+					fadeOut = property.FindPropertyRelative("fadeOut");
+					fadeOutDuration = property.FindPropertyRelative("fadeOutDuration");
 
-					animateRange          = property.FindPropertyRelative("animateRange");
-					rangeStart            = property.FindPropertyRelative("rangeStart");
-					rangeEnd              = property.FindPropertyRelative("rangeEnd");
-					rangeDuration         = property.FindPropertyRelative("rangeDuration");
-					rangeCurve            = property.FindPropertyRelative("rangeCurve");
-					perlinRange           = property.FindPropertyRelative("perlinRange");
-					perlinRangeSpeed      = property.FindPropertyRelative("perlinRangeSpeed");
+					animateRange = property.FindPropertyRelative("animateRange");
+					rangeStart = property.FindPropertyRelative("rangeStart");
+					rangeEnd = property.FindPropertyRelative("rangeEnd");
+					rangeDuration = property.FindPropertyRelative("rangeDuration");
+					rangeCurve = property.FindPropertyRelative("rangeCurve");
+					perlinRange = property.FindPropertyRelative("perlinRange");
+					perlinRangeSpeed = property.FindPropertyRelative("perlinRangeSpeed");
 
-					animateColor          = property.FindPropertyRelative("animateColor");
-					colorGradient         = property.FindPropertyRelative("colorGradient");
-					colorDuration         = property.FindPropertyRelative("colorDuration");
-					colorCurve            = property.FindPropertyRelative("colorCurve");
-					perlinColor           = property.FindPropertyRelative("perlinColor");
-					perlinColorSpeed      = property.FindPropertyRelative("perlinColorSpeed");
+					animateColor = property.FindPropertyRelative("animateColor");
+					colorGradient = property.FindPropertyRelative("colorGradient");
+					colorDuration = property.FindPropertyRelative("colorDuration");
+					colorCurve = property.FindPropertyRelative("colorCurve");
+					perlinColor = property.FindPropertyRelative("perlinColor");
+					perlinColorSpeed = property.FindPropertyRelative("perlinColorSpeed");
 				}
 
 				static GUIContent[] ModePopupLabels = new GUIContent[] { new GUIContent("Curve"), new GUIContent("Perlin Noise") };

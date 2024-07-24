@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class Spike : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         if (other.CompareTag("Player"))
         {
             StartCoroutine(Respawn());
         }
     }
 
-    IEnumerator Respawn(){
+    IEnumerator Respawn()
+    {
         PlayerController.Instance.isCutScene = true;
+        PlayerController.Instance.canControl = false;
         PlayerController.Instance.isInvincible = true;
         PlayerController.Instance.RB.velocity = Vector2.zero;
-        Time.timeScale = 0;
+        PlayerController.Instance.TakeDamage(1, true);
+        PlayerController.Instance.ImmuneDamage(1.5f);
+        PlayerController.Instance.isLie = true;
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
-        PlayerController.Instance.TakeDamage(1);
-
-        yield return new WaitForSeconds(1);
-
-        PlayerController.Instance.transform.position = GameManager.Instance.respawnPoint;
+        yield return new WaitForSeconds(1.5f);
+        PlayerController.Instance.playerAnimation.Kneel(true);
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.Out));
-        yield return new WaitForSeconds(UIManager.Instance.sceneFader.fadeTime);
+        PlayerController.Instance.transform.position = GameManager.Instance.respawnPoint;
+        yield return new WaitForSeconds(0.2f);
         PlayerController.Instance.isCutScene = false;
         PlayerController.Instance.isInvincible = false;
-        Time.timeScale = 1;
-
+        PlayerController.Instance.canControl = true;
     }
 }

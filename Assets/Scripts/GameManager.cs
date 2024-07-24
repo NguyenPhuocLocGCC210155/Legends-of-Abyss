@@ -17,9 +17,12 @@ public class GameManager : MonoBehaviour
     public List<string> savedMap = new List<string>();
     public List<string> unlockShards = new List<string>();
     public List<BossDefeatedData> bossDefeated = new List<BossDefeatedData>();
+    public List<string> breakwalls = new List<string>();
     public string currentMap;
     public SaveGameSystem saveGameSystem;
     public string transitionFromScene;
+    public AudioSource audioSource;
+    public AudioClip baseAudioClip;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -36,6 +39,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         saveGameSystem = GetComponent<SaveGameSystem>();
+        audioSource = GetComponent<AudioSource>();
+        baseAudioClip = audioSource.clip;
         if (!savedMap.Contains(saveScene))
         {
             unlockedMap.Add(saveScene);
@@ -74,13 +79,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.Out));
-        PlayerController.Instance.playerAnimation.Respawn();
         PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
         SceneManager.LoadScene(saveScene);
         PlayerController.Instance.transform.position = savePoint;
+        PlayerController.Instance.playerAnimation.Respawn();
         PlayerController.Instance.Health = PlayerController.Instance.maxHp;
         PlayerController.Instance.RB.gravityScale = 18;
         yield return new WaitForSeconds(0.2f);
+        audioSource.clip = baseAudioClip;
+        audioSource.Play();
         PlayerController.Instance.isAlive = true;
         PlayerController.Instance.canControl = true;
         PlayerController.Instance.isLie = true;

@@ -9,6 +9,7 @@ public class GameData
     public List<string> unlockedMaps;
     public List<string> unlockShards;
     public List<BossDefeatedData> bossDefeated;
+    public List<string> breakwalls;
     public List<string> unlockSkills;
     public string[] equippedSkill;
     public string saveScene;
@@ -35,6 +36,7 @@ public class GameData
         this.saveScene = GameManager.Instance.saveScene;
         this.savePoint = GameManager.Instance.savePoint;
         this.bossDefeated = GameManager.Instance.bossDefeated;
+        this.breakwalls = GameManager.Instance.breakwalls;
         this.isUnlockDash = PlayerController.Instance.isUnlockDash;
         this.isUnlockWallJump = PlayerController.Instance.isUnlockWallJump;
         this.isUnlockDoubleJump = PlayerController.Instance.isUnlockDoubleJump;

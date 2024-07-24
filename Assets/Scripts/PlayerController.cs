@@ -320,7 +320,7 @@ public class PlayerController : MonoBehaviour
 				playerAnimation.WallSlash();
 				int recoilLeftOrRight = IsFacingRight ? 1 : -1;
 				hitBox(backAttackTransform, sideAttackArea, ref isRecoilingX, Vector2.right * recoilLeftOrRight, recoilXSpeed);
-				SlashEffectAttacking(slashEffect, 180, backAttackTransform);
+				SlashEffectAttacking(slashEffect, -180, backAttackTransform);
 			}
 			else if (_moveInput.y < 0 && LastOnGroundTime < -0.1f)
 			{
@@ -381,6 +381,11 @@ public class PlayerController : MonoBehaviour
 				// {
 				// 	Mana += manaGain;
 				// }
+			}
+
+			if (objectToHit[i].GetComponent<BreakWall>() != null)
+			{
+				objectToHit[i].GetComponent<BreakWall>().TakeDamage();
 			}
 		}
 	}
@@ -524,7 +529,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void TakeDamage(float _dmg)
+	public void TakeDamage(float _dmg, bool isSpike)
 	{
 		if (isAlive)
 		{
@@ -536,7 +541,37 @@ public class PlayerController : MonoBehaviour
 				StartCoroutine(Death());
 			}
 			else
+			{
+				if (isSpike)
+				{
+					playerAnimation.DeathBySpike();
+				}
+				else
+				{
+					playerAnimation.Stun();
+				}
 				StartCoroutine(StopTakingDamaged());
+			}
+		}
+	}
+
+	public void TakeDamage(float _dmg)
+	{
+		if (isAlive)
+		{
+			healTimer = 0;
+			Health -= Mathf.RoundToInt(_dmg);
+			LastPressedJumpTime = 0;
+			if (Health <= 0)
+			{
+				Health = 0;
+				StartCoroutine(Death());
+			}
+			else
+			{
+				playerAnimation.Stun();
+				StartCoroutine(StopTakingDamaged());
+			}
 		}
 	}
 
@@ -588,7 +623,6 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StopTakingDamaged()
 	{
 		isInvincible = true;
-		playerAnimation.Stun();
 		GameObject _bloodSpurtParticle = Instantiate(bloodSpurt, transform.position, Quaternion.identity);
 		Destroy(_bloodSpurtParticle, 1.5f);
 		yield return new WaitForSeconds(1f);
@@ -899,7 +933,15 @@ public class PlayerController : MonoBehaviour
 				_isJumpFalling = false;
 				_isWallJumping = false;
 				airJumpCounter++;
-				DoubleJump();
+				if (Input.GetKeyDown(KeyCode.Space) && !isLie && !isOpenInventory)
+				{
+					DoubleJump();
+					isOpenMap = false;
+				}
+				else if (Input.GetKeyUp(KeyCode.Space) && isLie)
+				{
+					WakeUp();
+				}
 			}
 		}
 	}
@@ -909,13 +951,6 @@ public class PlayerController : MonoBehaviour
 		if (CanDash() && LastPressedDashTime > 0 && isUnlockDash)
 		{
 			//Freeze game for split second. Adds juiciness and a bit of forgiveness over directional input
-			// Sleep(Data.dashSleepTime);
-			// if (isLie)
-			// {
-			// 	LieToWakeUp();
-			// 	LastPressedDashTime = 0;
-			// 	return;
-			// }
 			//If not direction pressed, dash forward
 			if (_moveInput.x != 0)
 				_lastDashDir.x = _moveInput.x;
@@ -1330,6 +1365,7 @@ public class PlayerController : MonoBehaviour
 
 	IEnumerator Death()
 	{
+		GameManager.Instance.audioSource.Stop();
 		isAlive = false;
 		canControl = false;
 		isOpenMap = false;
@@ -1361,9 +1397,17 @@ public class PlayerController : MonoBehaviour
 		playerAnimation.Kneel(false);
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
 		isLie = false;
-		yield return new WaitForSeconds(1.6f);
+		if (!playerAnimation.isLie())
+		{
+			yield return new WaitForSeconds(0.4f);
+		}
+		else
+		{
+			yield return new WaitForSeconds(1.6f);
+		}
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
+		LastOnGroundTime = Data.coyoteTime;
 		canControl = true;
 	}
 

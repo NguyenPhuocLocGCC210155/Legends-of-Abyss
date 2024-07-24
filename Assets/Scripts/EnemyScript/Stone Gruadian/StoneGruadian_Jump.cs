@@ -38,6 +38,7 @@ public class StoneGruadian_Jump : StateMachineBehaviour
         // Tính toán lực nhảy
         Vector2 jumpVector = new Vector2((direction.x * boss.speed) / 2f, boss.jumpForce);
 
+        boss.GetComponent<AudioSource>().PlayOneShot(boss.jumpSound);
         // Áp dụng lực nhảy
         rb.AddForce(jumpVector, ForceMode2D.Impulse);
 

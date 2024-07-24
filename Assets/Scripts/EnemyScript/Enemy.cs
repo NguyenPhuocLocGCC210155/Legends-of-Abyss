@@ -14,6 +14,10 @@ public abstract class Enemy : MonoBehaviour
     [ColorUsage(true, true)]
     [SerializeField] protected Color flashColor = Color.white;
     [SerializeField] protected float flashTime = 0.25f;
+    [Header("Sound")]
+    [SerializeField] protected AudioClip damageSound;
+    [SerializeField] protected float maxVolumeDistance = 5f;
+    [SerializeField] protected float minVolumeDistance = 20f;
     protected Material material;
     protected bool isRecoiling = false;
     protected float recoilTimer;
@@ -22,8 +26,8 @@ public abstract class Enemy : MonoBehaviour
     protected Animator ani;
     protected Collider2D cd;
     protected ObjectPooling pool;
+    protected AudioSource audioSource;
     public bool isDestroyed = false;
-
     protected enum EnemyStates
     {
         Awake,
@@ -59,6 +63,7 @@ public abstract class Enemy : MonoBehaviour
         ani = GetComponent<Animator>();
         pool = GetComponent<ObjectPooling>();
         material = rd.material;
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected virtual IEnumerator DamageFlash()
@@ -89,6 +94,23 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         if (isDestroyed) { return; }
+        float distanceToPlayer = Vector3.Distance(PlayerController.Instance.transform.position, transform.position);
+
+        // Cập nhật âm lượng dựa trên khoảng cách
+        if (distanceToPlayer < minVolumeDistance)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+            float volume = 1 - (distanceToPlayer - maxVolumeDistance) / (minVolumeDistance - maxVolumeDistance);
+            volume = Mathf.Clamp(volume, 0f, 1f); // Giới hạn âm lượng từ 0 đến 1
+            audioSource.volume = volume;
+        }
+        else
+        {
+            audioSource.Stop();
+        }
 
         if (!PlayerController.Instance.isAlive)
         {
@@ -127,12 +149,15 @@ public abstract class Enemy : MonoBehaviour
             if (rb.velocity.x > 0 && recoilFactor > 0)
             {
                 // rb.velocity = _hitForce * recoilFactor * _hitDirection * speed;
-                rb.AddForce( _hitForce * recoilFactor * _hitDirection * speed);
-            }else{
+                rb.AddForce(_hitForce * recoilFactor * _hitDirection * speed);
+            }
+            else
+            {
                 // rb.velocity = _hitForce * recoilFactor * _hitDirection;
-                rb.AddForce( _hitForce * (recoilFactor / 10) * _hitDirection);
+                rb.AddForce(_hitForce * (recoilFactor / 10) * _hitDirection);
             }
             StartCoroutine(DamageFlash());
+            audioSource.PlayOneShot(damageSound);
         }
     }
 
