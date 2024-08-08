@@ -19,8 +19,8 @@ public class SeismicStrike : Skills
         if (PlayerController.Instance.LastOnGroundTime < 0)
         {
             PlayerController.Instance.canControl = false;
-            PlayerController.Instance.playerAnimation.Quake(true);
-            PlayerController.Instance.playerAnimation.Run(false);
+            PlayerController.Instance.playerAnimationAndAudio.Quake(true);
+            PlayerController.Instance.playerAnimationAndAudio.Run(false);
             PlayerController.Instance.StartCoroutine(HandleActivate());
         }
     }
@@ -39,7 +39,7 @@ public class SeismicStrike : Skills
             yield return null;
         }
 
-        PlayerController.Instance.playerAnimation.Quake(false);
+        PlayerController.Instance.playerAnimationAndAudio.Quake(false);
         PlayerController.Instance.StartCoroutine(WaitToEnd());
         Attack();
         // PlayerController.Instance.playerAnimation.Fall(false);

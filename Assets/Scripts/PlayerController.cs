@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 	public SkillManager skillManager;
 	//Script to handle all player animations, all references can be safely removed if you're importing into your own project.
 	[HideInInspector] public Animator animator;
-	[HideInInspector] public PlayerAnimationAndAudioController playerAnimation;
+	[HideInInspector] public PlayerAnimationAndAudioController playerAnimationAndAudio;
 	SpriteRenderer sprite;
 	#endregion
 
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
 		animator = GetComponent<Animator>();
 		sprite = GetComponent<SpriteRenderer>();
 		skillManager = GetComponent<SkillManager>();
-		playerAnimation = GetComponent<PlayerAnimationAndAudioController>();
+		playerAnimationAndAudio = GetComponent<PlayerAnimationAndAudioController>();
 		if (Instance != null && Instance != this)
 		{
 			Destroy(gameObject);
@@ -317,21 +317,21 @@ public class PlayerController : MonoBehaviour
 			timeSinceAttack = 0;
 			if (_moveInput.x != 0 && LastOnWallTime > 0)
 			{
-				playerAnimation.WallSlash();
+				playerAnimationAndAudio.WallSlash();
 				int recoilLeftOrRight = IsFacingRight ? 1 : -1;
 				hitBox(backAttackTransform, sideAttackArea, ref isRecoilingX, Vector2.right * recoilLeftOrRight, recoilXSpeed);
 				SlashEffectAttacking(slashEffect, -180, backAttackTransform);
 			}
 			else if (_moveInput.y < 0 && LastOnGroundTime < -0.1f)
 			{
-				playerAnimation.SlashDown();
+				playerAnimationAndAudio.SlashDown();
 				hitBox(downAttackTransform, downAttackArea, ref isRecoilingY, Vector2.down, recoilYSpeed);
 				// SlashEffectAttacking(slashEffect, -90, downAttackTransform);
 				Instantiate(slashDownEffect, downAttackTransform);
 			}
 			else if (_moveInput.y > 0)
 			{
-				playerAnimation.SlashUp();
+				playerAnimationAndAudio.SlashUp();
 				hitBox(upAttackTransform, upAttackArea, ref isRecoilingY, Vector2.up, recoilYSpeed);
 				// SlashEffectAttacking(slashEffect, 90, upAttackTransform);
 				Instantiate(slashUpEffect, upAttackTransform);
@@ -344,20 +344,20 @@ public class PlayerController : MonoBehaviour
 				{
 					if (isAttackCombo)
 					{
-						playerAnimation.SlashSecond();
+						playerAnimationAndAudio.SlashSecond();
 						isAttackCombo = false;
 						Instantiate(slashSecondEffect, SideAttackTransform);
 					}
 					else
 					{
-						playerAnimation.Slash();
+						playerAnimationAndAudio.Slash();
 						isAttackCombo = true;
 						Instantiate(slashEffect, SideAttackTransform);
 					}
 				}
 				else
 				{
-					playerAnimation.Slash();
+					playerAnimationAndAudio.Slash();
 					Instantiate(slashEffect, SideAttackTransform);
 				}
 			}
@@ -506,14 +506,14 @@ public class PlayerController : MonoBehaviour
 			{
 				focusEffect.SetActive(true);
 			}
-			playerAnimation.Focus(true);
+			playerAnimationAndAudio.Focus(true);
 			isHealing = true;
 			healTimer += Time.deltaTime;
 			if (healTimer >= timeToHeal)
 			{
 				Health++;
 				healTimer = 0;
-				playerAnimation.EndFocus();
+				playerAnimationAndAudio.EndFocus();
 				isHealing = false;
 				focusEffect.SetActive(false);
 				Instantiate(focusEndEffect, transform);
@@ -524,7 +524,7 @@ public class PlayerController : MonoBehaviour
 		{
 			isHealing = false;
 			focusEffect.SetActive(false);
-			playerAnimation.Focus(false);
+			playerAnimationAndAudio.Focus(false);
 			healTimer = 0;
 		}
 	}
@@ -544,11 +544,11 @@ public class PlayerController : MonoBehaviour
 			{
 				if (isSpike)
 				{
-					playerAnimation.DeathBySpike();
+					playerAnimationAndAudio.DeathBySpike();
 				}
 				else
 				{
-					playerAnimation.Stun();
+					playerAnimationAndAudio.Stun();
 				}
 				StartCoroutine(StopTakingDamaged());
 			}
@@ -569,7 +569,7 @@ public class PlayerController : MonoBehaviour
 			}
 			else
 			{
-				playerAnimation.Stun();
+				playerAnimationAndAudio.Stun();
 				StartCoroutine(StopTakingDamaged());
 			}
 		}
@@ -718,7 +718,7 @@ public class PlayerController : MonoBehaviour
 
 		if (canControl)
 		{
-			playerAnimation.Run(_moveInput.x != 0 && LastOnGroundTime > -1);
+			playerAnimationAndAudio.Run(_moveInput.x != 0 && LastOnGroundTime > -1);
 		}
 
 		/*
@@ -738,7 +738,7 @@ public class PlayerController : MonoBehaviour
 			transform.localScale = scale;
 
 			IsFacingRight = !IsFacingRight;
-			playerAnimation.Turn();
+			playerAnimationAndAudio.Turn();
 		}
 	}
 	#endregion
@@ -759,7 +759,7 @@ public class PlayerController : MonoBehaviour
 			force -= RB.velocity.y;
 
 		RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-		playerAnimation.Jump(true);
+		playerAnimationAndAudio.Jump(true);
 		#endregion
 	}
 
@@ -771,14 +771,14 @@ public class PlayerController : MonoBehaviour
 
 		RB.velocity = new Vector2(0, 0);
 		RB.velocity = new Vector3(RB.velocity.x, Data.jumpForce / 1.3f);
-		playerAnimation.DoubleJump();
+		playerAnimationAndAudio.DoubleJump();
 		Instantiate(doubleJumpEffect, transform);
 	}
 
 	private void WallJump()
 	{
-		playerAnimation.WallJump();
-		playerAnimation.WallSlide(false);
+		playerAnimationAndAudio.WallJump();
+		playerAnimationAndAudio.WallSlide(false);
 		if (_isWallSliding)
 		{
 			_isWallJumping = false;
@@ -809,7 +809,7 @@ public class PlayerController : MonoBehaviour
 		float startTime = Time.time;
 
 		// animator.SetTrigger("Dashing");
-		playerAnimation.Dash();
+		playerAnimationAndAudio.Dash();
 		_dashesLeft--;
 		_isDashAttacking = true;
 
@@ -839,8 +839,8 @@ public class PlayerController : MonoBehaviour
 
 		//Dash over
 		IsDashing = false;
-		playerAnimation.Jump(false);
-		playerAnimation.Fall(false);
+		playerAnimationAndAudio.Jump(false);
+		playerAnimationAndAudio.Fall(false);
 	}
 
 	//Short period before the player is able to dash again
@@ -914,7 +914,7 @@ public class PlayerController : MonoBehaviour
 				_isJumpFalling = false;
 				_isWallJumping = false;
 				Jump();
-				playerAnimation.PlayJump();
+				playerAnimationAndAudio.PlayJump();
 			}
 			//Wall Jump
 			else if (Input.GetKeyDown(KeyCode.Space) && LastOnGroundTime < 0 && LastOnWallTime >= 0 && isUnlockWallJump)
@@ -975,10 +975,10 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
 		{
-			playerAnimation.FallToLand();
-			playerAnimation.Jump(false);
-			playerAnimation.Fall(false);
-			playerAnimation.WallSlide(false);
+			playerAnimationAndAudio.FallToLand();
+			playerAnimationAndAudio.Jump(false);
+			playerAnimationAndAudio.Fall(false);
+			playerAnimationAndAudio.WallSlide(false);
 			_isJumpCut = false;
 			_isJumping = false;
 			airJumpCounter = 0;
@@ -998,8 +998,8 @@ public class PlayerController : MonoBehaviour
 				{
 					isGround = true;
 					airJumpCounter = 0;
-					playerAnimation.Jump(false);
-					playerAnimation.Fall(false);
+					playerAnimationAndAudio.Jump(false);
+					playerAnimationAndAudio.Fall(false);
 				}
 				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
 			}
@@ -1014,7 +1014,7 @@ public class PlayerController : MonoBehaviour
 			wallJumpDirection = -transform.localScale.x;
 			LastOnWallTime = Data.coyoteTime;
 			airJumpCounter = 0;
-			playerAnimation.WallSlide(true);
+			playerAnimationAndAudio.WallSlide(true);
 		}
 	}
 
@@ -1053,7 +1053,7 @@ public class PlayerController : MonoBehaviour
 		else
 		{
 			_isWallSliding = false;
-			playerAnimation.WallSlide(false);
+			playerAnimationAndAudio.WallSlide(false);
 		}
 	}
 
@@ -1061,8 +1061,8 @@ public class PlayerController : MonoBehaviour
 	{
 		if (RB.velocity.y < 0)
 		{
-			playerAnimation.Jump(true);
-			playerAnimation.Fall(true);
+			playerAnimationAndAudio.Jump(true);
+			playerAnimationAndAudio.Fall(true);
 		}
 		if (!_isDashAttacking)
 		{
@@ -1077,14 +1077,14 @@ public class PlayerController : MonoBehaviour
 				SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFastFallSpeed));
-				playerAnimation.Fall(true);
+				playerAnimationAndAudio.Fall(true);
 			}
 			else if (_isJumpCut)
 			{
 				//Higher gravity if jump button released
 				SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
 				RB.velocity = new Vector2(RB.velocity.x, Mathf.Max(RB.velocity.y, -Data.maxFallSpeed));
-				playerAnimation.Fall(true);
+				playerAnimationAndAudio.Fall(true);
 			}
 			else if ((_isJumping || _isJumpFalling) && Mathf.Abs(RB.velocity.y) < Data.jumpHangTimeThreshold)
 			{
@@ -1092,7 +1092,7 @@ public class PlayerController : MonoBehaviour
 			}
 			else if (RB.velocity.y < 0)
 			{
-				playerAnimation.Fall(true);
+				playerAnimationAndAudio.Fall(true);
 				//Higher gravity if falling
 				SetGravityScale(Data.gravityScale * Data.fallGravityMult);
 				//Caps maximum fall speed, so when falling over large distances we don't accelerate to insanely high speeds
@@ -1336,28 +1336,28 @@ public class PlayerController : MonoBehaviour
 
 	public IEnumerator WalkIntoNewScene(Vector2 exitDir, float delay)
 	{
-		playerAnimation.Fall(false);
-		playerAnimation.Jump(false);
-		playerAnimation.WallSlide(false);
+		playerAnimationAndAudio.Fall(false);
+		playerAnimationAndAudio.Jump(false);
+		playerAnimationAndAudio.WallSlide(false);
 		canControl = false;
 		RB.velocity = Vector2.zero;
 		if (exitDir.y > 0)
 		{
-			RB.velocity = new Vector2(Data.runMaxSpeed * 1.5f * exitDir.x, Data.jumpForce * 0.8f * exitDir.y);
+			RB.velocity = new Vector2(Data.runMaxSpeed * 1.5f * exitDir.x, Data.jumpForce * exitDir.y);
 			SetGravityScale(Data.gravityScale);
-			playerAnimation.Jump(true);
+			playerAnimationAndAudio.Jump(true);
 		}
 
 		if (exitDir.x != 0)
 		{
 			_moveInput.x = exitDir.x > 0 ? 1 : -1;
 			Run(1);
-			playerAnimation.Run(true);
+			playerAnimationAndAudio.Run(true);
 		}
 		CheckDirectionToFace(_moveInput.x > 0);
 		yield return new WaitForSeconds(delay);
 		LastPressedJumpTime = 0;
-		playerAnimation.Run(false);
+		playerAnimationAndAudio.Run(false);
 		LastOnGroundTime = -1;
 		isCutScene = false;
 		canControl = true;
@@ -1372,10 +1372,10 @@ public class PlayerController : MonoBehaviour
 		isOpenInventory = false;
 		Time.timeScale = 1f;
 		RB.velocity = Vector2.zero;
-		playerAnimation.Death();
-		playerAnimation.Run(false);
-		playerAnimation.Jump(false);
-		playerAnimation.Fall(false);
+		playerAnimationAndAudio.Death();
+		playerAnimationAndAudio.Run(false);
+		playerAnimationAndAudio.Jump(false);
+		playerAnimationAndAudio.Fall(false);
 		yield return new WaitForSeconds(1f);
 		GameManager.Instance.RespawnPlayer();
 	}
@@ -1393,11 +1393,11 @@ public class PlayerController : MonoBehaviour
 	IEnumerator StartWakeUp()
 	{
 		canControl = false;
-		playerAnimation.WakeUp();
-		playerAnimation.Kneel(false);
+		playerAnimationAndAudio.WakeUp();
+		playerAnimationAndAudio.Kneel(false);
 		RB.constraints = RigidbodyConstraints2D.FreezeAll;
 		isLie = false;
-		if (!playerAnimation.isLie())
+		if (!playerAnimationAndAudio.isLie())
 		{
 			yield return new WaitForSeconds(0.4f);
 		}
@@ -1416,12 +1416,12 @@ public class PlayerController : MonoBehaviour
 		if (isOpenMap && LastOnGroundTime > 0 && !isOpenInventory && !isLook)
 		{
 			UIManager.Instance.OpenMap(true);
-			playerAnimation.OpenMap(true);
+			playerAnimationAndAudio.OpenMap(true);
 		}
 		else
 		{
 			UIManager.Instance.OpenMap(false);
-			playerAnimation.OpenMap(false);
+			playerAnimationAndAudio.OpenMap(false);
 		}
 	}
 
@@ -1443,24 +1443,24 @@ public class PlayerController : MonoBehaviour
 		{
 			if (_moveInput.y > 0)
 			{
-				playerAnimation.LookUp(true);
-				playerAnimation.LookDown(false);
+				playerAnimationAndAudio.LookUp(true);
+				playerAnimationAndAudio.LookDown(false);
 			}
 			else if (_moveInput.y < 0)
 			{
-				playerAnimation.LookDown(true);
-				playerAnimation.LookUp(false);
+				playerAnimationAndAudio.LookDown(true);
+				playerAnimationAndAudio.LookUp(false);
 			}
 			else
 			{
-				playerAnimation.LookUp(false);
-				playerAnimation.LookDown(false);
+				playerAnimationAndAudio.LookUp(false);
+				playerAnimationAndAudio.LookDown(false);
 			}
 		}
 		else
 		{
-			playerAnimation.LookUp(false);
-			playerAnimation.LookDown(false);
+			playerAnimationAndAudio.LookUp(false);
+			playerAnimationAndAudio.LookDown(false);
 		}
 	}
 

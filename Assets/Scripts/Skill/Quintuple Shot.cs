@@ -19,7 +19,7 @@ public class QuintupleShot : Skills
 
         // Đợi trước khi kích hoạt phép thuật
         yield return new WaitForSeconds(0.1f);
-        PlayerController.Instance.playerAnimation.CastShootSkill();
+        PlayerController.Instance.playerAnimationAndAudio.CastShootSkill();
         PlayerController.Instance.StartCoroutine(Shoot());
     }
 

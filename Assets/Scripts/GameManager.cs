@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
         SceneManager.LoadScene(saveScene);
         PlayerController.Instance.transform.position = savePoint;
-        PlayerController.Instance.playerAnimation.Respawn();
+        PlayerController.Instance.playerAnimationAndAudio.Respawn();
         PlayerController.Instance.Health = PlayerController.Instance.maxHp;
         PlayerController.Instance.RB.gravityScale = 18;
         yield return new WaitForSeconds(0.2f);

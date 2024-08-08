@@ -42,10 +42,10 @@ public class TriggerAwakeBoss : MonoBehaviour
         GameManager.Instance.audioSource.Stop();
         PlayerController.Instance.FreezeXPlayer(2f);
         PlayerController.Instance.LostControl(2f);
-        PlayerController.Instance.playerAnimation.Fear(true);
+        PlayerController.Instance.playerAnimationAndAudio.Fear(true);
         yield return new WaitForSeconds(2f);
         GameManager.Instance.audioSource.clip = themeBossFight;
         GameManager.Instance.audioSource.Play();
-        PlayerController.Instance.playerAnimation.Fear(false);
+        PlayerController.Instance.playerAnimationAndAudio.Fear(false);
     }
 }

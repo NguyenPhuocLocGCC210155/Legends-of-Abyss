@@ -17,8 +17,8 @@ public class DeflectiveShield : Skills
     }
 
     IEnumerator AnimationActive(){
-        PlayerController.Instance.playerAnimation.ShadowScream(true);
+        PlayerController.Instance.playerAnimationAndAudio.ShadowScream(true);
         yield return new WaitForSeconds(castingTime);
-        PlayerController.Instance.playerAnimation.ShadowScream(false);
+        PlayerController.Instance.playerAnimationAndAudio.ShadowScream(false);
     }
 }

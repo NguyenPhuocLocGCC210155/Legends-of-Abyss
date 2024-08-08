@@ -10,7 +10,7 @@ public class ColossalCleaver : Skills
     [SerializeField] GameObject slash;
     public override void Activate()
     {
-        PlayerController.Instance.playerAnimation.SlashSuper();
+        PlayerController.Instance.playerAnimationAndAudio.SlashSuper();
         PlayerController.Instance.LostControl(castingTime);
         PlayerController.Instance.FreezePlayer(castingTime);
         GameObject obj = Instantiate(slash, PlayerController.Instance.SideAttackTransform.position, Quaternion.identity);

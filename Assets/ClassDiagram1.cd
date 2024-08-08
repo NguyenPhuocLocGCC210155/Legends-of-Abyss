@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameManager" Collapsed="true">
+    <Position X="9.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQEABAAACAgAAAAAAQAACAAmAKQEAgIRAAAAkAJAEA=</HashCode>
+      <FileName>Assets\Scripts\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeartController" Collapsed="true">
+    <Position X="6" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACAAACAAQAAAAEAAAgAAAAAAAIAIAAAAACAAAAA=</HashCode>
+      <FileName>Assets\Scripts\HeartController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HeartShard" Collapsed="true">
+    <Position X="7.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAgABAAACAA=</HashCode>
+      <FileName>Assets\Scripts\HeartShard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InventoryManager" Collapsed="true">
+    <Position X="3.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAIAAAAACACCAAAAAAAAQAAAIAAAAAACgA=</HashCode>
+      <FileName>Assets\Scripts\InventoryManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ManaUIController" Collapsed="true">
+    <Position X="7.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ManaUIController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerAnimationAndAudioController" Collapsed="true">
+    <Position X="9.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RKQCAAAyljAASlAUASJqAQgGBAEYEgikCAABIAAAEBI=</HashCode>
+      <FileName>Assets\Scripts\PlayerAudioController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerController" Collapsed="true">
+    <Position X="12.75" Y="17.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="PlayerController.OnHealthChangeDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\PlayerController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <AssociationLine Name="playerAnimationAndAudio" Type="PlayerAnimationAndAudioController">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.078" Y="-0.658" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="skillManager" Type="SkillManager">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.922" Y="-0.301" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>X68KGaBDQ/YKhPwGRMLHuzxwB92j5nKlQWlx8ksglHo=</HashCode>
+      <FileName>Assets\Scripts\PlayerController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="playerAnimationAndAudio" />
+      <Field Name="skillManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SkillContainer" Collapsed="true">
+    <Position X="6" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAACEA=</HashCode>
+      <FileName>Assets\Scripts\SkillContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkillDragHandler" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAABAgAACAAAAIAAABEEBACAACAICAICgAQAJAAAAA=</HashCode>
+      <FileName>Assets\Scripts\SkillDragHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="inventoryManager" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SkillManager" Collapsed="true">
+    <Position X="12.75" Y="15.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="equippedSkills" Type="Skills">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.672" Y="-0.958" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAkAgAAAkAAAAAAAAAIAABAAAkAAAAQAg=</HashCode>
+      <FileName>Assets\Scripts\SkillManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="equippedSkills" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Skills" Collapsed="true">
+    <Position X="14.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgABAECAAAEAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Skills.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIManager" Collapsed="true">
+    <Position X="1.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEABAECAAAAAAADAAAAAAAAAAAAAASAAABACAAEA=</HashCode>
+      <FileName>Assets\Scripts\UIManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="sceneFader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SceneFader" Collapsed="true">
+    <Position X="1.5" Y="15.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SceneFader.FadeDirection" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\SceneFader.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QCAAAAAAAAAEAAAAAAQABAAAEAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\SceneFader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnlockSkill" Collapsed="true">
+    <Position X="7.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAEAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UnlockSkill.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlastwaveHop" Collapsed="true">
+    <Position X="1.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAABAAAAAAAAAAABAIAAAAAAAAEABAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Blastwave Hop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CelestialBlast" Collapsed="true">
+    <Position X="8.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAABAAAAQAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Celestial Blast.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ColossalCleaver" Collapsed="true">
+    <Position X="12.75" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Skills" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.5" Y="13.441" />
+        <Point X="15.5" Y="13.875" />
+        <Point X="13.5" Y="13.875" />
+        <Point X="13.5" Y="13.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAQAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Colossal Cleaver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CrescendoSlash" Collapsed="true">
+    <Position X="6" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Skills" FixedFromPoint="true">
+      <Path>
+        <Point X="15.5" Y="13.441" />
+        <Point X="15.5" Y="13.875" />
+        <Point X="6.75" Y="13.875" />
+        <Point X="6.75" Y="13.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAUAAAAEBAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Crescendo Slash.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DeflectiveShield" Collapsed="true">
+    <Position X="3.75" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAABBAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Deflective Shield.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DesignatedDemolition" Collapsed="true">
+    <Position X="10.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAACAAAAAAARAAAIAAAAAAABAAAAAAAgAAEABAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Designated Demolition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InfernoOrb" Collapsed="true">
+    <Position X="10.5" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Skills" FixedFromPoint="true">
+      <Path>
+        <Point X="15.5" Y="13.441" />
+        <Point X="15.5" Y="13.875" />
+        <Point X="11.25" Y="13.875" />
+        <Point X="11.25" Y="13.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABABAAAAABAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Inferno Orb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InvincibleFrame" Collapsed="true">
+    <Position X="3.75" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Skills" FixedFromPoint="true">
+      <Path>
+        <Point X="15.5" Y="13.441" />
+        <Point X="15.5" Y="13.875" />
+        <Point X="4.5" Y="13.875" />
+        <Point X="4.5" Y="13.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Invincible Frame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuickRecovery" Collapsed="true">
+    <Position X="6" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Quick Recovery.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QuintupleShot" Collapsed="true">
+    <Position X="12.75" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAABABAAAAABAAAAABAAAAAAAAAAIAAQAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Quintuple Shot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeekingSpellshots" Collapsed="true">
+    <Position X="8.25" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Skills" FixedFromPoint="true">
+      <Path>
+        <Point X="15.5" Y="13.441" />
+        <Point X="15.5" Y="13.875" />
+        <Point X="9" Y="13.875" />
+        <Point X="9" Y="13.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAIAAAEEBAAAABABAAAAAAAAAAAAQAAAAAAAEABAAA=</HashCode>
+      <FileName>Assets\Scripts\Skill\Seeking Spellshots.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SeismicStrike" Collapsed="true">
+    <Position X="1.5" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Skills" FixedFromPoint="true">
+      <Path>
+        <Point X="15.5" Y="13.441" />
+        <Point X="15.5" Y="13.875" />
+        <Point X="2.25" Y="13.875" />
+        <Point X="2.25" Y="13.441" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAABAAAAAAAACAIBAIQAgAAAAAEABAAI=</HashCode>
+      <FileName>Assets\Scripts\Skill\Seismic Strike.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Spike" Collapsed="true">
+    <Position X="9.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Prefabs\Spike.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnlockAbilities" Collapsed="true">
+    <Position X="6" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAAACAAEAACAAAAAAAAAEgAAAAAAAgAAAAIAAI=</HashCode>
+      <FileName>Assets\Scripts\Prefabs\UnlockAbilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

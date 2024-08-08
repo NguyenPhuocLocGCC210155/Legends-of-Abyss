@@ -76,7 +76,7 @@ public class UnlockAbilities : MonoBehaviour
             {
                 Destroy(ui);
                 PlayerController.Instance.canControl = true;
-                PlayerController.Instance.playerAnimation.Kneel(true);
+                PlayerController.Instance.playerAnimationAndAudio.Kneel(true);
             }
         }
     }
@@ -119,7 +119,7 @@ public class UnlockAbilities : MonoBehaviour
 
     IEnumerator ShowAbility()
     {
-        PlayerController.Instance.playerAnimation.Scream();
+        PlayerController.Instance.playerAnimationAndAudio.Scream();
         PlayerController.Instance.isLie = true;
         PlayerController.Instance.Awaken(2.5f);
         yield return new WaitForSeconds(3f);

@@ -14,7 +14,7 @@ public class DesignatedDemolition : Skills
     [SerializeField] Vector2 exploseScale;
     public override void Activate()
     {
-        PlayerController.Instance.playerAnimation.ShadowScream(true);
+        PlayerController.Instance.playerAnimationAndAudio.ShadowScream(true);
         PlayerController.Instance.LostControl(castingTime / 2);
         PlayerController.Instance.FreezePlayer(castingTime / 2);
         Collider2D[] objectToHit = Physics2D.OverlapCircleAll(PlayerController.Instance.transform.position, sizeAttack, layerMask, 0);
@@ -25,7 +25,7 @@ public class DesignatedDemolition : Skills
     IEnumerator HandleActive(Collider2D[] objectToHit)
     {
         yield return new WaitForSeconds(castingTime / 2);
-        PlayerController.Instance.playerAnimation.ShadowScream(false);
+        PlayerController.Instance.playerAnimationAndAudio.ShadowScream(false);
         yield return new WaitForSeconds(castingTime / 2);
         for (int i = 0; i < objectToHit.Length; i++)
         {
