@@ -30,12 +30,12 @@ public class SeismicStrike : Skills
         PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(a);
         PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.None;
+        PlayerController.Instance.RB.constraints = RigidbodyConstraints2D.FreezeRotation;
+        PlayerController.Instance.ImmuneDamage(true);
 
         while (PlayerController.Instance.LastOnGroundTime < 0)
         {
             PlayerController.Instance.RB.velocity = speed * Vector2.down;
-            PlayerController.Instance.ImmuneDamage(true);
-            Debug.Log(PlayerController.Instance.LastOnGroundTime);
             yield return null;
         }
 

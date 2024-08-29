@@ -17,4 +17,61 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Floor_1/forest_3.unity
     guid: bacc7bc0c3bde0e4a800ef707494fa55
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_4.unity
+    guid: cc55455265cd6124196dd9e113287d36
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_5.unity
+    guid: a0bf40e46ed23c948b17a11dd8c98c19
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_6.unity
+    guid: c22d31bc86f77a541b6da5a08c3e0732
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_7.unity
+    guid: c2f9058364e6efb4997b564f966674c1
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_8.unity
+    guid: 246597735c5473b4faa81640797da4c4
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_9.unity
+    guid: 904e95a8d455c67459978d2cc6d0a7b4
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_10.unity
+    guid: 5885ccdfa5ce6fc4ab47186e33b4a152
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_11.unity
+    guid: bed8c0fd495cb7b4fb2cddb46d74746f
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_12.unity
+    guid: b4228b237065f634293213ca30d4b445
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_13.unity
+    guid: 28d115bf833997849a61b2913d3a005a
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_14.unity
+    guid: 3c440f15e89b9e14ab6cd8d6f5d74f43
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_15.unity
+    guid: 25832048182203a4daca4c4b74664bbb
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_16.unity
+    guid: c5ac3a4d8a82bd94d87115759e7a7fef
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_17.unity
+    guid: 8c57736827a2a3247a87260eff7173cf
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_18.unity
+    guid: 765a76b2c3f4e3a40b7f9a32d6e96663
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_19.unity
+    guid: 155532f0bb1fdb94cacc686b11a81835
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_20.unity
+    guid: e85fafd153d0c02459e125602bc4cfa0
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_21.unity
+    guid: fedbeebb412d5e34190174185f37f6f7
+  - enabled: 1
+    path: Assets/Scenes/Floor_1/forest_22.unity
+    guid: e95e54daa69c1b94e962b87ac2594f08
   m_configObjects: {}

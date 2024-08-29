@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 431021385014753955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.958, z: 0}
+  m_LocalPosition: {x: 0, y: -0.922, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -487,7 +487,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1514234777
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 35b3e45b6fc2a1642afca4d427a5f48a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -515,7 +515,7 @@ MonoBehaviour:
   Data: {fileID: 11400000, guid: b48ea00a2ea1a23449ce316d28bccfaf, type: 2}
   skillManager: {fileID: 0}
   animator: {fileID: 0}
-  playerAnimation: {fileID: 0}
+  playerAnimationAndAudio: {fileID: 0}
   isAlive: 0
   canControl: 0
   isCutScene: 0
@@ -541,7 +541,7 @@ MonoBehaviour:
   isUnlockPosion: 0
   fallSpeedThreshold: -10
   _groundCheckPoint: {fileID: 4829524458692087931}
-  _groundCheckSize: {x: 0.3, y: 0.03}
+  _groundCheckSize: {x: 0.69, y: 0.03}
   _frontWallCheckPoint: {fileID: 4946740633742634562}
   _wallCheckSize: {x: 0.08, y: 1}
   dmg: 1
@@ -574,7 +574,7 @@ MonoBehaviour:
   isInvincible: 0
   _groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   attackableLayerMask:
     serializedVersion: 2
     m_Bits: 192

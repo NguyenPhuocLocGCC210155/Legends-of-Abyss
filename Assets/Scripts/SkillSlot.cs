@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class SkillSlot : MonoBehaviour, IDropHandler
 {
-
-    public Image slotImage;
+    [SerializeField] Sprite defaulImage;
+    Image slotImage;
     public bool isUse;
     public bool isUnlock;
     [SerializeField]
-    [Range(0,2)]
+    [Range(0, 2)]
     int slotIndex;
 
     private void Start()
@@ -31,11 +31,24 @@ public class SkillSlot : MonoBehaviour, IDropHandler
             SkillDragHandler skill = eventData.pointerDrag.GetComponent<SkillDragHandler>();
             if (skill != null && skill.isActive)
             {
+                bool canEquip = PlayerController.Instance.skillManager.EquipSkill(slotIndex, skill.gameObject.name);
                 // Thay đổi hình ảnh của slot thành hình ảnh của kỹ năng
-                slotImage.sprite = skill.GetComponent<Image>().sprite;
-                PlayerController.Instance.skillManager.EquipSkill(slotIndex, skill.gameObject.name);
-                isUse = true;
+                if (canEquip)
+                {
+                    slotImage.sprite = skill.GetComponent<Image>().sprite;
+                    isUse = true;
+                }
             }
         }
+    }
+
+    public void UnEquip()
+    {
+        Debug.Log("ádasbd");
+        // Thực hiện hành động unequip
+        PlayerController.Instance.skillManager.UnEquipSkill(slotIndex);
+        // Đặt lại hình ảnh mặc định
+        slotImage.sprite = defaulImage;
+        isUse = false;
     }
 }

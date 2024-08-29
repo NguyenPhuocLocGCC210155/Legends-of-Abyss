@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9094403514879237788}
   - component: {fileID: 4457319339803856213}
   - component: {fileID: 4297766742234769486}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Scenes transition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7564082623305378622}
   - component: {fileID: 3324279613847807596}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Start point
   m_TagString: Untagged
   m_Icon: {fileID: 0}

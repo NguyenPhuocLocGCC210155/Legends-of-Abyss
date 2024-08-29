@@ -56,9 +56,12 @@ MonoBehaviour:
   savedMap: []
   unlockShards: []
   bossDefeated: []
+  breakwalls: []
   currentMap: 
   saveGameSystem: {fileID: 0}
   transitionFromScene: 
+  audioSource: {fileID: 0}
+  baseAudioClip: {fileID: 0}
 --- !u!114 &5008270018518898406
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,6 +21,7 @@ public class Spike : MonoBehaviour
         PlayerController.Instance.TakeDamage(1, true);
         PlayerController.Instance.ImmuneDamage(1.5f);
         PlayerController.Instance.isLie = true;
+        PlayerController.Instance.ResetInput();
         StartCoroutine(UIManager.Instance.sceneFader.Fade(SceneFader.FadeDirection.In));
         yield return new WaitForSeconds(1.5f);
         PlayerController.Instance.playerAnimationAndAudio.Kneel(true);

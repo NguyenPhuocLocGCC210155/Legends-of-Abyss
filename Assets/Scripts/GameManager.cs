@@ -19,10 +19,10 @@ public class GameManager : MonoBehaviour
     public List<BossDefeatedData> bossDefeated = new List<BossDefeatedData>();
     public List<string> breakwalls = new List<string>();
     public string currentMap;
-    public SaveGameSystem saveGameSystem;
+    public SaveGameSystem saveGameSystem {get;set;}
     public string transitionFromScene;
-    public AudioSource audioSource;
-    public AudioClip baseAudioClip;
+    public AudioSource audioSource {get;set;}
+    public AudioClip baseAudioClip {get;set;}
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
         PlayerController.Instance.playerAnimationAndAudio.Respawn();
         PlayerController.Instance.Health = PlayerController.Instance.maxHp;
         PlayerController.Instance.RB.gravityScale = 18;
+        PlayerController.Instance.ResetInput();
         yield return new WaitForSeconds(0.2f);
         audioSource.clip = baseAudioClip;
         audioSource.Play();

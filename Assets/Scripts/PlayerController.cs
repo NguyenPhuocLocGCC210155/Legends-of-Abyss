@@ -320,7 +320,7 @@ public class PlayerController : MonoBehaviour
 				playerAnimationAndAudio.WallSlash();
 				int recoilLeftOrRight = IsFacingRight ? 1 : -1;
 				hitBox(backAttackTransform, sideAttackArea, ref isRecoilingX, Vector2.right * recoilLeftOrRight, recoilXSpeed);
-				SlashEffectAttacking(slashEffect, -180, backAttackTransform);
+				SlashEffectAttacking(slashEffect, 135, backAttackTransform);
 			}
 			else if (_moveInput.y < 0 && LastOnGroundTime < -0.1f)
 			{
@@ -1322,6 +1322,7 @@ public class PlayerController : MonoBehaviour
 		canControl = false;
 		RB.constraints = RigidbodyConstraints2D.FreezePosition;
 		yield return new WaitForSeconds(time);
+		canControl = true;
 		RB.constraints = RigidbodyConstraints2D.None;
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
@@ -1409,6 +1410,13 @@ public class PlayerController : MonoBehaviour
 		RB.constraints = RigidbodyConstraints2D.FreezeRotation;
 		LastOnGroundTime = Data.coyoteTime;
 		canControl = true;
+	}
+
+	public void ResetInput()
+	{
+		LastPressedJumpTime = -1;
+		LastPressedDashTime = -1;
+		_moveInput = Vector2.zero;
 	}
 
 	void ToggleMap()

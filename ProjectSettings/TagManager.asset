@@ -20,7 +20,7 @@ TagManager:
   - CameraBound
   - Player
   - EnemySkill
-  - 
+  - IgnoreImmue
   - 
   - 
   - 
@@ -52,6 +52,9 @@ TagManager:
     locked: 0
   - name: Midground
     uniqueID: 1514234777
+    locked: 0
+  - name: Foreground_0
+    uniqueID: 3368743931
     locked: 0
   - name: Forground_1
     uniqueID: 2524293923

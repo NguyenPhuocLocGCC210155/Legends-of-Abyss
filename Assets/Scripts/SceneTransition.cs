@@ -20,7 +20,7 @@ public class SceneTransition : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && PlayerController.Instance.isAlive)
         {
             GameManager.Instance.transitionFromScene = SceneManager.GetActiveScene().name;
             PlayerController.Instance.isCutScene = true;

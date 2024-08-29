@@ -9,25 +9,46 @@ public class SkillManager : MonoBehaviour
     public List<Skills> unlockSkills;
     public Skills[] equippedSkills = new Skills[3];
 
-    public void EquipSkill(int slot, string nameSkill)
+    public bool EquipSkill(int slot, string nameSkill)
     {
         Skills newSkill = GetSkillByName(nameSkill);
+
+        // Check if the skill is already equipped
+        foreach (Skills skill in equippedSkills)
+        {
+            if (skill != null && skill.name.Equals(nameSkill))
+            {
+                // Skill is already equipped, so don't add it again
+                return false;
+            }
+        }
+
+        // If the slot is valid and the skill isn't already equipped, add it to the slot
         if (slot >= 0 && slot < equippedSkills.Length)
         {
             equippedSkills[slot] = newSkill;
+        }
+        return true;
+    }
+
+    public void UnEquipSkill(int slot)
+    {
+        if (slot >= 0 && slot < equippedSkills.Length)
+        {
+            equippedSkills[slot] = null;
         }
     }
 
     public void ActivateSkill(int slot, GameObject user)
     {
-        if (PlayerController.Instance.Mana >= (equippedSkills[slot].manaCosumed/100))
+        if (PlayerController.Instance.Mana >= (equippedSkills[slot].manaCosumed / 100))
         {
             if (slot >= 0 && slot < equippedSkills.Length && equippedSkills[slot] != null)
             {
                 if (PlayerController.Instance.chamberCount >= slot + 1)
                 {
                     equippedSkills[slot].Activate();
-                    PlayerController.Instance.Mana -= equippedSkills[slot].manaCosumed/100;
+                    PlayerController.Instance.Mana -= equippedSkills[slot].manaCosumed / 100;
                 }
             }
         }
