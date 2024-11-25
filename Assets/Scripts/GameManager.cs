@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public List<string> unlockShards = new List<string>();
     public List<BossDefeatedData> bossDefeated = new List<BossDefeatedData>();
     public List<string> breakwalls = new List<string>();
+    public List<string> npcName = new List<string>();
     public string currentMap;
     public SaveGameSystem saveGameSystem {get;set;}
     public string transitionFromScene;
@@ -119,6 +120,12 @@ public class GameManager : MonoBehaviour
         if (!bossDefeated.Contains(data) && bossDefeated != null)
         {
             bossDefeated.Add(data);
+        }
+    }
+
+    public void addNpcInteracted(string name){
+        if (!npcName.Contains(name)){
+            npcName.Add(name);
         }
     }
 }

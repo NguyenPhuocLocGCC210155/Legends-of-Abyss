@@ -89,6 +89,10 @@ public class PlayerAnimationAndAudioController : MonoBehaviour
         audioSource.PlayOneShot(dash);
     }
 
+    public void DashShadow(){
+        animator.SetTrigger("DashShadow");
+    }
+
     public void DoubleJump()
     {
         animator.SetTrigger("DoubleJump");

@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
 	[HideInInspector] public bool isAlive;
 	[HideInInspector] public bool canControl;
 	[HideInInspector] public bool isCutScene = false;
+	bool isShadowStyle;
 
 	//Timers (also all fields, could be private and a method returning a bool could be used)
 	[HideInInspector] public float LastOnGroundTime;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
 	private bool _dashRefilling;
 	private Vector2 _lastDashDir;
 	private bool _isDashAttacking;
+	private float LastTimeShadowDash = 0;
 	#endregion
 
 	#region Effect
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] GameObject focusEndEffect;
 	[SerializeField] GameObject deathEffect;
 	[SerializeField] GameObject dashEffect;
+	[SerializeField] GameObject shadowDashEffect;
+	[SerializeField] GameObject refillShadowDashEffect;
 	[SerializeField] GameObject doubleJumpEffect;
 	[SerializeField] GameObject slashEffect;
 	[SerializeField] GameObject slashSecondEffect;
@@ -531,6 +535,9 @@ public class PlayerController : MonoBehaviour
 
 	public void TakeDamage(float _dmg, bool isSpike)
 	{
+		if(isShadowStyle){
+			return;
+		}
 		if (isAlive)
 		{
 			healTimer = 0;
@@ -802,14 +809,21 @@ public class PlayerController : MonoBehaviour
 	{
 		//Overall this method of dashing aims to mimic Celeste, if you're looking for
 		// a more physics-based approach try a method similar to that used in the jump
-		Instantiate(dashEffect, transform);
 		LastOnGroundTime = 0;
 		LastPressedDashTime = 0;
 
 		float startTime = Time.time;
 
-		// animator.SetTrigger("Dashing");
-		playerAnimationAndAudio.Dash();
+		if (isUnlockMedal && LastTimeShadowDash <= 0)
+		{
+			playerAnimationAndAudio.DashShadow();
+			isShadowStyle = true;
+			ImmuneDamage(true);
+			Instantiate(shadowDashEffect, backAttackTransform);
+		}else{
+			playerAnimationAndAudio.Dash();
+			Instantiate(dashEffect, transform);
+		}
 		_dashesLeft--;
 		_isDashAttacking = true;
 
@@ -838,6 +852,13 @@ public class PlayerController : MonoBehaviour
 		}
 
 		//Dash over
+		if (isShadowStyle)
+		{
+			ImmuneDamage(false);
+			isShadowStyle = false;
+			LastTimeShadowDash = 1;
+			Instantiate(refillShadowDashEffect, transform);
+		}
 		IsDashing = false;
 		playerAnimationAndAudio.Jump(false);
 		playerAnimationAndAudio.Fall(false);
@@ -1117,6 +1138,7 @@ public class PlayerController : MonoBehaviour
 		LastOnWallTime -= Time.deltaTime;
 		LastPressedJumpTime -= Time.deltaTime;
 		LastPressedDashTime -= Time.deltaTime;
+		LastTimeShadowDash -= Time.deltaTime;
 
 		#region INPUT HANDLER
 		_moveInput.y = Input.GetAxisRaw("Vertical");

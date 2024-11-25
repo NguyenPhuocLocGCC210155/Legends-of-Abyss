@@ -38,12 +38,17 @@
   <Class Name="PlayerAnimationAndAudioController" Collapsed="true">
     <Position X="9.5" Y="17.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>RKQCAAAyljAASlAUASJqAQgGBAEYEgikCAABIAAAEBI=</HashCode>
+      <HashCode>RKQCAAAyljAASlAUBSJqAQgGBAEYEgikCAABIAAAEBI=</HashCode>
       <FileName>Assets\Scripts\PlayerAudioController.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PlayerController" Collapsed="true">
-    <Position X="12.75" Y="17.5" Width="1.5" />
+  <Class Name="PlayerController">
+    <Position X="13.75" Y="16.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <NestedTypes>
       <Delegate Name="PlayerController.OnHealthChangeDelegate" Collapsed="true">
         <TypeIdentifier>
@@ -51,23 +56,28 @@
         </TypeIdentifier>
       </Delegate>
     </NestedTypes>
-    <AssociationLine Name="playerAnimationAndAudio" Type="PlayerAnimationAndAudioController">
+    <AssociationLine Name="skillManager" Type="SkillManager" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.125" Y="16.5" />
+        <Point X="15.125" Y="15.948" />
+        <Point X="14.25" Y="15.948" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="1.078" Y="-0.658" />
+        <Position X="1.089" Y="0.102" />
       </MemberNameLabel>
     </AssociationLine>
-    <AssociationLine Name="skillManager" Type="SkillManager">
+    <AssociationLine Name="playerAnimationAndAudio" Type="PlayerAnimationAndAudioController">
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-1.922" Y="-0.301" />
+        <Position X="1.294" Y="-0.359" />
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>X68KGaBDQ/YKhPwGRMLHuzxwB92j5nKlQWlx8ksglHo=</HashCode>
+      <HashCode>X68KGaBDw/YKhPwGZMLHuzxwB92j5nKlUWlx8ksglH4=</HashCode>
       <FileName>Assets\Scripts\PlayerController.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Field Name="playerAnimationAndAudio" />
       <Field Name="skillManager" />
+      <Field Name="playerAnimationAndAudio" />
     </ShowAsAssociation>
   </Class>
   <Class Name="SkillContainer" Collapsed="true">
@@ -99,7 +109,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAkAgAAAkAAAAAAAAAIAABAAAkAAAAQAg=</HashCode>
+      <HashCode>AAAAAAAAAAAAkAgAAAkAIAAAAAAAIAABAAAkAAAAQAg=</HashCode>
       <FileName>Assets\Scripts\SkillManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -125,13 +135,6 @@
   </Class>
   <Class Name="SceneFader" Collapsed="true">
     <Position X="1.5" Y="15.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="SceneFader.FadeDirection" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>Assets\Scripts\SceneFader.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>QCAAAAAAAAAEAAAAAAQABAAAEAAAAAAAAAAAAAAAAEA=</HashCode>
       <FileName>Assets\Scripts\SceneFader.cs</FileName>
@@ -288,6 +291,13 @@
     <TypeIdentifier>
       <HashCode>AEQAAAAAACAAEAACAAAAAAAAAEgAAAAAAAgAAAAIAAI=</HashCode>
       <FileName>Assets\Scripts\Prefabs\UnlockAbilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapUI" Collapsed="true">
+    <Position X="4.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEACAABAAAAAAAAAAAAAAAAAAAEAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\MapUI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

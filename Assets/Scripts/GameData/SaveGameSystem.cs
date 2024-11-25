@@ -28,6 +28,7 @@ public class SaveGameSystem : MonoBehaviour
             GameManager.Instance.saveScene = data.saveScene;
             GameManager.Instance.savePoint = data.savePoint;
             GameManager.Instance.unlockShards = data.unlockShards;
+            GameManager.Instance.npcName = data.npcName;
             if (data.bossDefeated != null)
             {
                 GameManager.Instance.bossDefeated = data.bossDefeated;

@@ -5,8 +5,9 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class StoneGruadian : Enemy
+public class StoneGruadian : Enemy, IBossAler
 {
+    [SerializeField] GameObject canvasName;
     [SerializeField] protected string InstanceName;
     public bool isFliped = false;
     public Vector2 sideAttackArea;
@@ -226,6 +227,7 @@ public class StoneGruadian : Enemy
 
     public override void BeginAwaken()
     {   
+        AlerBossName(canvasName);
         GetComponent<AudioSource>().PlayOneShot(screamSound);
         ani.SetTrigger("Awake");
     }
@@ -262,5 +264,11 @@ public class StoneGruadian : Enemy
         Gizmos.DrawWireCube(upAttackTransform.transform.position, upAttackArea);
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(baseSkillTransform.position, new Vector2(1, 1));
+    }
+
+    public void AlerBossName(GameObject obj)
+    {
+        GameObject newObj = Instantiate(obj);
+        Destroy(newObj, 3);
     }
 }

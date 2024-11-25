@@ -525,6 +525,8 @@ MonoBehaviour:
   focusEndEffect: {fileID: 7311345671407903146, guid: 04d74a5cb58e71848be0871fd3aad073, type: 3}
   deathEffect: {fileID: 3203700698337730568, guid: c8f307ff85885354890eb6d07489a637, type: 3}
   dashEffect: {fileID: 5925157360111475218, guid: 8fc969b9b268bd442b8f4ac22b22c5fc, type: 3}
+  shadowDashEffect: {fileID: 1125114654091497731, guid: 129d7c821350b66488b59026ff3dcbe9, type: 3}
+  refillShadowDashEffect: {fileID: 7210117081456417093, guid: 91b856e574bcc564bb1f6bfd85c9d27e, type: 3}
   doubleJumpEffect: {fileID: 3271103198613487806, guid: c8430ca2d121d8e4098d70ecbc1e6acd, type: 3}
   slashEffect: {fileID: 3970757729863819007, guid: cef13d20f895f7047b3508e867569a9b, type: 3}
   slashSecondEffect: {fileID: 8945229594855265894, guid: 8da6d1682d8e4464e8758ce2cb8d935d, type: 3}

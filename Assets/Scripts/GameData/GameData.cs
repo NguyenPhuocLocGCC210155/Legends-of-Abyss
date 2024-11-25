@@ -11,6 +11,7 @@ public class GameData
     public List<BossDefeatedData> bossDefeated;
     public List<string> breakwalls;
     public List<string> unlockSkills;
+    public List<string> npcName;
     public string[] equippedSkill;
     public string saveScene;
     public Vector2 savePoint;
@@ -45,5 +46,6 @@ public class GameData
         this.chamberCount = PlayerController.Instance.chamberCount;
         this.unlockSkills = PlayerController.Instance.skillManager.GetSkillUnlocked();
         this.equippedSkill = PlayerController.Instance.skillManager.GetEquippedSkill();
+        this.npcName = GameManager.Instance.npcName;
     }
 }
